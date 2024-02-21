@@ -1,0 +1,5 @@
+img/structures/*
+structures/*
+structures_jsons/*
+__pycache__/*
+website.code-workspace
