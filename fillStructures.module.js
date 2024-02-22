@@ -8,11 +8,11 @@ var town_class_list = [];
 // Function to fill the structure list, and wait for it to finish loading using async/await
 export async function fillStructureList() {
     return new Promise((resolve, reject) => {
-        // If the structure list is empty, load it from the config.json file
+        // If the structure list is empty, load it from the structures.json file
         if (structure_list.length === 0) {
-            console.log('Structure list is empty, loading from config.json');
-            // Read the config.json file and populate the structures array
-            fetch('./config.json')
+            console.log('Structure list is empty, loading from structures.json');
+            // Read the structures.json file and populate the structures array
+            fetch('./structures.json')
                 .then(response => response.json())
                 .then(config => {
                     // Get the "structures" section from the config and store it in the structures array
@@ -43,7 +43,7 @@ export async function fillStructureList() {
 
                 })
                 .catch(error => {
-                    console.error('Error loading config.json:', error);
+                    console.error('Error loading structures.json:', error);
                 });
 
         } else {
@@ -88,8 +88,8 @@ export function sortStructureList() {
 // getStructureDescriptionFromJSON
 export function getStructureDescriptionFromJSON(structure_file) {
     return new Promise((resolve, reject) => {
-        // Open ./config.json
-        fetch('./config.json')
+        // Open ./structures.json
+        fetch('./structures.json')
             .then(response => response.json())
             .then(config => {
                 //console.log('Config loaded successfully:', config);
@@ -112,7 +112,7 @@ export function getStructureDescriptionFromJSON(structure_file) {
                 resolve('No description found');
             })
             .catch(error => {
-                console.error('Error loading config.json:', error);
+                console.error('Error loading structures.json:', error);
                 reject(error);
             });
     });
