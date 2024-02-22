@@ -216,13 +216,13 @@ function createFilterGroups() {
     let clearFiltersButton = document.createElement("button");
     clearFiltersButton.id = "clear-filters-button";
     clearFiltersButton.innerHTML = "Clear Filters";
-    filterDiv.appendChild(clearFiltersButton);
+    //filterDiv.appendChild(clearFiltersButton);
 
     // Create an "apply filters" button
     let applyFiltersButton = document.createElement("button");
     applyFiltersButton.id = "apply-filters-button";
     applyFiltersButton.innerHTML = "Select all Filters";
-    filterDiv.appendChild(applyFiltersButton);
+    //filterDiv.appendChild(applyFiltersButton);
     
   for (let i = 0; i < filterData.filter_groups.length; i++) {
       let filterGroup = filterData.filter_groups[i];
@@ -275,7 +275,7 @@ function createFilterGroups() {
       filterGroupDiv.appendChild(applyFiltersButton);
 
 
-      filterDiv.appendChild(filterGroupDiv);
+      //filterDiv.appendChild(filterGroupDiv);
   }
 }
 
