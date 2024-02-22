@@ -8,6 +8,11 @@ const structureName = urlParams.get('structureName');
 const structureData = JSON.parse(localStorage.getItem("structure_list"));
 
 console.log(structureData);
+console.log(structureName);
 
 // Get the structure data from the structureName
 const structure = structureData[structureName];
+
+console.log(structure);
+
+//blueprint:
