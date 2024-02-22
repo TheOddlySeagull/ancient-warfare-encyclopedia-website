@@ -19,6 +19,7 @@ main {
     margin: 10px;
     display: flex;
     max-height: 100%;
+    color: #fff;
 }
 
 footer {
@@ -30,8 +31,10 @@ footer {
 
 
 nav {
-    background-color: #eee;
+    background-color: #333;;
     padding: 10px;
+    text-align: center;
+    color: #fff;
 }
 
 nav ul {
@@ -45,7 +48,7 @@ nav li {
 
 nav a {
     text-decoration: none;
-    color: #333;
+    color: #fff;
 }
 
 
@@ -85,12 +88,12 @@ nav a {
     display: block;
     width: 100%;
     background-color: #333;
-    color: #fff;
     border: 2px solid #333;
     border-radius: 5px;
     padding: 5px;
     cursor: pointer;
     margin: 10px 0;
+    color: #fff;
 }
 
 .filter-menu {
@@ -158,6 +161,7 @@ nav a {
     background-color: #1A1A1A;
     display: block;
     align-items: center;
+    width: 100%;
 }
 
 .container-main-info {
