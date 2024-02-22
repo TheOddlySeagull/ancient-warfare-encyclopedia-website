@@ -56,7 +56,7 @@ class Structure {
         return new Promise(async (resolve, reject) => {
             // console.log("Loading structure: " + this.file);
 
-            // From ./config.json get the structure description, and await for it to finish loading
+            // From ./structures.json get the structure description, and await for it to finish loading
             this.description = await getStructureDescriptionFromJSON(this.file);
 
             // Load the file content
