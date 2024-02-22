@@ -552,7 +552,7 @@ function createStructureDiv(structure) {
     openDetailButton.onclick = () => {
         if (structure.path.endsWith('.aws')) {
             // Handle opening detail page logic here
-            window.location.href = 'structure_page.html?structureName=' + structure.name;
+            window.location.href = 'structure_page.html?structureName=' + structure.pack + '/' + structure.name;
         }
     };
 
