@@ -219,3 +219,58 @@ nav a {
 .container-extra-info p {
     margin: 10px;
 }
+
+
+
+/* Structure Page */
+
+.structure-detail { /* base on search-and-structure */
+    border-bottom: 2px solid #333;
+    border-top: 2px solid #333;
+    width: 100%;
+    margin-inline: 1rem;
+    padding: 1rem;
+    overflow: auto;
+}
+
+.structure-detail nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0D0D0D;
+    border-bottom:2px solid #333;
+}
+
+.structure-detail nav button {
+    display: block;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    border: 2px solid #333;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    margin: 10px;
+    font-size: 1rem;
+}
+
+.structure-detail-header {
+    display: flex;
+    margin: 10px;
+    align-items: center;
+    justify-content: left;
+}
+
+.structure-detail-header img {
+    width: 14%;
+    margin: 10px;
+}
+
+.structure-detail-segment {
+    display: grid;
+    width: 100%;
+    align-items: center;
+    justify-content: left;
+    grid-gap: 0px;
+    border-bottom: 2px solid #333;
+}
