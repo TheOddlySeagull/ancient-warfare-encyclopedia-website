@@ -7,12 +7,319 @@ const structureName = urlParams.get('structureName');
 // From local storage, get the structure data
 const structureData = JSON.parse(localStorage.getItem("structure_list"));
 
-console.log(structureData);
-console.log(structureName);
-
 // Get the structure data from the structureName
 const structure = structureData[structureName];
 
-console.log(structure);
+function GetJsonPath() {
+    // Get the path to the structure
+    const awsPath = structure['path'];
+    // Replace the first folder name with "structures_jsons"
+    const awsPathSplit = awsPath.split('/');
+    awsPathSplit[1] = "structures_jsons";
+    //Replace tha ".aws" with ".json"
+    awsPathSplit[awsPathSplit.length-1] = awsPathSplit[awsPathSplit.length-1].replace(".aws", ".json");
+    // Join the array back into a string
+    const awsPathJson = awsPathSplit.join('/');
+    console.log(awsPathJson);
+    return awsPathJson;
+}
 
-//blueprint:
+
+// Generate the path to the json file
+const awsPathJson = GetJsonPath();
+
+// check if the structure has a json file
+// if it does, then fetch the json file
+// if it doesn't, then fetch the .aws file
+fetch(awsPathJson)
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+
+    // Generate the structure page
+    GenerateStructurePage(data);
+    // Generate the aside general info
+    GenerateAsideGeneralInfo(data);
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+    // Fetch the .aws file
+    fetch(awsPath)
+      .then(response => response.text())
+      .then(data => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  });
+
+
+function GenerateStructurePage(data) {
+    // Get the "structureDetail" div
+    const structureDetail = document.getElementById("structureDetail");
+    structureDetail.className = "structure-detail";
+    structureDetail.id = "structureDetail";
+
+    // Create the "structureDetailHeader" div
+    const structureDetailHeader = document.createElement("div");
+    structureDetailHeader.className = "structure-detail-header";
+    structureDetailHeader.id = "structureDetailHeader";
+
+    // in that div, add an img tag with the structure icon
+    const structureIcon = document.createElement("img");
+    structureIcon.src = structure['icon'];
+    structureIcon.alt = structureName;
+
+    //in that div, add a div of id structureDetailHeaderInfo and class structure-detail-header-info
+    const structureDetailHeaderInfo = document.createElement("div");
+    structureDetailHeaderInfo.className = "structure-detail-header-info";
+    structureDetailHeaderInfo.id = "structureDetailHeaderInfo";
+
+    //In structureDetailHeaderInfo, add the structure name as H2 and package as H3
+    const structureNameH2 = document.createElement("h2");
+    structureNameH2.textContent = structure['name']
+    const structurePackageH3 = document.createElement("h3");
+    structurePackageH3.textContent = structure['pack'];
+
+    // Add the H2 and H3 to structureDetailHeaderInfo
+    structureDetailHeaderInfo.appendChild(structureNameH2);
+    structureDetailHeaderInfo.appendChild(structurePackageH3);
+
+    // Add the structureIcon and structureDetailHeaderInfo to structureDetailHeader
+    structureDetailHeader.appendChild(structureIcon);
+    structureDetailHeader.appendChild(structureDetailHeaderInfo);
+
+    // Add the structureDetailHeader to structureDetail
+    structureDetail.appendChild(structureDetailHeader);
+
+    // Create the nav bar
+    const structureNavBar = document.createElement("nav");
+
+    // Create the "description" button that links to "structureDetailDescription" id div
+    const descriptionButton = document.createElement("button");
+    descriptionButton.textContent = "Description";
+    descriptionButton.className = "structure-detail-nav-button";
+    descriptionButton.id = "descriptionButton";
+    descriptionButton.onclick = function() {
+        document.getElementById("structureDetailDescription").scrollIntoView({behavior: "smooth"});
+    };
+
+    // Create the "validation" button that links to "structureDetailValidation" id div
+    const validationButton = document.createElement("button");
+    validationButton.textContent = "Validation";
+    validationButton.className = "structure-detail-nav-button";
+    validationButton.id = "validationButton";
+    validationButton.onclick = function() {
+        document.getElementById("structureDetailValidation").scrollIntoView({behavior: "smooth"});
+    };
+
+    // Create the "Structure" button that links to "structureDetailStructure" id div
+    const structureButton = document.createElement("button");
+    structureButton.textContent = "Structure";
+    structureButton.className = "structure-detail-nav-button";
+    structureButton.id = "structureButton";
+    structureButton.onclick = function() {
+        document.getElementById("structureDetailStructure").scrollIntoView({behavior: "smooth"});
+    };
+
+    // Create the "Entities" button that links to "structureDetailEntities" id div
+    const entitiesButton = document.createElement("button");
+    entitiesButton.textContent = "Entities";
+    entitiesButton.className = "structure-detail-nav-button";
+    entitiesButton.id = "entitiesButton";
+    entitiesButton.onclick = function() {
+        document.getElementById("structureDetailEntities").scrollIntoView({behavior: "smooth"});
+    };
+
+    // Create the "Gallery" button that links to "structureDetailGallery" id div
+    const galleryButton = document.createElement("button");
+    galleryButton.textContent = "Gallery";
+    galleryButton.className = "structure-detail-nav-button";
+    galleryButton.id = "galleryButton";
+    galleryButton.onclick = function() {
+        document.getElementById("structureDetailGallery").scrollIntoView({behavior: "smooth"});
+    };
+
+    // Add the buttons to the nav bar
+    structureNavBar.appendChild(descriptionButton);
+    structureNavBar.appendChild(validationButton);
+    structureNavBar.appendChild(structureButton);
+    structureNavBar.appendChild(entitiesButton);
+    structureNavBar.appendChild(galleryButton);
+
+    // Add the nav bar to the structureDetail
+    structureDetail.appendChild(structureNavBar);
+
+    // Create the "structureDetailDescription" div of class "structure-detail-segment"
+    const structureDetailDescription = document.createElement("div");
+    structureDetailDescription.className = "structure-detail-segment";
+    structureDetailDescription.id = "structureDetailDescription";
+
+    // Add "Description" as H2
+    const descriptionH2 = document.createElement("h2");
+    descriptionH2.textContent = "Description";
+
+    // Add the description as a paragraph
+    const descriptionP = document.createElement("p");
+    descriptionP.textContent = data['description'];
+
+    // Add the H2 and P to structureDetailDescription
+    structureDetailDescription.appendChild(descriptionH2);
+    structureDetailDescription.appendChild(descriptionP);
+
+    // Add the structureDetailDescription to structureDetail
+    structureDetail.appendChild(structureDetailDescription);
+
+    // Create the "structureDetailValidation" div of class "structure-detail-segment"
+    const structureDetailValidation = document.createElement("div");
+    structureDetailValidation.className = "structure-detail-segment";
+    structureDetailValidation.id = "structureDetailValidation";
+
+    // Add "Validation" as H2
+    const validationH2 = document.createElement("h2");
+    validationH2.textContent = "Validation";
+
+    // Add an ul with the validation data
+    const validationUl = document.createElement("ul");
+    for (const [key, value] of Object.entries(data['validation'])) {
+        const validationLi = document.createElement("li");
+        // If the key is biomeList or dimensionList, then add the value as a list
+        if (key == "biomeList" || key == "dimensionList") {
+            // Create li with the key
+            validationLi.textContent = key + ":";
+            // Create a ul with the values
+            const validationUlList = document.createElement("ul");
+            for (const [listKey, listValue] of Object.entries(value)) {
+                const validationLiList = document.createElement("li");
+                validationLiList.textContent = listValue;
+                validationUlList.appendChild(validationLiList);
+            }
+            validationLi.appendChild(validationUlList);
+            validationUl.appendChild(validationLi);
+        } else {
+            validationLi.textContent = key + ": " + value;
+            validationUl.appendChild(validationLi);
+        }
+    }
+
+    // Add the H2 and ul to structureDetailValidation
+    structureDetailValidation.appendChild(validationH2);
+    structureDetailValidation.appendChild(validationUl);
+
+    // Add the structureDetailValidation to structureDetail
+    structureDetail.appendChild(structureDetailValidation);
+
+    // Create the "structureDetailStructure" div of class "structure-detail-segment"
+    const structureDetailStructure = document.createElement("div");
+    structureDetailStructure.className = "structure-detail-segment";
+    structureDetailStructure.id = "structureDetailStructure";
+
+    // Add "Structure" as H2
+    const structureH2 = document.createElement("h2");
+    structureH2.textContent = "Structure";
+
+    // Create an ul
+    const structureUl = document.createElement("ul");
+    // Create Size li
+    const sizeLi = document.createElement("li");
+    sizeLi.textContent = "Size: " + data['header']['size']
+    // Create Offset li
+    const offsetLi = document.createElement("li");
+    offsetLi.textContent = "Offset: " + data['header']['offset']
+
+    // Add the ul to structureDetailStructure
+    structureUl.appendChild(sizeLi);
+    structureUl.appendChild(offsetLi);
+    structureDetailStructure.appendChild(structureH2);
+    structureDetailStructure.appendChild(structureUl);
+
+    // Add the structureDetailStructure to structureDetail
+    structureDetail.appendChild(structureDetailStructure);
+
+    // Create the "structureDetailEntities" div of class "structure-detail-segment"
+    const structureDetailEntities = document.createElement("div");
+    structureDetailEntities.className = "structure-detail-segment";
+    structureDetailEntities.id = "structureDetailEntities";
+
+    // Add "Entities" as H2
+    const entitiesH2 = document.createElement("h2");
+    entitiesH2.textContent = "Entities";
+
+    // Add "Not implemented yet" as P
+    const entitiesP = document.createElement("p");
+    entitiesP.textContent = "Not implemented yet";
+
+    // Add the H2 and P to structureDetailEntities
+    structureDetailEntities.appendChild(entitiesH2);
+    structureDetailEntities.appendChild(entitiesP);
+
+    // Add the structureDetailEntities to structureDetail
+    structureDetail.appendChild(structureDetailEntities);
+
+    // Create the "structureDetailGallery" div of class "structure-detail-segment"
+    const structureDetailGallery = document.createElement("div");
+    structureDetailGallery.className = "structure-detail-segment";
+    structureDetailGallery.id = "structureDetailGallery";
+
+    // Add "Gallery" as H2
+    const galleryH2 = document.createElement("h2");
+    galleryH2.textContent = "Gallery";
+
+    // Add "Not implemented yet" as P
+    const galleryP = document.createElement("p");
+    galleryP.textContent = "Not implemented yet";
+
+    // Add the H2 and P to structureDetailGallery
+    structureDetailGallery.appendChild(galleryH2);
+    structureDetailGallery.appendChild(galleryP);
+
+    // Add the structureDetailGallery to structureDetail
+    structureDetail.appendChild(structureDetailGallery);
+
+
+}
+
+function GenerateAsideGeneralInfo(data) {
+    // Get the "asideGeneralMenu" div
+    const asideGeneralMenu = document.getElementById("asideGeneralMenu");
+    asideGeneralMenu.className = "aside-container";
+
+    // Create the "General Information" h2
+    const generalInfoH2 = document.createElement("h2");
+    generalInfoH2.textContent = "General Information";
+
+    // Create an ul
+    const generalInfoUl = document.createElement("ul");
+    // Create a li with the structure category
+    const categoryLi = document.createElement("li");
+    categoryLi.textContent = "Category: Structure";
+    // Create a li with the generation type
+    const generationTypeLi = document.createElement("li");
+    let liContent = "Generation Type: ";
+    //if worldGenEnabled, then add "World Generation" to the li
+    if (data['validation']['worldGenEnabled'] && data['validation']['survival']) {
+        liContent += "World Generation and Survival";
+    } else if (data['validation']['worldGenEnabled']) {
+        liContent += "World Generation";
+    } else if (data['validation']['survival']) {
+        liContent += "Survival";
+    }
+    generationTypeLi.textContent = liContent;
+    // Create a li with the size
+    const sizeLi = document.createElement("li");
+    sizeLi.textContent = "Size: " + data['size'];
+    // Create a li with the rarity
+    const rarityLi = document.createElement("li");
+    rarityLi.textContent = "Rarity: " + data['rarity'];
+
+    // Add the li to the ul
+    generalInfoUl.appendChild(categoryLi);
+    generalInfoUl.appendChild(generationTypeLi);
+    generalInfoUl.appendChild(sizeLi);
+    generalInfoUl.appendChild(rarityLi);
+
+    // Add the h2 and ul to asideGeneralMenu
+    asideGeneralMenu.appendChild(generalInfoH2);
+    asideGeneralMenu.appendChild(generalInfoUl);
+}
