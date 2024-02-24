@@ -544,7 +544,7 @@ function createStructureDiv(structure) {
         // Create a link to the file
         const link = document.createElement('a');
         link.setAttribute('href', structure.path);
-        link.setAttribute('download', structure.name);
+        link.setAttribute('download', structure.name + '.aws');
         link.click();
     };
     const openDetailButton = document.createElement('button');
