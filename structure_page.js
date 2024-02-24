@@ -2,13 +2,18 @@
 
 // Get the path to the structure structureName from the URL
 const urlParams = new URLSearchParams(window.location.search);
-const structureName = urlParams.get('structureName');
+const structurePackAndName = urlParams.get('structureName');
 
 // From local storage, get the structure data
 const structureData = JSON.parse(localStorage.getItem("structure_list"));
 
 // Get the structure data from the structureName
-const structure = structureData[structureName];
+//make structureName only the name (after the /)
+let structureName = structurePackAndName.split("/")[1];
+let structurePack = structurePackAndName.split("/")[0];
+//console.log("Opening structure " + structureName + " from pack " + structurePack);
+const structure = structureData[structurePackAndName];
+//console.log(structure);
 
 function GetJsonPath() {
     // Get the path to the structure
@@ -20,7 +25,7 @@ function GetJsonPath() {
     awsPathSplit[awsPathSplit.length-1] = awsPathSplit[awsPathSplit.length-1].replace(".aws", ".json");
     // Join the array back into a string
     const awsPathJson = awsPathSplit.join('/');
-    console.log(awsPathJson);
+    //console.log(awsPathJson);
     return awsPathJson;
 }
 
@@ -34,7 +39,7 @@ const awsPathJson = GetJsonPath();
 fetch(awsPathJson)
   .then(response => response.json())
   .then(data => {
-    console.log(data);
+    //console.log(data);
 
     // Generate the structure page
     GenerateStructurePage(data);
@@ -69,7 +74,7 @@ function GenerateStructurePage(data) {
     // in that div, add an img tag with the structure icon
     const structureIcon = document.createElement("img");
     structureIcon.src = structure['icon'];
-    structureIcon.alt = structureName;
+    structureIcon.alt = structurePackAndName;
 
     //in that div, add a div of id structureDetailHeaderInfo and class structure-detail-header-info
     const structureDetailHeaderInfo = document.createElement("div");
@@ -78,7 +83,10 @@ function GenerateStructurePage(data) {
 
     //In structureDetailHeaderInfo, add the structure name as H2 and package as H3
     const structureNameH2 = document.createElement("h2");
-    structureNameH2.textContent = structure['name']
+    let structureName = structure['name'];
+    // In the name, add a space in front of each capital letter
+    structureName = structureName.replace(/([A-Z])/g, ' $1').trim();
+    structureNameH2.textContent = structureName;
     const structurePackageH3 = document.createElement("h3");
     structurePackageH3.textContent = structure['pack'];
 
@@ -160,9 +168,10 @@ function GenerateStructurePage(data) {
     const descriptionH2 = document.createElement("h2");
     descriptionH2.textContent = "Description";
 
-    // Add the description as a paragraph
+    // Add the description as a paragraph, and be sure to skip the line on each \n
     const descriptionP = document.createElement("p");
-    descriptionP.textContent = data['description'];
+    descriptionP.textContent = structure['description'];
+    descriptionP.innerHTML = descriptionP.innerHTML.replace(/\n/g, '<br><br>');
 
     // Add the H2 and P to structureDetailDescription
     structureDetailDescription.appendChild(descriptionH2);
