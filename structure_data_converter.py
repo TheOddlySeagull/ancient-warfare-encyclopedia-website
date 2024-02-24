@@ -690,7 +690,7 @@ def loop_through_files(directory):
     if args.file:
         file_path = args.file
         structure_name = os.path.splitext(os.path.basename(file_path))[0]
-        pack_name = os.path.split(os.path.split(file_path)[0])[1]
+        pack_name = file_path.split(os.path.sep)[2]
         structure_name = pack_name + os.path.sep + structure_name
         data[structure_name], disclamer = open_structure_file(file_path, descriptions, stored_data_version)
         structure_count += 1
