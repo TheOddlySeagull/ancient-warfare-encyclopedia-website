@@ -625,7 +625,36 @@ def create_single_json(data, file, disclamer):
             # write the data
             json.dump({'disclamer': disclamer, 'data': data}, f, indent=4)
 
-
+def update_single_json(data, file, disclamer):
+    # check if file exists
+    if os.path.isfile(file):
+        #print(f"File {file} already exists, modifying...")
+        # open the file
+        with open(file, "r") as f:
+            # load the data
+            old_data = json.load(f)
+            # replace the disclamer
+            old_data['disclamer'] = disclamer
+            # if the structure already exist as an entry, replace it
+            for key, value in data.items():
+                #print(f"Checking {key}...")
+                if key in old_data['data']:
+                    #print(f"{key} exists, modifying...")
+                    old_data['data'][key] = value
+                else:
+                    print(f"{key} does not exist, creating...")
+                    # add the data
+                    old_data['data'][key] = value
+        # open the file
+        with open(file, "w") as f:
+            # write the data
+            json.dump(old_data, f, indent=4)
+    else:
+        print(f"File {file} does not exist, creating...")
+        # open the file
+        with open(file, "w") as f:
+            # write the data
+            json.dump({'disclamer': disclamer, 'data': data}, f, indent=4)
 
 
 # Function to loop through all the files in a directory
@@ -656,6 +685,44 @@ def loop_through_files(directory):
 
     # Get the descriptions
     descriptions = get_descriptions()
+
+    # If user specified a file, only convert that file
+    if args.file:
+        file_path = args.file
+        structure_name = os.path.splitext(os.path.basename(file_path))[0]
+        pack_name = os.path.split(os.path.split(file_path)[0])[1]
+        structure_name = pack_name + os.path.sep + structure_name
+        data[structure_name], disclamer = open_structure_file(file_path, descriptions, stored_data_version)
+        structure_count += 1
+        # If split is true, create a json for each structure
+        if args.split:
+            directory = "./structures_jsons/"
+            if args.path:
+                directory = args.path
+                print(f"Custom path: {directory}")
+            # Create the file name
+            file_name = os.path.splitext(os.path.basename(file_path))[0] + ".json"
+            # Keep the folder structure after the pack name (including the pack name)
+            path = data[structure_name]['path'].split(os.path.sep)[2:]
+            # remove file from path
+            path = path[:-1]
+            # Create the path
+            file_name = os.path.join(directory, *path, file_name)
+
+            #Create path if it doesn't exits
+            if not os.path.exists(os.path.dirname(file_name)):
+                os.makedirs(os.path.dirname(file_name))
+
+            print(f"Creating {file_name}...")
+
+            # Create the file
+            with open(file_name, "w") as f:
+                # Write the data
+                json.dump(data[structure_name], f, indent=4)
+        else:
+            # Create a single json for all the data
+            update_single_json(data, directory + "structures.json", disclamer)
+        return
 
     # Loop through all the files in the directory recursively
     for root, dirs, files in os.walk(directory):
@@ -737,6 +804,7 @@ if __name__ == "__main__":
     parser.add_argument('-s','--split', action='store_true', help='Save every structure in its own json file')
     parser.add_argument('-t','--towns', action='store_true', help='Include towns in the conversion')
     parser.add_argument('-p','--path', type=str, help='Custom path to the structures folder')
+    parser.add_argument('-f','--file', type=str, help='Specify aws file to convert')
 
     # Parse the arguments
     args = parser.parse_args()
