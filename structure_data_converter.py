@@ -674,11 +674,19 @@ def loop_through_files(directory):
 
     # Create or update the structures_version.json file with the current date, and version + 1
     with open("structures_version.json", "r") as f:
-        version = json.load(f)
-        version['version'] += 1
-        stored_data_version = version['version']
-        version['date'] = time.strftime("%d/%m/%Y %H:%M:%S")
-        print(f"New version: {version['version']}")
+        # If using split argument
+        if args.split:
+            version = json.load(f)
+            version['splitVersion'] += 1
+            stored_data_version = version['splitVersion']
+            version['date'] = time.strftime("%d/%m/%Y %H:%M:%S")
+            print(f"New split version: {version['splitVersion']}")
+        else:
+            version = json.load(f)
+            version['version'] += 1
+            stored_data_version = version['version']
+            version['date'] = time.strftime("%d/%m/%Y %H:%M:%S")
+            print(f"New version: {version['version']}")
     with open("structures_version.json", "w") as f:
         json.dump(version, f, indent=4)
 
