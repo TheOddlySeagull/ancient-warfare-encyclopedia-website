@@ -230,6 +230,20 @@ function GenerateStructurePage(data) {
 
     // Create an ul
     const structureUl = document.createElement("ul");
+    // Create mods li (if there are any)
+    if (data['header']['mods'].length > 0) {
+        const modsLi = document.createElement("li");
+        modsLi.textContent = "Mods: "
+        // Create a ul for the mods
+        const modsUl = document.createElement("ul");
+        for (const mod of data['header']['mods']) {
+            const modLi = document.createElement("li");
+            modLi.textContent = mod;
+            modsUl.appendChild(modLi);
+        }
+        modsLi.appendChild(modsUl);
+        structureUl.appendChild(modsLi);
+    }
     // Create Size li
     const sizeLi = document.createElement("li");
     sizeLi.textContent = "Size: " + data['header']['size']
