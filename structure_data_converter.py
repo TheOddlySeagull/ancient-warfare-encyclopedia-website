@@ -407,7 +407,7 @@ def get_descriptions():
     # print the descriptions
     #print(structure_descriptions)
     # print the length of the descriptions
-    print(len(structure_descriptions))
+    #print(len(structure_descriptions))
         
     return structure_descriptions
 
