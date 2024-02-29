@@ -196,6 +196,16 @@ const filterData = {
       }
     ]
 };
+// keyword JSON data
+const keywordData = {
+    "keywords": {
+        // Boat will parse "Sloop", "Schooner", "Galleon", "Brigantine", "Dinghy", "Raft", "Rowboat", "Longship", "Caravel", "Carrack", "ship", "boat"...
+        // But exclude "Airship"
+        "Boat": ["*Airship", "Sloop", "Schooner", "Galleon", "Brigantine", "Dinghy", "Raft", "Rowboat", "Longship", "Caravel", "Carrack", "Ship", "Boat", "Leviathan", "ManOfWar"],
+        // Noble 
+        "Noble": ["Lord", "Emperor", "King", "Queen", "Prince", "Princess", "Duke", "Duchess", "Baron", "Baroness", "Count", "Countess", "Earl", "Viscount", "Viscountess", "Marquess", "Marquessess", "Noble", "Nobility"],
+    }
+};
 
 // Get the filter menu
 const filterDiv = document.getElementById("filter-menu");
@@ -780,6 +790,44 @@ function createSearchBar() {
     clearSearchButton.id = "clear-search-button";
     clearSearchButton.innerHTML = "Clear Search";
     searchBarElement.appendChild(clearSearchButton);
+
+    // Add a "see keywords" element that will display a list of keywords when hovered
+    let seeKeywords = document.createElement("div");
+    seeKeywords.id = "see-keywords";
+    seeKeywords.innerHTML = "See Keywords";
+    seeKeywords.addEventListener("mouseover", function() {
+        let keywordList = document.createElement("div");
+        keywordList.id = "keyword-list";
+        keywordList.classList.add("keyword-list");
+        for (let keyword in keywordData.keywords) {
+            let keywordDiv = document.createElement("div");
+            keywordDiv.innerHTML = `<h3>${keyword}</h3>`;
+            let keywordArray = keywordData.keywords[keyword];
+            for (let i = 0; i < keywordArray.length; i++) {
+                let keywordSpan = document.createElement("span");
+                keywordSpan.innerHTML = keywordArray[i];
+                // Add a comma and space after each keyword, except for the last one
+                if (i < keywordArray.length - 1) {
+                    keywordSpan.innerHTML += ", ";
+                }
+                keywordDiv.appendChild(keywordSpan);
+            }
+            keywordList.appendChild(keywordDiv);
+        }
+        // Add a disclaimer "use / in front of the word to disable the keyword filter"
+        let disclaimer = document.createElement("p");
+        disclaimer.innerHTML = "Use / in front of the word to disable the keyword filter";
+        keywordList.appendChild(disclaimer);
+        seeKeywords.appendChild(keywordList);
+    });
+    seeKeywords.addEventListener("mouseout", function() {
+        let keywordList = document.getElementById("keyword-list");
+        if (keywordList) {
+            keywordList.remove();
+        }
+    });
+    searchBarElement.appendChild(seeKeywords);
+
 }
 
 
@@ -828,21 +876,51 @@ searchBar.addEventListener("keyup", function() {
     let filtered_structure_list = {};
 
     for (let key in structure_list) {
-        // If the name contains the search string, add it to the filtered structure list
-        if (structure_list[key].name.toLowerCase().includes(searchString)) {
+        // If the search string is empty, add all the structures to the filtered list
+        if (searchString === "") {
             filtered_structure_list[key] = structure_list[key];
-        }
-        // If in the search string is a space, split the search string and check if the name contains each word
-        else if (searchString.includes(" ")) {
-            let searchWords = searchString.split(" ");
-            let containsAllWords = true;
-            for (let i = 0; i < searchWords.length; i++) {
-                if (!structure_list[key].name.toLowerCase().includes(searchWords[i])) {
-                    containsAllWords = false;
-                    break;
+        } else {
+            // Split the search elements on spaces
+            let searchElements = searchString.split(" ");
+
+            // For each search element, check if it starts with /, if it does, remove the / and disable the keyword filter
+            for (let i = 0; i < searchElements.length; i++) {
+                if (searchElements[i].startsWith("/")) {
+                    // remove the /
+                    searchElements[i] = searchElements[i].substring(1);
+                } else {
+                    // Check if the search element is a keyword
+                    for (let keyword in keywordData.keywords) {
+                        if (searchElements[i].toLowerCase() === keyword.toLowerCase()) {
+                            // Add all the keywords to the search elements with $ in front of them (if they don't start with *)
+                            let keywordArray = keywordData.keywords[keyword];
+                            for (let j = 0; j < keywordArray.length; j++) {
+                                if (!keywordArray[j].startsWith("*")) {
+                                    searchElements.push("$" + keywordArray[j]);
+                                }
+                            }
+
+                            // Remove the keyword from the search elements
+                            searchElements.splice(i, 1);
+                            i--;
+                            break;
+                        }
+                    }
                 }
             }
-            if (containsAllWords) {
+
+            // If the name contains all the search elements, add it to the filtered list
+            let addStructure = true;
+            for (let i = 0; i < searchElements.length; i++) {
+                // If word has no special character, check if the name contains the word
+                if (!searchElements[i].startsWith("$") && !searchElements[i].startsWith("*")) {
+                    if (!structure_list[key].name.toLowerCase().includes(searchElements[i])) {
+                        addStructure = false;
+                        break;
+                    }
+                }
+            }
+            if (addStructure) {
                 filtered_structure_list[key] = structure_list[key];
             }
         }
