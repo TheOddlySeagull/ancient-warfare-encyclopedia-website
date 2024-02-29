@@ -828,8 +828,23 @@ searchBar.addEventListener("keyup", function() {
     let filtered_structure_list = {};
 
     for (let key in structure_list) {
+        // If the name contains the search string, add it to the filtered structure list
         if (structure_list[key].name.toLowerCase().includes(searchString)) {
             filtered_structure_list[key] = structure_list[key];
+        }
+        // If in the search string is a space, split the search string and check if the name contains each word
+        else if (searchString.includes(" ")) {
+            let searchWords = searchString.split(" ");
+            let containsAllWords = true;
+            for (let i = 0; i < searchWords.length; i++) {
+                if (!structure_list[key].name.toLowerCase().includes(searchWords[i])) {
+                    containsAllWords = false;
+                    break;
+                }
+            }
+            if (containsAllWords) {
+                filtered_structure_list[key] = structure_list[key];
+            }
         }
     }
     structure_list = filtered_structure_list;
