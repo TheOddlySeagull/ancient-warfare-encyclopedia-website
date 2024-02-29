@@ -199,11 +199,10 @@ const filterData = {
 // keyword JSON data
 const keywordData = {
     "keywords": {
-        // Boat will parse "Sloop", "Schooner", "Galleon", "Brigantine", "Dinghy", "Raft", "Rowboat", "Longship", "Caravel", "Carrack", "ship", "boat"...
-        // But exclude "Airship"
-        "Boat": ["*Airship", "Sloop", "Schooner", "Galleon", "Brigantine", "Dinghy", "Raft", "Rowboat", "Longship", "Caravel", "Carrack", "Ship", "Boat", "Leviathan", "ManOfWar"],
+        // Boat
+        "boat": ["-island", "-worship", "-airship", "-towngen", "sloop", "schooner", "galleon", "brigantine", "dinghy", "rowboat", "longship", "caravel", "carrack", "ship", "boat", "leviathan", "manofwar"],
         // Noble 
-        "Noble": ["Lord", "Emperor", "King", "Queen", "Prince", "Princess", "Duke", "Duchess", "Baron", "Baroness", "Count", "Countess", "Earl", "Viscount", "Viscountess", "Marquess", "Marquessess", "Noble", "Nobility"],
+        "noble": ["-towngenfillllama", "-icelord", "-citywall", "-sinking", "lord", "emperor", "king", "queen", "prince", "princess", "duke", "baron", "count", "earl", "viscount", "viscountess", "noble", "nobility"],
     }
 };
 
@@ -866,65 +865,164 @@ createPaginationButtons(structure_list);
 
 // Add event listener to the search bar
 let searchBar = document.getElementById("search-bar");
+/*
+    Reminder on the serach characters:
+    - : blacklists the word
+    % : or (if several search element start with %, it means that the name must contain at least one of them)
+    / : disables the keyword filter (treated above. In other case, treat is as a normal search element)
+    No character: the name must contain the search element
+*/
+
 searchBar.addEventListener("keyup", function() {
     // Get the search string
     let searchString = searchBar.value.toLowerCase();
 
     // Filter the structure dictionary
     structure_list = getSavedData();
+
     // Navigate all the keys, then check if the name contains the search string
     let filtered_structure_list = {};
 
-    for (let key in structure_list) {
-        // If the search string is empty, add all the structures to the filtered list
-        if (searchString === "") {
-            filtered_structure_list[key] = structure_list[key];
-        } else {
-            // Split the search elements on spaces
-            let searchElements = searchString.split(" ");
+    // If the search string is empty, set the filtered structure list to the structure list
+    if (searchString === "") {
 
-            // For each search element, check if it starts with /, if it does, remove the / and disable the keyword filter
-            for (let i = 0; i < searchElements.length; i++) {
-                if (searchElements[i].startsWith("/")) {
-                    // remove the /
-                    searchElements[i] = searchElements[i].substring(1);
-                } else {
-                    // Check if the search element is a keyword
-                    for (let keyword in keywordData.keywords) {
-                        if (searchElements[i].toLowerCase() === keyword.toLowerCase()) {
-                            // Add all the keywords to the search elements with $ in front of them (if they don't start with *)
-                            let keywordArray = keywordData.keywords[keyword];
-                            for (let j = 0; j < keywordArray.length; j++) {
-                                if (!keywordArray[j].startsWith("*")) {
-                                    searchElements.push("$" + keywordArray[j]);
-                                }
-                            }
+        filtered_structure_list = structure_list;
 
-                            // Remove the keyword from the search elements
-                            searchElements.splice(i, 1);
-                            i--;
-                            break;
-                        }
+    } else {
+
+        // split the search string into search elements
+        let searchElements = searchString.toLowerCase().split(" ");
+
+        // remove empty elements
+        searchElements = searchElements.filter((value) => value !== "");
+
+        console.log(searchElements);
+
+        // To avoid looping through the same elements, we will create a new list of search elements
+        let newSearchElements = searchElements;
+
+        // Add keyword listings to the search elements if keyword is part of the search string
+        for (let i = 0; i < searchElements.length; i++) {
+            if (keywordData.keywords[searchElements[i]]) {
+                // Add the word list with a % in front of each one to the new search elements
+                for (let j = 0; j < keywordData.keywords[searchElements[i]].length; j++) {
+                    // if element does not start with / or -
+                    if (!keywordData.keywords[searchElements[i]][j].startsWith("/") && !keywordData.keywords[searchElements[i]][j].startsWith("-")) {
+                        newSearchElements.push("%" + keywordData.keywords[searchElements[i]][j]);
+                    } else {
+                        newSearchElements.push(keywordData.keywords[searchElements[i]][j]);
                     }
                 }
+                // Remove the keyword from the new search elements
+                newSearchElements = newSearchElements.filter((value) => value !== searchElements[i]);
             }
+        }
 
-            // If the name contains all the search elements, add it to the filtered list
-            let addStructure = true;
-            for (let i = 0; i < searchElements.length; i++) {
-                // If word has no special character, check if the name contains the word
-                if (!searchElements[i].startsWith("$") && !searchElements[i].startsWith("*")) {
-                    if (!structure_list[key].name.toLowerCase().includes(searchElements[i])) {
-                        addStructure = false;
+        // Remove the "/" from the new search elements
+        newSearchElements = newSearchElements.map((value) => value.replace("/", ""));
+
+        //console.log("New search elements: " + newSearchElements);
+
+        // Remove double elements
+        newSearchElements = newSearchElements.filter((value, index) => newSearchElements.indexOf(value) === index);
+
+        //console.log("New search elements (no doubles): " + newSearchElements);
+
+        // Get the "or" statements in a separate list, and get the blacklisted elements in a separate list
+        let orStatements = newSearchElements.filter((value) => value.startsWith("%"));
+        let blacklistedElements = newSearchElements.filter((value) => value.startsWith("-"));
+
+        // Remove the or statements and blacklisted elements from the new search elements
+        newSearchElements = newSearchElements.filter((value) => !value.startsWith("%"));
+        newSearchElements = newSearchElements.filter((value) => !value.startsWith("-"));
+
+        // Replace the search elements with the new search elements
+        searchElements = newSearchElements;
+
+        //console.log("'And' elements: " + searchElements);
+        //console.log("'Or' elements: " + orStatements);
+        //console.log("'Blacklisted' elements: " + blacklistedElements);
+
+        // The search will be done in 3 stapes:
+        // 1. Check if the structure contains the search elements
+        // 2. Check if the structure contains the blacklisted elements
+        // 3. Check if the structure contains the or statements
+
+        let andStructures = {};
+        let blacklistedStructures = {};
+        let orStructures = {};
+
+        // AND statements
+        if (searchElements.length > 0) {
+            for (let key in structure_list) {
+                let passesSearch = false;
+
+                for (let i = 0; i < searchElements.length; i++) {
+                    let searchElement = searchElements[i];
+
+                    if (structure_list[key].name.toLowerCase().includes(searchElement)) {
+                        passesSearch = true;
+                    } else {
+                        passesSearch = false;
+                        break;
+                    }
+                }
+
+                // If the structure passes the search, add it to the filtered structure list
+                if (passesSearch) {
+                    andStructures[key] = structure_list[key];
+                }
+            }
+        } else {
+            andStructures = structure_list;
+        }
+
+        // Blacklisted statements
+        if (blacklistedElements.length > 0) {
+            for (let key in andStructures) {
+                let passesSearch = true;
+
+                for (let i = 0; i < blacklistedElements.length; i++) {
+                    let blacklistedElement = blacklistedElements[i];
+
+                    if (andStructures[key].name.toLowerCase().includes(blacklistedElement.substring(1))) {
+                        passesSearch = false;
+                        break;
+                    }
+                }
+
+                // If the structure passes the search, add it to the filtered structure list
+                if (passesSearch) {
+                    blacklistedStructures[key] = andStructures[key];
+                }
+            }
+        } else {
+            blacklistedStructures = andStructures;
+        }
+        
+        // OR statements
+        if (orStatements.length > 0) {
+            for (let key in blacklistedStructures) {
+
+                // check the or statements using the orStatements list
+                for (let j = 0; j < orStatements.length; j++) {
+                    if (blacklistedStructures[key].name.toLowerCase().includes(orStatements[j].substring(1))) {
+                        //console.log("Structure " + blacklistedStructures[key].name + " contains " + orStatements[j]);
+                        orStructures[key] = blacklistedStructures[key];
                         break;
                     }
                 }
             }
-            if (addStructure) {
-                filtered_structure_list[key] = structure_list[key];
-            }
+        } else {
+            orStructures = blacklistedStructures;
         }
+
+        // Add the or structures to the filtered structure list
+        filtered_structure_list = orStructures;
     }
+
+
+
     structure_list = filtered_structure_list;
 
     // Update the structure list
