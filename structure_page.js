@@ -86,6 +86,12 @@ function GenerateStructurePage(data) {
     let structureName = structure['name'];
     // In the name, add a space in front of each capital letter
     structureName = structureName.replace(/([A-Z])/g, ' $1').trim();
+    // In the name, replace "_" with " "
+    structureName = structureName.replace(/_/g, ' ');
+    // In the name, replace "S B " with "Survival Build "
+    structureName = structureName.replace("S B ", "Survival Build ");
+    // In the name, replace " Col " with " Collection "
+    structureName = structureName.replace(" Col ", " Collection ");
     structureNameH2.textContent = structureName;
     const structurePackageH3 = document.createElement("h3");
     structurePackageH3.textContent = structure['pack'];
