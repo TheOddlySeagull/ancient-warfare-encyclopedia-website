@@ -63,6 +63,8 @@ fetch(awsPathJson)
 function GenerateStructurePage(data) {
     // Get the "structureDetail" div
     const structureDetail = document.getElementById("structureDetail");
+    // Empty the div
+    structureDetail.innerHTML = "";
     structureDetail.className = "structure-detail";
     structureDetail.id = "structureDetail";
 
