@@ -537,9 +537,9 @@ function createStructureDiv(structure) {
     structureNationCategoryGenerationDiv.appendChild(structureCategory);
     const structureGeneration = document.createElement('p');
     if (structure.validation.survival) {
-        structureGeneration.innerText = `Survival Build`;
+        structureGeneration.innerText = `Generation : Survival Build`;
     } else {
-        structureGeneration.innerText = `World Gen`;
+        structureGeneration.innerText = `Generation : World Gen`;
     }
     structureNationCategoryGenerationDiv.appendChild(structureGeneration);
 
