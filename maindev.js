@@ -839,10 +839,16 @@ function createKeywordList() {
         }
         keywordList.appendChild(keywordDiv);
     }
-    // Add a disclaimer "use / in front of the word to disable the keyword filter"
-    let disclaimer = document.createElement("p");
-    disclaimer.innerHTML = "Use / in front of the word to disable the keyword filter";
-    keywordList.appendChild(disclaimer);
+
+    // Add a new category to explain the custom regex available
+    let customRegex = document.createElement("div");
+    customRegex.innerHTML = "<h3>Custom Regex</h3>";
+    customRegex.innerHTML += "<p>Use : </p>";
+    customRegex.innerHTML += "<p>- to blacklist the word</p>";
+    customRegex.innerHTML += "<p>% to use the word as an 'or' statement</p>";
+    customRegex.innerHTML += "<p>/ to disable the keyword filter</p>";
+    customRegex.innerHTML += "<p>No character to use the word as a normal search element</p>";
+    keywordList.appendChild(customRegex);
     // Add the keyword list to the search bar element
     searchBarElement.appendChild(keywordList);
 
@@ -853,39 +859,6 @@ function createKeywordList() {
         }
     });
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

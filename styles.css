@@ -1,82 +1,49 @@
-@font-face {
-	font-family: GramdatisTitle;
-	src: url(fonts/Allura-Regular.ttf) format("truetype");
-}
-
-@font-face {
-	font-family: GramdatisContent;
-	src: url(fonts/PatrickHand-Regular.ttf) format("truetype");
-}
-
-@font-face {
-    font-family: StructureTitle;
-    src: url(fonts/blackwood-castle.regular.ttf) format("truetype");
-}	
-
-@font-face {
-    font-family: StructureItem;
-    src: url(fonts/ds-behrensschrift.regular.ttf) format("truetype");
-}	
-
-/* Reset some default styles for better consistency */
-body, h1, h2, p, ul, li {
-    margin: 0;
-    padding: 0;
-}
 
 body {
-    font-family: 'Arial', sans-serif;
+    font-family: sans-serif;
+    background-color: #0D0D0D;
+    color: #fff;
     margin: 0;
     padding: 0;
-    background-image: url('./images/ancient-warfare-website_background.png');
-    background-size: 64px 64px;
-    background-repeat: repeat;
+    width: 100%;
 }
 
 header {
     background-color: #333;
-    color: white;
-    padding: 1em;
+    color: #fff;
+    padding: 10px;
     text-align: center;
-    position: relative;
-    margin-bottom: 2rem;
 }
 
-header img {
-    max-width: 100%;
+main {
+    margin: 10px;
+    display: flex;
+    max-height: 100%;
+    color: #fff;
 }
 
-#logo {
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
 }
 
-#roof {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: -1;
-}
 
 nav {
-    background-color: #ddd;
-    padding: 1em;
+    background-color: #333;;
+    padding: 10px;
     text-align: center;
-    margin: 0 auto;
-    width: 80%;
+    color: #fff;
 }
 
 nav ul {
     list-style-type: none;
-    margin: 0;
     padding: 0;
 }
 
 nav li {
-    margin: 0 15px;
+    margin: 10px 0;
 }
 
 nav a {
@@ -84,389 +51,255 @@ nav a {
     color: #fff;
 }
 
-main {
-    padding: 20px;
+
+/* Structures and Search container: used on search and Structures menu */
+
+.search-and-structure {
+    border-bottom: 2px solid #333;
+    border-top: 2px solid #333;
+    width: 100%;
+    margin-inline: 1rem;
+    padding: 1rem;
+    overflow: auto;
 }
 
-section {
-    margin-bottom: 20px;
-    padding: 15px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+
+
+/* Filter Container: used on Nav And Filter, and used on Structures Per Page menus.*/
+
+.aside-container {
+    border: 2px solid #333;
+    width: 20%;
 }
 
-footer {
+.aside-container div {
+    padding: 10px;
+    width: 90%;
+}
+.aside-container h3 {
+    margin: 10px 0;
     text-align: center;
     padding: 10px;
+    border-top: 2px solid #333;
+    border-bottom: 2px solid #333;
+}
+
+.aside-container button {
+    display: block;
+    width: 100%;
+    background-color: #333;
+    border: 2px solid #333;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    margin: 10px 0;
+    color: #fff;
+}
+
+.filter-menu {
+    overflow: auto;
+}
+
+.filter-group {
+    display: block;
+    width: 100%;
+}
+
+.filter-group label {
+    display: block;
+}
+
+.filters-button {
+    display: block;
+    margin: 10px 0;
+    width: 100%;
+}
+
+
+
+
+.pagination-button {
+    margin: 10px 0;
+    background-color: #333;
+    color: #fff;
+    border: 2px solid #333;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    margin: 1px;
+    text-align: center;
+    align-items: center;
+}
+
+.pagination-page-button {
+    margin: 10px 0;
+    color: #333;
+    border: 2px solid #333;
+
+    padding: 5px;
+    cursor: pointer;
+    margin: 1px;
+}
+
+.pagination-page-button:hover {
     background-color: #333;
     color: #fff;
 }
 
-.brown-line {
-    border-bottom: 4px solid #7E5337;
-    width: 75%;
-
-    /*lave space above and under the line*/
-    margin-top: 20px;
-    margin-bottom: 20px;
-
-
-    /*make the line centered*/
+.structure-list {
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-
-}
-
-.brown-line-vert {
-    border-left: 2px solid #7E5337;
-    border-right: 2px solid #7E5337;
-
-    width: 0px;
-
-    /*lave space above and under the line*/
-    margin-left: 20px;
-    margin-right: 20px;
-
-
-    /*make the line centered*/
-    display: block;
-
-}
-
-/* Style for the structure containers */
-.structure-container {
-    border: 1px solid #7E5337;
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: #f9f9f9;
-    overflow: auto;
-}
-
-/* Style for the buttons inside the structure containers */
-.structure-container button {
-    margin-right: 10px;
-    padding: 5px 10px;
-    cursor: pointer;
-    background-color: #63442F;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    width: 20rem;
-}
-
-.structure-container button:hover {
-    background-color: #9E7B64;
-}
-
-/* Style for the structure showcase container */
-.structure-showcase-container {
-    border: 5px solid #7E5337;
-    border-radius: 10px;
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: #f9f9f9;
-    overflow: auto;
-}
-
-/* Style for the buttons inside the structure showcase container */
-.structure-showcase-container button {
-    margin-right: 10px;
-    padding: 5px 10px;
-    cursor: pointer;
-    background-color: #63442F;
-    color: white;
-    border: none;
-    border-radius: 4px;
-}
-
-.structure-showcase-container button:hover {
-    background-color: #9E7B64;
-}
-
-.structure-showcase-container h1 {
-    text-align: center;
-    font-family: 'StructureTitle', cursive;
-    font-size: 4rem;
-    color: #442f21;
-    margin: 5px 0;
-}
-
-.structure-showcase-container h2 {
-    font-family: 'StructureItem', cursive;
-    color: #442f21;
-    text-align: center;
-    margin: 5px 0;
-
-}
-
-.structure-showcase-container h3 {
-    font-style: italic;
-    margin: 2px 0;
-}
-
-.structure-header-row {
-    display: flex;
-    justify-content: space-between;
-    margin: 10px 0;
-    vertical-align: middle;
-    overflow: auto;
-    width: 100%;
-    white-space: nowrap;
-}
-
-.structure-header-row h1 {
-    font-family: 'StructureItem', cursive;
-    color: #442f21;
-    margin: 0;
-    font-size: 32px;
-    text-align: left;
-    margin-inline: 10px;
-}
-
-.structure-header-row h2 {
-    font-family: 'StructureItem', cursive;
-    color: #442f21;
-    margin: 0;
-    font-size: 32px;
-    text-align: center;
-    margin-inline: 10px;
-}
-
-.structure-header-row button {
-    margin-right: 10px;
-    padding: 5px 10px;
-    cursor: pointer;
-    background-color: #63442F;
-    color: white;
-    border: none;
-    border-radius: 4px;
-}
-
-/* Style for the structure navigation buttons */
-.structure-navigation-button-container {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.structure-navigation-button-container button {
-    cursor: pointer;
-    background-color: #63442F;
-    color: white;
-    border: none;
-    width: 50%;
-    text-align: center;
-    border-radius: 4px;
-    margin-bottom: 0;
-}
-
-.structure-navigation-button-container button:hover {
-    background-color: #9E7B64;
-}
-
-.structure-content {
-    margin: 10px 0;
-    vertical-align: middle;
-    width: auto;
-    white-space: nowrap;
-
-    /*border*/
-    border: 1px solid #7E5337;
-    border-radius: 5px;
-    padding: 10px;
-    background-color: #f9f9f9;
-
-
-}
-
-.structure-content-row {
-    display: flex;
-    justify-content: space-between;
-    margin: 10px 0;
-    vertical-align: middle;
-    overflow: auto;
-    width: 100%;
-    white-space: nowrap;
-}
-
-.structure-content-row p {
-    font-size: 20px;
-    margin: 5px;
-    text-align: center;
-    white-space: normal;
-    justify-content: center;
-    flex-grow: 1;
-    flex-basis: 0;
-}
-
-.structure-content-row-elemnt {
-    display: flex;
-    justify-content: space-between;
-    margin: 10px 0;
-    vertical-align: middle;
-    overflow: auto;
-    white-space: nowrap;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.structure-content p {
-    font-family:Arial, Helvetica, sans-serif;
-    color: #442f21;
-    margin: 5px;
-    text-align: center;
-    white-space: normal;
-}
-
-.structure-content-list {
-    overflow: auto;
-    width: 100%;
-}
-
-.structure-content-list p{
-    text-align: left;
-}
-
-.structure-content-value {
-    text-align: left;
-}
-
-.structure-content-info-row {
-    display: flex;
-}
-
-.structure-content-info-row div {
-    width: 100%;
-}
-
-.structure-content-description {
-    /*border: 1px solid #7E5337;*/
-    height: 100%;
-    text-align: left;
-}
-
-.structure-content h1 {
-    font-family: 'StructureItem', cursive;
-    color: #442f21;
-    text-align: center;
-    margin: 5px 0;
-    font-size: 3rem;
-}
-
-.structure-content h2 {
-    font-family: 'StructureItem', cursive;
-    color: #442f21;
-    text-align: center;
-    margin: 5px 0;
-    text-decoration: underline;
-    font-size: 2rem;
-
-}
-
-.structure-content ul {
     margin: 10px;
-
-}
-
-.structure-content li {
-    margin: 15px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-.structure-content-list li {
-    font-size: 15px;
-    font-style: italic;
-    list-style-type: square;
-}
-
-.structure-content-list-2 li {
-    font-size: 14px;
-    font-style: italic;
-    list-style-type: none;
-    margin: 0px;
+    align-content: center;
+    justify-content: center;
 }
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.structure-container {
+    margin: 10px;
+    border: 2px solid #333;
+    background-color: #1A1A1A;
+    display: block;
+    align-items: center;
+    width: 100%;
+}
+
+.container-main-info {
+    display: flex;
+    margin: 10px;
+    align-items: center;
+    justify-content: left;
+}
+
+.container-main-info img {
+    width: 14%;
+    margin: 10px;
+}
+
+.container-main-info p {
+    margin: 5px;
+}
+
+.container-info-grid {
+    display: grid;
+    width: 100%;
+    align-items: center;
+    justify-content: left;
+    grid-gap: 0px;
+}
+
+.container-button-panel {
+    display: flex;
+    margin: 10px;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 2px solid #333;
+}
+
+.container-button-panel button {
+    display: block;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    border: 2px solid #333;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    margin: 10px;
+    font-size: 1rem;
+}
+
+.container-extra-info {
+    display: flex;
+    margin-bottom: 10px;
+    color: #909090;
+}
+
+.container-extra-info p {
+    margin: 10px;
+}
+
+
+
+/* Structure Page */
+
+.structure-detail { /* base on search-and-structure */
+    border-bottom: 2px solid #333;
+    border-top: 2px solid #333;
+    width: 100%;
+    margin-inline: 1rem;
+    padding: 1rem;
+    overflow: auto;
+}
+
+.structure-detail nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0D0D0D;
+    border-bottom:2px solid #333;
+}
+
+.structure-detail nav button {
+    display: block;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    border: 2px solid #333;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    margin: 10px;
+    font-size: 1rem;
+}
+
+.structure-detail-header {
+    display: flex;
+    margin: 10px;
+    align-items: center;
+    justify-content: left;
+}
+
+.structure-detail-header img {
+    width: 14%;
+    margin: 10px;
+}
+
+.structure-detail-segment {
+    display: grid;
+    width: 100%;
+    align-items: center;
+    justify-content: left;
+    grid-gap: 0px;
+    border-bottom: 2px solid #333;
+}
+
+/*Search bar*/
+
+.search-bar {
+    justify-content: center;
+    align-items: center;
+    background-color: #333;
+    color: #fff;
+    border: 2px solid #333;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    margin: 10px;
+    width: 550px;
+    height: 25px;
+}
+
+.search-button {
+    background-color: #333;
+    color: #fff;
+    border: 2px solid #333;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin: 10px;
+    width: 200px;
+    height: 37px;
+}

@@ -196,6 +196,15 @@ const filterData = {
       }
     ]
 };
+// keyword JSON data
+const keywordData = {
+    "keywords": {
+        // Boat
+        "boat": ["-island", "-worship", "-airship", "-towngen", "sloop", "schooner", "galleon", "brigantine", "dinghy", "rowboat", "longship", "caravel", "carrack", "ship", "boat", "leviathan", "manofwar"],
+        // Noble 
+        "noble": ["-towngenfillllama", "-icelord", "-citywall", "-sinking", "lord", "emperor", "king", "queen", "prince", "princess", "duke", "baron", "count", "earl", "viscount", "viscountess", "noble", "nobility"],
+    }
+};
 
 // Get the filter menu
 const filterDiv = document.getElementById("filter-menu");
@@ -216,13 +225,13 @@ function createFilterGroups() {
     let clearFiltersButton = document.createElement("button");
     clearFiltersButton.id = "clear-filters-button";
     clearFiltersButton.innerHTML = "Clear Filters";
-    //filterDiv.appendChild(clearFiltersButton);
+    filterDiv.appendChild(clearFiltersButton);
 
     // Create an "apply filters" button
     let applyFiltersButton = document.createElement("button");
     applyFiltersButton.id = "apply-filters-button";
     applyFiltersButton.innerHTML = "Select all Filters";
-    //filterDiv.appendChild(applyFiltersButton);
+    filterDiv.appendChild(applyFiltersButton);
     
   for (let i = 0; i < filterData.filter_groups.length; i++) {
       let filterGroup = filterData.filter_groups[i];
@@ -275,7 +284,7 @@ function createFilterGroups() {
       filterGroupDiv.appendChild(applyFiltersButton);
 
 
-      //filterDiv.appendChild(filterGroupDiv);
+      filterDiv.appendChild(filterGroupDiv);
   }
 }
 
@@ -528,9 +537,9 @@ function createStructureDiv(structure) {
     structureNationCategoryGenerationDiv.appendChild(structureCategory);
     const structureGeneration = document.createElement('p');
     if (structure.validation.survival) {
-        structureGeneration.innerText = `Survival Build`;
+        structureGeneration.innerText = `Generation : Survival Build`;
     } else {
-        structureGeneration.innerText = `World Gen`;
+        structureGeneration.innerText = `Generation : World Gen`;
     }
     structureNationCategoryGenerationDiv.appendChild(structureGeneration);
 
@@ -772,6 +781,7 @@ function createSearchBar() {
     let searchBar = document.createElement("input");
     searchBar.type = "text";
     searchBar.id = "search-bar";
+    searchBar.className = "search-bar";
     searchBar.placeholder = "Search...";
     searchBarElement.appendChild(searchBar);
     
@@ -779,21 +789,76 @@ function createSearchBar() {
     let clearSearchButton = document.createElement("button");
     clearSearchButton.id = "clear-search-button";
     clearSearchButton.innerHTML = "Clear Search";
+    clearSearchButton.className = "search-button";
     searchBarElement.appendChild(clearSearchButton);
+
+    // Add a "see keywords" button that will display a list of keywords when pressed
+    let seeKeywordsButton = document.createElement("button");
+    seeKeywordsButton.id = "see-keywords-button";
+    seeKeywordsButton.innerHTML = "See Keywords";
+    seeKeywordsButton.className = "search-button";
+    searchBarElement.appendChild(seeKeywordsButton);
+
+    // Add an event listener to the "see keywords" button
+    seeKeywordsButton.addEventListener("click", function() {
+        // Get the keyword list
+        let keywordList = document.getElementById("keyword-list");
+        // If the keyword list is already displayed, remove it
+        if (keywordList) {
+            keywordList.remove();
+        } else {
+            // If the keyword list is not displayed, create it
+            createKeywordList();
+        }
+    });
 }
 
+// Function to create the keyword list
+function createKeywordList() {
+    // Create the keyword list
+    let keywordList = document.createElement("div");
+    keywordList.id = "keyword-list";
+    keywordList.classList.add("keyword-list");
+    // Add a title "Keywords"
+    let keywordTitle = document.createElement("h2");
+    keywordTitle.innerHTML = "Keywords";
+    keywordList.appendChild(keywordTitle);
+    // Add the keywords
+    for (let keyword in keywordData.keywords) {
+        let keywordDiv = document.createElement("div");
+        keywordDiv.innerHTML = `<h3>${keyword}</h3>`;
+        let keywordArray = keywordData.keywords[keyword];
+        for (let i = 0; i < keywordArray.length; i++) {
+            let keywordSpan = document.createElement("span");
+            keywordSpan.innerHTML = keywordArray[i];
+            // Add a comma and space after each keyword, except for the last one
+            if (i < keywordArray.length - 1) {
+                keywordSpan.innerHTML += ", ";
+            }
+            keywordDiv.appendChild(keywordSpan);
+        }
+        keywordList.appendChild(keywordDiv);
+    }
 
+    // Add a new category to explain the custom regex available
+    let customRegex = document.createElement("div");
+    customRegex.innerHTML = "<h3>Custom Regex</h3>";
+    customRegex.innerHTML += "<p>Use : </p>";
+    customRegex.innerHTML += "<p>- to blacklist the word</p>";
+    customRegex.innerHTML += "<p>% to use the word as an 'or' statement</p>";
+    customRegex.innerHTML += "<p>/ to disable the keyword filter</p>";
+    customRegex.innerHTML += "<p>No character to use the word as a normal search element</p>";
+    keywordList.appendChild(customRegex);
+    // Add the keyword list to the search bar element
+    searchBarElement.appendChild(keywordList);
 
-
-
-
-
-
-
-
-
-
-
+    // Add an event listener to the keyword list to remove it when clicked outside of it
+    document.addEventListener("click", function(event) {
+        if (!keywordList.contains(event.target) && event.target.id !== "see-keywords-button") {
+            keywordList.remove();
+        }
+    });
+}
 
 
 
@@ -802,7 +867,7 @@ function createSearchBar() {
 createSearchBar();
 
 // Create the filter menu
-createFilterGroups();
+//createFilterGroups();
 
 // Get the saved data
 let structure_list = getSavedData();
@@ -818,20 +883,164 @@ createPaginationButtons(structure_list);
 
 // Add event listener to the search bar
 let searchBar = document.getElementById("search-bar");
+/*
+    Reminder on the serach characters:
+    - : blacklists the word
+    % : or (if several search element start with %, it means that the name must contain at least one of them)
+    / : disables the keyword filter (treated above. In other case, treat is as a normal search element)
+    No character: the name must contain the search element
+*/
+
 searchBar.addEventListener("keyup", function() {
     // Get the search string
     let searchString = searchBar.value.toLowerCase();
 
     // Filter the structure dictionary
     structure_list = getSavedData();
+
     // Navigate all the keys, then check if the name contains the search string
     let filtered_structure_list = {};
 
-    for (let key in structure_list) {
-        if (structure_list[key].name.toLowerCase().includes(searchString)) {
-            filtered_structure_list[key] = structure_list[key];
+    // If the search string is empty, set the filtered structure list to the structure list
+    if (searchString === "") {
+
+        filtered_structure_list = structure_list;
+
+    } else {
+
+        // split the search string into search elements
+        let searchElements = searchString.toLowerCase().split(" ");
+
+        // remove empty elements
+        searchElements = searchElements.filter((value) => value !== "");
+
+        console.log(searchElements);
+
+        // To avoid looping through the same elements, we will create a new list of search elements
+        let newSearchElements = searchElements;
+
+        // Add keyword listings to the search elements if keyword is part of the search string
+        for (let i = 0; i < searchElements.length; i++) {
+            if (keywordData.keywords[searchElements[i]]) {
+                // Add the word list with a % in front of each one to the new search elements
+                for (let j = 0; j < keywordData.keywords[searchElements[i]].length; j++) {
+                    // if element does not start with / or -
+                    if (!keywordData.keywords[searchElements[i]][j].startsWith("/") && !keywordData.keywords[searchElements[i]][j].startsWith("-")) {
+                        newSearchElements.push("%" + keywordData.keywords[searchElements[i]][j]);
+                    } else {
+                        newSearchElements.push(keywordData.keywords[searchElements[i]][j]);
+                    }
+                }
+                // Remove the keyword from the new search elements
+                newSearchElements = newSearchElements.filter((value) => value !== searchElements[i]);
+            }
         }
+
+        // Remove the "/" from the new search elements
+        newSearchElements = newSearchElements.map((value) => value.replace("/", ""));
+
+        //console.log("New search elements: " + newSearchElements);
+
+        // Remove double elements
+        newSearchElements = newSearchElements.filter((value, index) => newSearchElements.indexOf(value) === index);
+
+        //console.log("New search elements (no doubles): " + newSearchElements);
+
+        // Get the "or" statements in a separate list, and get the blacklisted elements in a separate list
+        let orStatements = newSearchElements.filter((value) => value.startsWith("%"));
+        let blacklistedElements = newSearchElements.filter((value) => value.startsWith("-"));
+
+        // Remove the or statements and blacklisted elements from the new search elements
+        newSearchElements = newSearchElements.filter((value) => !value.startsWith("%"));
+        newSearchElements = newSearchElements.filter((value) => !value.startsWith("-"));
+
+        // Replace the search elements with the new search elements
+        searchElements = newSearchElements;
+
+        //console.log("'And' elements: " + searchElements);
+        //console.log("'Or' elements: " + orStatements);
+        //console.log("'Blacklisted' elements: " + blacklistedElements);
+
+        // The search will be done in 3 stapes:
+        // 1. Check if the structure contains the search elements
+        // 2. Check if the structure contains the blacklisted elements
+        // 3. Check if the structure contains the or statements
+
+        let andStructures = {};
+        let blacklistedStructures = {};
+        let orStructures = {};
+
+        // AND statements
+        if (searchElements.length > 0) {
+            for (let key in structure_list) {
+                let passesSearch = false;
+
+                for (let i = 0; i < searchElements.length; i++) {
+                    let searchElement = searchElements[i];
+
+                    if (structure_list[key].name.toLowerCase().includes(searchElement)) {
+                        passesSearch = true;
+                    } else {
+                        passesSearch = false;
+                        break;
+                    }
+                }
+
+                // If the structure passes the search, add it to the filtered structure list
+                if (passesSearch) {
+                    andStructures[key] = structure_list[key];
+                }
+            }
+        } else {
+            andStructures = structure_list;
+        }
+
+        // Blacklisted statements
+        if (blacklistedElements.length > 0) {
+            for (let key in andStructures) {
+                let passesSearch = true;
+
+                for (let i = 0; i < blacklistedElements.length; i++) {
+                    let blacklistedElement = blacklistedElements[i];
+
+                    if (andStructures[key].name.toLowerCase().includes(blacklistedElement.substring(1))) {
+                        passesSearch = false;
+                        break;
+                    }
+                }
+
+                // If the structure passes the search, add it to the filtered structure list
+                if (passesSearch) {
+                    blacklistedStructures[key] = andStructures[key];
+                }
+            }
+        } else {
+            blacklistedStructures = andStructures;
+        }
+        
+        // OR statements
+        if (orStatements.length > 0) {
+            for (let key in blacklistedStructures) {
+
+                // check the or statements using the orStatements list
+                for (let j = 0; j < orStatements.length; j++) {
+                    if (blacklistedStructures[key].name.toLowerCase().includes(orStatements[j].substring(1))) {
+                        //console.log("Structure " + blacklistedStructures[key].name + " contains " + orStatements[j]);
+                        orStructures[key] = blacklistedStructures[key];
+                        break;
+                    }
+                }
+            }
+        } else {
+            orStructures = blacklistedStructures;
+        }
+
+        // Add the or structures to the filtered structure list
+        filtered_structure_list = orStructures;
     }
+
+
+
     structure_list = filtered_structure_list;
 
     // Update the structure list
