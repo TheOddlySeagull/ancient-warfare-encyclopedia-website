@@ -781,6 +781,7 @@ function createSearchBar() {
     let searchBar = document.createElement("input");
     searchBar.type = "text";
     searchBar.id = "search-bar";
+    searchBar.className = "search-bar";
     searchBar.placeholder = "Search...";
     searchBarElement.appendChild(searchBar);
     
@@ -788,46 +789,90 @@ function createSearchBar() {
     let clearSearchButton = document.createElement("button");
     clearSearchButton.id = "clear-search-button";
     clearSearchButton.innerHTML = "Clear Search";
+    clearSearchButton.className = "search-button";
     searchBarElement.appendChild(clearSearchButton);
 
-    // Add a "see keywords" element that will display a list of keywords when hovered
-    let seeKeywords = document.createElement("div");
-    seeKeywords.id = "see-keywords";
-    seeKeywords.innerHTML = "See Keywords";
-    seeKeywords.addEventListener("mouseover", function() {
-        let keywordList = document.createElement("div");
-        keywordList.id = "keyword-list";
-        keywordList.classList.add("keyword-list");
-        for (let keyword in keywordData.keywords) {
-            let keywordDiv = document.createElement("div");
-            keywordDiv.innerHTML = `<h3>${keyword}</h3>`;
-            let keywordArray = keywordData.keywords[keyword];
-            for (let i = 0; i < keywordArray.length; i++) {
-                let keywordSpan = document.createElement("span");
-                keywordSpan.innerHTML = keywordArray[i];
-                // Add a comma and space after each keyword, except for the last one
-                if (i < keywordArray.length - 1) {
-                    keywordSpan.innerHTML += ", ";
-                }
-                keywordDiv.appendChild(keywordSpan);
-            }
-            keywordList.appendChild(keywordDiv);
-        }
-        // Add a disclaimer "use / in front of the word to disable the keyword filter"
-        let disclaimer = document.createElement("p");
-        disclaimer.innerHTML = "Use / in front of the word to disable the keyword filter";
-        keywordList.appendChild(disclaimer);
-        seeKeywords.appendChild(keywordList);
-    });
-    seeKeywords.addEventListener("mouseout", function() {
+    // Add a "see keywords" button that will display a list of keywords when pressed
+    let seeKeywordsButton = document.createElement("button");
+    seeKeywordsButton.id = "see-keywords-button";
+    seeKeywordsButton.innerHTML = "See Keywords";
+    seeKeywordsButton.className = "search-button";
+    searchBarElement.appendChild(seeKeywordsButton);
+
+    // Add an event listener to the "see keywords" button
+    seeKeywordsButton.addEventListener("click", function() {
+        // Get the keyword list
         let keywordList = document.getElementById("keyword-list");
+        // If the keyword list is already displayed, remove it
         if (keywordList) {
+            keywordList.remove();
+        } else {
+            // If the keyword list is not displayed, create it
+            createKeywordList();
+        }
+    });
+}
+
+// Function to create the keyword list
+function createKeywordList() {
+    // Create the keyword list
+    let keywordList = document.createElement("div");
+    keywordList.id = "keyword-list";
+    keywordList.classList.add("keyword-list");
+    // Add a title "Keywords"
+    let keywordTitle = document.createElement("h2");
+    keywordTitle.innerHTML = "Keywords";
+    keywordList.appendChild(keywordTitle);
+    // Add the keywords
+    for (let keyword in keywordData.keywords) {
+        let keywordDiv = document.createElement("div");
+        keywordDiv.innerHTML = `<h3>${keyword}</h3>`;
+        let keywordArray = keywordData.keywords[keyword];
+        for (let i = 0; i < keywordArray.length; i++) {
+            let keywordSpan = document.createElement("span");
+            keywordSpan.innerHTML = keywordArray[i];
+            // Add a comma and space after each keyword, except for the last one
+            if (i < keywordArray.length - 1) {
+                keywordSpan.innerHTML += ", ";
+            }
+            keywordDiv.appendChild(keywordSpan);
+        }
+        keywordList.appendChild(keywordDiv);
+    }
+    // Add a disclaimer "use / in front of the word to disable the keyword filter"
+    let disclaimer = document.createElement("p");
+    disclaimer.innerHTML = "Use / in front of the word to disable the keyword filter";
+    keywordList.appendChild(disclaimer);
+    // Add the keyword list to the search bar element
+    searchBarElement.appendChild(keywordList);
+
+    // Add an event listener to the keyword list to remove it when clicked outside of it
+    document.addEventListener("click", function(event) {
+        if (!keywordList.contains(event.target) && event.target.id !== "see-keywords-button") {
             keywordList.remove();
         }
     });
-    searchBarElement.appendChild(seeKeywords);
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
