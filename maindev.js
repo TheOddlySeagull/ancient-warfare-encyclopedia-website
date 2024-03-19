@@ -444,6 +444,7 @@ function createRandomStructureMenu() {
     name = name.replace(/([A-Z])/g, ' $1').trim();
     //Replace "S B " by "Survival Build "
     name = name.replace("S B ", "Survival Build ");
+    name = name.replace("R U S T I C", "Rustic");
     randomStructureName.innerHTML = name;
     // Add a view button
     let viewButton = document.createElement("button");
