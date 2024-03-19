@@ -421,6 +421,46 @@ function getSavedData() {
     return sorted_structure_list;
 }
 
+// Function to create a mini menu to show a random structure
+function createRandomStructureMenu() {
+    // Create a random structure mini menu (an image and the structure name)
+    let randomStructureMenu = document.createElement("div");
+    randomStructureMenu.classList.add("random-structure-menu");
+    randomStructureMenu.innerHTML = `<h3>Random Structure</h3>`;
+    //Get a random index
+    let randomIndex = Math.floor(Math.random() * Object.keys(structure_list).length);
+    let randomStructure = structure_list[Object.keys(structure_list)[randomIndex]];
+    // Create the structure div
+    let randomStructureDiv = document.createElement("div");
+    randomStructureDiv.classList.add("random-structure-div");
+    // Create the structure image
+    let randomStructureImage = document.createElement("img");
+    randomStructureImage.src = randomStructure.icon;
+    // Create the structure name
+    let randomStructureName = document.createElement("p");
+    //Get the name, replace _ by space
+    let name = randomStructure.name.replace(/_/g, " ");
+    // Add spaces in front of caps
+    name = name.replace(/([A-Z])/g, ' $1').trim();
+    //Replace "S B " by "Survival Build "
+    name = name.replace("S B ", "Survival Build ");
+    randomStructureName.innerHTML = name;
+    // Add a view button
+    let viewButton = document.createElement("button");
+    viewButton.innerHTML = "View";
+    viewButton.addEventListener("click", function() {
+        window.location.href = 'structure_page.html?structureName=' + randomStructure.pack + '/' + randomStructure.name;
+    }
+    );
+    randomStructureDiv.appendChild(viewButton);
+    // Append the structure div to the random structure menu
+    randomStructureDiv.appendChild(randomStructureImage);
+    randomStructureDiv.appendChild(randomStructureName);
+    randomStructureMenu.appendChild(randomStructureDiv);
+    // Append the random structure menu to the filter div
+    pageSizeConfigurator.appendChild(randomStructureMenu);
+}
+
 // Function to create a mini menu to let the user choose how many structures to display per page
 function createStructurePerPageMenu() {
     // Create the menu
@@ -874,6 +914,9 @@ let structure_list = getSavedData();
 
 // Create the structure per page menu
 createStructurePerPageMenu();
+
+// Create the random structure menu
+createRandomStructureMenu();
 
 // Create the structure divs
 createStructureDivs(structure_list, structure_index);

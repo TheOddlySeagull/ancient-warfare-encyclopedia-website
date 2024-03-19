@@ -316,9 +316,13 @@ function GenerateAsideGeneralInfo(data) {
     const asideGeneralMenu = document.getElementById("asideGeneralMenu");
     asideGeneralMenu.className = "aside-container";
 
-    // Create the "General Information" h2
-    const generalInfoH2 = document.createElement("h2");
+    // Create the "General Information" h3
+    let generalInfo = document.createElement("div");
+    generalInfo.classList.add("structure-per-page-menu");
+    const generalInfoH2 = document.createElement("h3");
     generalInfoH2.textContent = "General Information";
+    generalInfo.appendChild(generalInfoH2);
+
 
     // Create an ul
     const generalInfoUl = document.createElement("ul");
@@ -351,6 +355,6 @@ function GenerateAsideGeneralInfo(data) {
     generalInfoUl.appendChild(rarityLi);
 
     // Add the h2 and ul to asideGeneralMenu
-    asideGeneralMenu.appendChild(generalInfoH2);
+    asideGeneralMenu.appendChild(generalInfo);
     asideGeneralMenu.appendChild(generalInfoUl);
 }
