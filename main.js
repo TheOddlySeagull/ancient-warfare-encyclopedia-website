@@ -202,7 +202,7 @@ const keywordData = {
         // Boat
         "boat": ["-island", "-worship", "-airship", "-towngen", "sloop", "schooner", "galleon", "brigantine", "dinghy", "rowboat", "longship", "caravel", "carrack", "ship", "boat", "leviathan", "manofwar"],
         // Noble 
-        "noble": ["-towngenfillllama", "-icelord", "-citywall", "-sinking", "lord", "emperor", "king", "queen", "prince", "princess", "duke", "baron", "count", "earl", "viscount", "viscountess", "noble", "nobility"],
+        "noble": ["-parking", "-icelord", "-citywall", "-sinking", "lord", "emperor", "king", "queen", "prince", "princess", "duke", "baron", "count", "earl", "viscount", "viscountess", "noble", "nobility"],
     }
 };
 
