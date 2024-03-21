@@ -445,6 +445,8 @@ function createRandomStructureMenu() {
     //Replace "S B " by "Survival Build "
     name = name.replace("S B ", "Survival Build ");
     name = name.replace("R U S T I C", "Rustic");
+    name = name.replace("Q U A R K", "Quark ");
+    name = name.replace(" Col ", " Collection ");
     randomStructureName.innerHTML = name;
     // Add a view button
     let viewButton = document.createElement("button");

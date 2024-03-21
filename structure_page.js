@@ -92,7 +92,8 @@ function GenerateStructurePage(data) {
     structureName = structureName.replace(/_/g, ' ');
     // In the name, replace "S B " with "Survival Build "
     structureName = structureName.replace("S B ", "Survival Build ");
-    // In the name, replace " Col " with " Collection "
+    structureName = structureName.replace("R U S T I C", "Rustic");
+    structureName = structureName.replace("Q U A R K", "Quark ");
     structureName = structureName.replace(" Col ", " Collection ");
     structureNameH2.textContent = structureName;
     const structurePackageH3 = document.createElement("h3");
@@ -220,9 +221,35 @@ function GenerateStructurePage(data) {
         }
     }
 
+    // Create a mini-nav bar to see structure author's page adn pack's page
+    const validationMiniNavBar = document.createElement("nav");
+
+    // Create the "Author" button that links to the author's page
+    const authorButton = document.createElement("button");
+    authorButton.textContent = "Author";
+    authorButton.className = "structure-detail-nav-button";
+    authorButton.id = "authorButton";
+    authorButton.onclick = function() {
+        window.location.href = "author_page.html?authorName=" + structure['validation']['structureAuthor'];
+    };
+
+    // Create the "Pack" button that links to the pack's page
+    const packButton = document.createElement("button");
+    packButton.textContent = "Pack";
+    packButton.className = "structure-detail-nav-button";
+    packButton.id = "packButton";
+    packButton.onclick = function() {
+        window.location.href = "pack_page.html?packName=" + structure['pack'];
+    };
+
+    // Add the buttons to the mini-nav bar
+    validationMiniNavBar.appendChild(authorButton);
+    validationMiniNavBar.appendChild(packButton);
+
     // Add the H2 and ul to structureDetailValidation
     structureDetailValidation.appendChild(validationH2);
     structureDetailValidation.appendChild(validationUl);
+    structureDetailValidation.appendChild(validationMiniNavBar);
 
     // Add the structureDetailValidation to structureDetail
     structureDetail.appendChild(structureDetailValidation);
