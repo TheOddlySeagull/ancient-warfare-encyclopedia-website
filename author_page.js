@@ -70,7 +70,7 @@ if (author === '' || author === undefined) {
     
 
     // Add the noAuthorCount to the authorPageMain
-    authorPageMain.innerHTML += '<p>There are ' + noAuthorCount + ' structures with no author out of ' + totalStructures + ' structures</p>';
+    authorPageMain.innerHTML += '<p>There are ' + noAuthorCount + ' structures with unknown author out of ' + totalStructures + ' structures</p>';
 
     // Add a list of all authors to the authorPageMain, with buttons to view their pages
     authorPageMain.innerHTML += '<h3>Authors</h3>';
@@ -89,7 +89,7 @@ if (author === '' || author === undefined) {
 
         // Create the button's text:
         if (key === "Unknown") {
-            buttonName = "No author: " + authors[key];
+            buttonName = "Unknown author for " + authors[key] + " structures";
         } else {
             if (authors[key] > 1)
             {
