@@ -230,7 +230,7 @@ function GenerateStructurePage(data) {
     authorButton.className = "structure-detail-nav-button";
     authorButton.id = "authorButton";
     authorButton.onclick = function() {
-        window.location.href = "author_page.html?authorName=" + structure['validation']['structureAuthor'];
+        window.location.href = "author_page.html?author=" + structure['validation']['structureAuthor'];
     };
 
     // Create the "Pack" button that links to the pack's page
