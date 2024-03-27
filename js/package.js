@@ -50,6 +50,20 @@ for (var structure in structureData) {
     }
 }
 
+//sort the authors by structure count
+var sortedAuthors = [];
+for (var author in authors) {
+    sortedAuthors.push([author, authors[author]]);
+}
+sortedAuthors.sort(function(a, b) {
+    return b[1] - a[1];
+}
+);
+
+console.log(sortedAuthors);
+
+
+
 //add a title "Authors" to the packageDetail div
 var authorTitle = document.createElement("h2");
 authorTitle.innerHTML = "Authors";
@@ -57,9 +71,14 @@ packageDetail.appendChild(authorTitle);
 var authorList = document.createElement("ul");
 packageDetail.appendChild(authorList);
 
-for (var author in authors) {
+for (var i = 0; i < sortedAuthors.length; i++) {
+    var author = sortedAuthors[i][0];
+    var count = sortedAuthors[i][1];
     var listItem = document.createElement("li");
-    listItem.innerHTML = author + " (" + authors[author] + " structures)";
+    var link = document.createElement("a");
+    link.href = "author.html?author=" + author;
+    link.innerHTML = author + " (" + count + " structures)";
+    listItem.appendChild(link);
     authorList.appendChild(listItem);
 }
 
