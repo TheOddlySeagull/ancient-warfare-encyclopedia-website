@@ -71,17 +71,6 @@ def read_layer_line(layer_line_str):
     return processed_line
 
 def parse_header(header_str):
-    '''
-    Header example:
-
-        header:
-        version=2.11
-        name=EmpireCastleEmperorAndVillage
-        mods=
-        size=151,83,142
-        offset=62,7,141
-        :endheader
-    '''
 
     # print(f"Header To Parse: \n{header_str}\n")
 
@@ -117,36 +106,6 @@ def parse_header(header_str):
     return dictionnary
 
 def parse_validation(validation_str):
-    '''
-    Validation example:
-
-        validation:
-        type=ground
-        structureAuthor=TheOddlySeagull
-        survival=false
-        worldGenEnabled=true
-        unique=false
-        preserveBlocks=false
-        preventNaturalHostileSpawns=true
-        selectionWeight=200
-        clusterValue=100
-        minDuplicateDistance=50000
-        dimensionWhiteList=true
-        dimensionList=0
-        biomeGroupList=
-        biomeWhiteList=true
-        biomeList=nt:oak_forest,nt:oak_forest_hills,nt:tall_oak_forest,nt:tall_oak_forest_hills,minecraft:forest,traverse:meadow,nt:cold_forest_hill,nt:tall_oak_forest_hills,traverse:forested_hills,environs:tall_oak_forest,environs:tall_oak_forest_hills,nt:tall_oak_forest,minecraft:forest_hills
-        leveling=25
-        fill=25
-        border=16
-        blockSwap=false
-        territoryName=empire
-        biomeReplacement=minecraft:plains
-        minGenerationHeight=0
-        maxGenerationHeight=255
-        :endvalidation
-    '''
-
     # print(f"Validation To Parse: \n{validation_str}\n")
 
     # Create empty dictionnary
@@ -187,53 +146,6 @@ def parse_validation(validation_str):
     return dictionnary
 
 def parse_layers(layers_str):
-    '''
-    Layer example 1:
-
-        layer: 0
-        1,1,1,1,1,1,1
-        1,1,1,1,1,1,1
-        1,1,1,1,1,1,1
-        1,1,1,1,1,1,1
-        1,1,1,1,1,1,1
-        1,1,1,1,1,1,1
-        1,1,1,1,1,1,1
-        :endlayer
-        layer: 1
-        1,1,1,1,1,1,1
-        1,1,1,1,1,1,1
-        1,1,1,1,1,1,1
-        1,1,1,1,1,1,1
-        1,1,1,1,1,1,1
-        1,1,1,1,1,1,1
-        1,1,1,1,1,1,1
-        :endlayer
-        layer: 2
-        1,1,1,1,1,1,1
-        1,1,1,1,1,1,1
-        1,1,1,1,1,1,1
-        1,1,1,1,1,1,1
-        1,1,1,1,1,1,1
-        1,1,1,1,1,1,1
-        1,1,1,1,1,1,1
-        :endlayer
-    
-    Layer example 2:
-
-        layer: 1
-        2x2|22
-        2x2|6,3|9,2|7
-        2|2,4,2,1,5,6|9,5,4|2,2|4
-        2|3,4,2,6,3|9,6,4|2,2|4
-        2x4|5,6,3|9,6,4|2,2|4
-        2,4,2|2,4,6,3|9,6,4|2,2|4
-        2|2,4,2|2,6,3|9,6,4|2,2|4
-        2x2|4,1,6,3|7,6|3,4|2,2|4
-        2|4,1,5,6|9,5,4|2,2|4
-        2x2|6,3|9,2|7
-        2x2|22
-        :endlayer
-    '''
 
     # print(f"Layers To Parse: \n{layers_str}\n")
 
@@ -288,18 +200,6 @@ def parse_layers(layers_str):
     return layers
 
 def parse_rules(rules_str):
-    '''
-    Rule example:
-    
-        rule:
-        plugin=flag
-        number=3889
-        data:
-        JSON:{blockState:{blockName:"ancientwarfarestructure:decorative_flag",properties:{rotation:"2"}},teData:{name:"empire",id:"ancientwarfarestructure:decorative_flag_tile"}}
-        :enddata
-        :endrule
-    
-    '''
     rules = []
     rule_list = rules_str.strip().split('rule:')
     for rule_element in rule_list[1:]:
@@ -340,17 +240,6 @@ def parse_rules(rules_str):
     return rules
 
 def parse_entities(entities_str):
-    '''
-    Rule example:
-
-        entity:
-        plugin=AWVehicle
-        number=0
-        data:
-        JSON:{yOffset:0.0f,xOffset:0.009399414f,rotation:-137.24109f,mobID:"ancientwarfarevehicle:vehicle",zOffset:0.98999023f,position:38209572569166L,turretRotation:-137.24109f,entityData:{ForgeData:{},Invulnerable:0b,PortalCooldown:0,inventory:{storageInventory:{Size:0,Items:[]},armorInventory:{Size:6,Items:[]},ammoInventory:{Size:6,Items:[]},upgradeInventory:{Size:6,Items:[]}},upgrades:{armors:[],upgrades:[]},FallDistance:0.0f,ForgeCaps:{},fire:{rt:0,r:0b,f:0b,l:0b},vars:{aA:-27.0f,sS:0.0f,aS:0.0f,sA:-64.0f},Motion:[-0.0d,0.0d,-0.0d],move:{fi:0b,si:0b,ri:0b,pi:0b,tr:0.0f},ammo:{list:[{count:0,type:"ancientwarfarevehicle:ammo_cluster_shot_10"},{count:0,type:"ancientwarfarevehicle:ammo_cluster_shot_15"},{count:0,type:"ancientwarfarevehicle:ammo_cluster_shot_30"},{count:0,type:"ancientwarfarevehicle:ammo_cluster_shot_45"},{count:0,type:"ancientwarfarevehicle:ammo_explosive_shot_10"},{count:0,type:"ancientwarfarevehicle:ammo_explosive_shot_10_big"},{count:0,type:"ancientwarfarevehicle:ammo_explosive_shot_15"},{count:0,type:"ancientwarfarevehicle:ammo_explosive_shot_15_big"},{count:0,type:"ancientwarfarevehicle:ammo_explosive_shot_30"},{count:0,type:"ancientwarfarevehicle:ammo_explosive_shot_30_big"},{count:0,type:"ancientwarfarevehicle:ammo_explosive_shot_45"},{count:0,type:"ancientwarfarevehicle:ammo_explosive_shot_45_big"},{count:0,type:"ancientwarfarevehicle:ammo_flame_shot_10"},{count:0,type:"ancientwarfarevehicle:ammo_flame_shot_15"},{count:0,type:"ancientwarfarevehicle:ammo_flame_shot_30"},{count:0,type:"ancientwarfarevehicle:ammo_flame_shot_45"},{count:0,type:"ancientwarfarevehicle:ammo_napalm_shot_10"},{count:0,type:"ancientwarfarevehicle:ammo_napalm_shot_15"},{count:0,type:"ancientwarfarevehicle:ammo_pebble_shot_10"},{count:0,type:"ancientwarfarevehicle:ammo_pebble_shot_15"},{count:0,type:"ancientwarfarevehicle:ammo_pebble_shot_30"},{count:0,type:"ancientwarfarevehicle:ammo_pebble_shot_45"},{count:0,type:"ancientwarfarevehicle:ammo_stone_shot_10"},{count:0,type:"ancientwarfarevehicle:ammo_stone_shot_15"},{count:0,type:"ancientwarfarevehicle:ammo_stone_shot_30"},{count:0,type:"ancientwarfarevehicle:ammo_stone_shot_45"}]},trd:42.75891f,vehType:16,health:350.0f,tpd:70.0f,Air:300s,OnGround:1b,Dimension:0,Rotation:[-317.2411f,0.0f],UpdateBlocked:0b,matLvl:4,turHome:42.75891f,Pos:[-498.0093994140625d,37.0d,-1870.989990234375d],Fire:-1s,lc:50.0f,setup:0b,tp:70.0f,tr:42.75891f}}
-        :enddata
-        :endentity
-    '''
 
     entities = []
 
@@ -583,36 +472,6 @@ def create_single_json(data, file, disclamer):
             old_data = json.load(f)
             # replace the disclamer
             old_data['disclamer'] = disclamer
-            # if data exists
-            '''
-            if old_data['data']:
-                #print("Data exists, checking...")
-
-                # loop through the data
-                for key, value in data.items():
-                    #print(f"Checking {key}...")
-                    # if the key exists
-                    if key in old_data['data']:
-                        #print(f"{key} exists, modifying...")
-
-                        # Check if the description is "No description available"
-                        if old_data['data'][key]['description'] == "No description available" and value['description'] != "No description available":
-                            #print(f"Description is 'No description available', replacing...")
-                            old_data['data'][key]['description'] = value['description']
-                        else:
-                            # If the new description is not "No description available", replace the old description
-                            if value['description'] != "No description available":
-                                #print(f"Description is not 'No description available', replacing...")
-                                old_data['data'][key]['description'] = value['description']
-                    else:
-                        print(f"{key} does not exist, creating...")
-                        # add the data
-                        old_data['data'][key] = value
-            else:
-                print("Data does not exist, creating...")
-                # replace the data
-                old_data['data'] = data
-            '''
             old_data['data'] = data
         # open the file
         with open(file, "w") as f:
@@ -673,7 +532,7 @@ def loop_through_files(directory):
 
 
     # Create or update the structures_version.json file with the current date, and version + 1
-    with open("structures_version.json", "r") as f:
+    with open("./json/structures_version.json", "r") as f:
         # If using split argument
         if args.split:
             version = json.load(f)
@@ -687,12 +546,13 @@ def loop_through_files(directory):
             stored_data_version = version['version']
             version['date'] = time.strftime("%d/%m/%Y %H:%M:%S")
             print(f"New version: {version['version']}")
-    with open("structures_version.json", "w") as f:
+    with open("./json/structures_version.json", "w") as f:
         json.dump(version, f, indent=4)
 
 
     # Get the descriptions
     descriptions = get_descriptions()
+    print(f"Descriptions: {len(descriptions)}")
 
     # If user specified a file, only convert that file
     if args.file:
@@ -704,10 +564,12 @@ def loop_through_files(directory):
         structure_count += 1
         # If split is true, create a json for each structure
         if args.split:
-            directory = "./structures_jsons/"
+            directory = "./json/structures_jsons/"
             if args.path:
                 directory = args.path
                 print(f"Custom path: {directory}")
+            else:
+                print(f"Default path: {directory}")
             # Create the file name
             file_name = os.path.splitext(os.path.basename(file_path))[0] + ".json"
             # Keep the folder structure after the pack name (including the pack name)
@@ -729,22 +591,26 @@ def loop_through_files(directory):
                 json.dump(data[structure_name], f, indent=4)
         else:
             # Create a single json for all the data
-            update_single_json(data, directory + "structures.json", disclamer)
+            update_single_json(data, directory + "json/structures.json", disclamer)
         return
 
     # Loop through all the files in the directory recursively
-    for root, dirs, files in os.walk(directory):
+    for root, dirs, files in os.walk(f"{directory}structures/"):
+        #print(f"Scanning {root}...")
         for file in files:
             if file.endswith(".aws"):
                 file_path = os.path.join(root, file)
+                #print(file_path)
                 # The name of the structure is the file name
                 structure_name = os.path.splitext(file)[0]
                 # split the path to its folder names
                 pack_name = os.path.split(root)[0].split(os.path.sep)[2]
                 structure_name = pack_name + os.path.sep + structure_name
-                #print(file_path)
                 data[structure_name], disclamer = open_structure_file(file_path, descriptions, stored_data_version)
                 structure_count += 1
+                #print(f"Structure count: {structure_count}")
+                #print(f"Town count: {town_count}")
+                #print(f"Structure data: {data[structure_name]}")
             # if town is true, include the towns
             if file.endswith(".awt") and args.towns:
                 file_path = os.path.join(root, file)
@@ -755,10 +621,12 @@ def loop_through_files(directory):
 
     # If split is true, create a json for each structure
     if args.split:
-        directory = "./structures_jsons/"
+        directory = "./json/structures_jsons/"
         if args.path:
             directory = args.path
             print(f"Custom path: {directory}")
+        else:
+            print(f"Default path: {directory}")
 
 
         # Empty structures_jsons folder
@@ -792,7 +660,7 @@ def loop_through_files(directory):
                 json.dump(content, f, indent=4)
     else:
         # Create a single json for all the data
-        create_single_json(data, directory + "structures.json", disclamer)
+        create_single_json(data, directory + "json/structures.json", disclamer)
 
        
 
@@ -813,16 +681,60 @@ if __name__ == "__main__":
     parser.add_argument('-t','--towns', action='store_true', help='Include towns in the conversion')
     parser.add_argument('-p','--path', type=str, help='Custom path to the structures folder')
     parser.add_argument('-f','--file', type=str, help='Specify aws file to convert')
+    parser.add_argument('-z','--zip', action='store_true', help='Create a zip of the packages')
+    parser.add_argument('-j', '--json', action='store_true', help='Create json file(s)')
 
     # Parse the arguments
     args = parser.parse_args()
 
+    # check if any arguments are given
+    if not args.json and not args.zip:
+        print("No arguments given, nothing to do. Please use the -j or --json argument to convert the files to json, or the -z or --zip argument to create a zip of the packages.")
+        exit()
+
     # Run the functions
-    loop_through_files("./structures")
-    
-    # If no arguments are given, warn the user
-    if not args.header and not args.validation and not args.layers and not args.rules and not args.split:
-        print("No arguments given, nothing to do.")
+    if args.json:
+        loop_through_files("./structures")
+        # If no arguments are given, warn the user
+        if not args.header and not args.validation and not args.layers and not args.rules and not args.split:
+            print("No arguments given, nothing to do.")
+    elif args.header or args.validation or args.layers or args.rules or args.split:
+        # tell the user that the parameters are useless
+        print("Please use the -j or --json argument to convert the files to json.")
+        print("The -hd, -vd, -ly, -rl and -s arguments are useless without the -j argument.")
+
+
+    # If zip is true, create a zip of the packages
+    if args.zip:
+        import shutil
+        import zipfile
+
+        print("Creating zip of the packages...")
+
+        # Create 1 zip per folder of ./structures, in ./downloads
+        for folder in os.listdir("./structures"):
+            print(f"Creating zip of {folder}...")
+            # Create the zip file
+            zip_file = zipfile.ZipFile(f"./downloads/{folder}.zip", 'w')
+            # Loop through the files and folders in the folder
+            for root, dirs, files in os.walk(f"./structures/{folder}"):
+                for file in files:
+                    # Add the file to the zip
+                    zip_file.write(os.path.join(root, file), os.path.relpath(os.path.join(root, file), f"./structures/{folder}"))
+            # Open the ./json/structures_version.json file to get the version
+            with open("./json/structures_version.json", "r") as f:
+                version = json.load(f)
+            # Add a MD file with the date and saying the zip was downloaded on the Ancient Warfare Encyclopedia website, created by theOddlySeagull
+            with open(f"./downloads/{folder}.md", "w") as f:
+                f.write(f"# {folder}\n\n")
+                f.write(f"Download generated on {time.strftime('%d/%m/%Y %H:%M:%S')} for the [Ancient Warfare Encyclopedia](http://ancient-warfare.legends-of-gramdatis.com/)\n\n")
+                f.write(f"Structure scan version: {version['version']}\n\n")
+                f.write(f"Website created by [TheOddlySeagull](https://github.com/TheOddlySeagull/ancient-warfare-encyclopedia-website)\n")
+            # Add the MD file to the zip
+            zip_file.write(f"./downloads/{folder}.md", f"{folder}.md")
+            # Close the zip file
+            zip_file.close()
+
 
     # Print the time it took to run
     print("--- %s seconds ---" % (time.time() - start_time))
