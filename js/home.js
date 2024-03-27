@@ -386,7 +386,7 @@ function getSavedData() {
 
 
                     // Fetch the structures.json file
-                    fetch('structures.json')
+                    fetch('../json/structures.json')
                         .then(response => response.json())
                         .then(data => {
                             console.log(data);

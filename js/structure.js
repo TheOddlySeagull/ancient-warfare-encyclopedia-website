@@ -239,7 +239,7 @@ function GenerateStructurePage(data) {
     packButton.className = "structure-detail-nav-button";
     packButton.id = "packButton";
     packButton.onclick = function() {
-        window.location.href = "pack_page.html?packName=" + structure['pack'];
+        window.location.href = "package.html?packName=" + structure['pack'];
     };
 
     // Add the buttons to the mini-nav bar
