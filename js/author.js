@@ -13,17 +13,6 @@ const structureData = JSON.parse(localStorage.getItem("structure_list"));
 
 var PackAuthors;
 
-// Function to load data from pack_authors.json
-function loadPackAuthors() {
-    // Get the pack authors data
-    fetch('pack_authors.json')
-        .then(response => response.json())
-        .then(data => {
-            // Set the pack authors data to the global variable PackAuthors
-            PackAuthors = data;
-        });
-}
-
 // Function to get a list of all existing authors and their structure count
 function getAuthors() {
     //initialize an empty dictionary
@@ -51,8 +40,6 @@ function getAuthors() {
 
 
 var authors = getAuthors();
-
-loadPackAuthors();
 
 // if author is empty
 if (author === '' || author === undefined) {
@@ -129,6 +116,47 @@ if (author === '' || author === undefined) {
         authorPageMain.innerHTML += '<p>There is ' + authorCount + ' structure by this author</p>';
     }
 
+    // tell in what packages the author has structures
+    var authorPackages = {};
+    for (var key in structureData) {
+        if (structureData[key].validation.structureAuthor === author) {
+            if (!(structureData[key].pack in authorPackages)) {
+                authorPackages[structureData[key].pack] = 1;
+            } else {
+                authorPackages[structureData[key].pack]++;
+            }
+        }
+    }
+
+    // Add the authorPackages to the authorPageMain
+    authorPageMain.innerHTML += '<h3>Packages</h3>';
+    for (var key in authorPackages) {
+        if (authorPackages[key] > 1) {
+            authorPageMain.innerHTML += '<p>' + key + ' (' + authorPackages[key] + ' structures)</p>';
+        } else {
+            authorPageMain.innerHTML += '<p>' + key + ' (' + authorPackages[key] + ' structure)</p>';
+        }
+    }
+
     // Add a button to the authorPageMain
     authorPageMain.innerHTML += '<button onclick="window.location.href=\'author.html\'">Return to author page</button>';
+
+    // Add a list of all structures by the author to the authorPageMain
+    authorPageMain.innerHTML += '<h3>Structures</h3>';
+    // Create the structure list:
+    const structureList = document.createElement('ul');
+    authorPageMain.appendChild(structureList);
+
+    // Create the structure list items:
+    for (var key in structureData) {
+        if (structureData[key].validation.structureAuthor === author) {
+            const listItem = document.createElement('li');
+            const link = document.createElement('a');
+            link.href = 'structure.html?structureName=' + key;
+            link.innerHTML = key;
+            listItem.appendChild(link);
+            structureList.appendChild(listItem);
+        }
+    }
+
 }
