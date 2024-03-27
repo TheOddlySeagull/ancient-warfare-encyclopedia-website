@@ -31,8 +31,37 @@ packageDetail.appendChild(title);
 
 // Create the structure count
 var count = document.createElement("p");
-count.innerHTML = "Structures: " + structureCount;
+count.innerHTML = "This package has " + structureCount + " structures";
 packageDetail.appendChild(count);
+
+// List all the authors of the structures in the package (structure count and percentage of total)
+var authors = {};
+for (var structure in structureData) {
+    if (structureData[structure].pack == packageName) {
+        var author = structureData[structure].validation.structureAuthor;
+        if (author == "") {
+            author = "Unknown";
+        }
+        if (author in authors) {
+            authors[author]++;
+        } else {
+            authors[author] = 1;
+        }
+    }
+}
+
+//add a title "Authors" to the packageDetail div
+var authorTitle = document.createElement("h2");
+authorTitle.innerHTML = "Authors";
+packageDetail.appendChild(authorTitle);
+var authorList = document.createElement("ul");
+packageDetail.appendChild(authorList);
+
+for (var author in authors) {
+    var listItem = document.createElement("li");
+    listItem.innerHTML = author + " (" + authors[author] + " structures)";
+    authorList.appendChild(listItem);
+}
 
 // Add a "Download Package" button
 var downloadButton = document.createElement("button");
@@ -41,15 +70,6 @@ downloadButton.onclick = function() {
     console.log("Downloading package: " + packageName);
     var zip_path = "../downloads/" + packageName + ".zip";
     window.open(zip_path);
-
-    // Add the download to the download count
-    var downloadCount = localStorage.getItem("download_count");
-    downloadCount++;
-    localStorage.setItem("download_count", downloadCount);
-
-    // Update the download count on the page
-    var downloadCountElement = document.getElementById("downloadCount");
-    downloadCountElement.innerHTML = downloadCount;
 }
 
 packageDetail.appendChild(downloadButton);
