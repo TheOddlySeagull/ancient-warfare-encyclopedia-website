@@ -20,7 +20,7 @@ function GetJsonPath() {
     const awsPath = structure['path'];
     // Replace the first folder name with "structures_jsons"
     const awsPathSplit = awsPath.split('/');
-    awsPathSplit[1] = "../json/structures_jsons";
+    awsPathSplit[1] = "../json/structures_jsons/";
     //Replace tha ".aws" with ".json"
     awsPathSplit[awsPathSplit.length-1] = awsPathSplit[awsPathSplit.length-1].replace(".aws", ".json");
     // Join the array back into a string
