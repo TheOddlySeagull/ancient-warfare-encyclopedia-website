@@ -5,3 +5,4 @@ __pycache__/*
 website.code-workspace
 json/structures_jsons/*
 downloads/*.zip
+img/authors/gallery/*
