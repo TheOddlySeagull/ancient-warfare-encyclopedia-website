@@ -18,17 +18,21 @@ var AuthorProfileImage = new Image();
 var AuthorGallery = [];
 
 // Function to load the data from the author JSON, and the author folders
-function loadAuthorData() {
+async function loadAuthorData() {
     // Load the author JSON file
     console.log(author + ' json path: ' + '../json/authors/' + author + '.json');
-    fetch('../json/authors/' + author + '.json')
-        .then(response => response.json())
-        .then(data => {
-            AuthorData = data;
-        });
-    // check if data is loaded
-    console.log(AuthorData);
-
+    
+    try {
+        const response = await fetch('../json/authors/' + author + '.json');
+        const data = await response.json();
+        AuthorData = data;
+    } catch (error) {
+        console.log('Author JSON not found');
+        AuthorData = {
+            "description": "No description available"
+        };
+    }
+    
 
     // Load the author profile image
     AuthorProfileImage.src = '../img/authors/profiles/' + author + '.png';
@@ -40,15 +44,25 @@ function loadAuthorData() {
     // Load the author gallery as an array of images.
     // The authhor gallery images are found in the folder ../img/authors/gallery/authorName/
     // Load and store all the images from the author gallery folder
-    fetch('../img/authors/gallery/' + author + '/')
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            AuthorGallery = data;
-        });
+    console.log(author + ' gallery path: ' + '../img/authors/gallery/' + author + '/');
+    try {
+        const response = await fetch('../img/authors/gallery/' + author + '/');
+        const data = await response.text();
+        var parser = new DOMParser();
+        var htmlDoc = parser.parseFromString(data, 'text/html');
+        var images = htmlDoc.getElementsByTagName('a');
+        for (var i = 0; i < images.length; i++) {
+            AuthorGallery.push(images[i].href.split('/').pop());
+        }
+    }
+    catch (error) {
+        console.log('Author gallery not found');
+    }
 
     console.log(AuthorData);
+
     console.log(AuthorProfileImage);
+
 
 }
 
@@ -163,16 +177,62 @@ function createAsideGeneralMenu() {
 function createAuthorHeader() {
     // get the authorHeader div
     let AuthorHeader = document.getElementById('authorHeader');
-    //clean the authorHeader div
     AuthorHeader.innerHTML = '';
 
-    // add the image of the author to the authorHeader div
-    AuthorHeader.appendChild(AuthorProfileImage);
+    //inside this div, we have a div and a nav bar
+    // create the div for the author profile image
+    let AuthorProfile = document.createElement('div');
+    AuthorProfile.className = 'author-banner';
 
-    // create the H2 element with the author name
+    //Inside "AuthorProfile", we have the image of the author, and a h1 element with the author name
+    AuthorProfile.appendChild(AuthorProfileImage);
     let authorName = document.createElement('h1');
     authorName.innerHTML = author;
-    AuthorHeader.appendChild(authorName);
+    AuthorProfile.appendChild(authorName);
+
+    // Add the authorProfile to the authorHeader
+    AuthorHeader.appendChild(AuthorProfile);
+
+
+    // Create the nav bar
+    const navBar = document.createElement('nav');
+
+    // Create the "About" button
+    const aboutButton = document.createElement('button');
+    aboutButton.innerHTML = 'About';
+    aboutButton.onclick = function() {
+        document.getElementById('authorInfo').scrollIntoView({behavior: "smooth"});
+    }
+
+    // Create the "Structures" button
+    const structuresButton = document.createElement('button');
+    structuresButton.innerHTML = 'Structures';
+    structuresButton.onclick = function() {
+        document.getElementById('authorStructures').scrollIntoView({behavior: "smooth"});
+    }
+
+    // Create the "Gallery" button
+    const galleryButton = document.createElement('button');
+    galleryButton.innerHTML = 'Gallery';
+    galleryButton.onclick = function() {
+        document.getElementById('authorGallery').scrollIntoView({behavior: "smooth"});
+    }
+
+    // Create the "Contact" button
+    const contactButton = document.createElement('button');
+    contactButton.innerHTML = 'Contact';
+    contactButton.onclick = function() {
+        document.getElementById('authorContact').scrollIntoView({behavior: "smooth"});
+    }
+
+    // Add the buttons to the nav bar
+    navBar.appendChild(aboutButton);
+    navBar.appendChild(structuresButton);
+    navBar.appendChild(galleryButton);
+    navBar.appendChild(contactButton);
+
+    // Add the nav bar to the authorHeader
+    AuthorHeader.appendChild(navBar);
 }
 
 //Function to create the "authorInfo" div
@@ -188,10 +248,13 @@ function createAuthorInfo() {
     aboutTitle.innerHTML = 'About';
     authorInfo.appendChild(aboutTitle);
 
-    // Add the description of the author to the authorInfo div
-    let aboutText = document.createElement('p');
-    aboutText.innerHTML = AuthorData.description;
-    authorInfo.appendChild(aboutText);
+    //split AuthorData.description on \n
+    let descriptionArray = AuthorData.description.split('\n');
+    //loop through the array
+    for (var i = 0; i < descriptionArray.length; i++) {
+        // Add the description to the authorInfo div
+        authorInfo.innerHTML += '<p>' + descriptionArray[i] + '</p>';
+    }
 }
 
 // Function to create the "authorContact" div
@@ -200,12 +263,30 @@ function createAuthorContact() {
     var authorContact = document.getElementById('authorContact');
     //clean the authorContact div
     authorContact.innerHTML = '';
-    authorContact.className = 'author-contact';
 
     // Add the contact information to the authorContact
     authorContact.innerHTML += '<h2>Contact</h2>';
-    authorContact.innerHTML += '<p>For any inquiries, please contact the author at <a href="mailto:' + author + '@ancient-warfare.com">' + author + '@ancient-warfare.com</a></p>';
 
+    // create the contact informations (from the author JSON, in the "socialMediaLinks" dictionary)
+    //create an UL
+    var ul = document.createElement('ul');
+    //loop through the socialMediaLinks dictionary
+    for (var key in AuthorData.socialMediaLinks) {
+        //create an LI
+        var li = document.createElement('li');
+        //create an A element
+        var a = document.createElement('a');
+        //set the href attribute to the value of the key
+        a.href = AuthorData.socialMediaLinks[key];
+        //set the innerHTML to the key
+        a.innerHTML = key;
+        //add the A element to the LI element
+        li.appendChild(a);
+        //add the LI element to the UL element
+        ul.appendChild(li);
+    }
+    //add the UL element to the authorContact div
+    authorContact.appendChild(ul);
 }
 
 // Function to create the "authorStructures" div
@@ -214,7 +295,6 @@ function createAuthorStructures() {
     var authorStructures = document.getElementById('authorStructures');
     //clean the authorStructures div
     authorStructures.innerHTML = '';
-    authorStructures.className = 'author-structures';
 
     // Add a list of all structures by the author to the authorStructures
     authorStructures.innerHTML += '<h2>Structures</h2>';
@@ -226,6 +306,7 @@ function createAuthorStructures() {
 
     // Create the structure list:
     const structureList = document.createElement('div');
+    structureList.className = 'author-structures';
     authorStructures.appendChild(structureList);
 
     //cards per page
@@ -312,6 +393,32 @@ function createAuthorStructures() {
     }
 }
 
+// Function to create the "authorGallery" div
+function createAuthorGallery() {
+    // get the authorGallery div
+    var authorGallery = document.getElementById('authorGallery');
+    //clean the authorGallery div
+    authorGallery.innerHTML = '';
+
+    // Add the gallery to the authorGallery
+    authorGallery.innerHTML += '<h2>Gallery</h2>';
+
+    //if gallery is empty
+    if (AuthorGallery.length === 0) {
+        // Add a message to the authorGallery
+        authorGallery.innerHTML += '<p>No images available</p>';
+    } else {
+        // Create the gallery images
+        for (var i = 0; i < AuthorGallery.length; i++) {
+            // Create the image:
+            const image = document.createElement('img');
+            image.src = '../img/authors/gallery/' + author + '/' + AuthorGallery[i];
+            image.alt = author + ' gallery image ' + i;
+            // Add the image to the authorGallery:
+            authorGallery.appendChild(image);
+        }
+    }
+}
 
 
 
@@ -380,18 +487,24 @@ if (author === '' || author === undefined) {
 } else {
 
     // Load the author data
-    loadAuthorData();
+    loadAuthorData().then(() => {
+        // Create the asideGeneralMenu
+        createAsideGeneralMenu();
 
-    // Create the asideGeneralMenu
-    createAsideGeneralMenu();
+        // Create the authorHeader
+        createAuthorHeader();
 
-    // Create the authorHeader
-    createAuthorHeader();
+        // Create the authorInfo
+        createAuthorInfo();
 
-    // Create the authorInfo
-    createAuthorInfo();
+        // Create the authorStructures
+        createAuthorStructures();
 
-    // Create the authorStructures
-    createAuthorStructures();
+        // Create the authorGallery
+        createAuthorGallery();
+
+        // Create the authorContact
+        createAuthorContact();
+    });
 
 }

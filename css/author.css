@@ -65,29 +65,40 @@ nav a {
     overflow: auto;
 }
 
-.main-container h2 {
-    text-align: center;
-    margin: 10px 0;
-}
-
-.main-container p {
-    margin: 10px;
-    line-height: 1.5;
-}
-
-.main-container br {
-    display: block;
-    margin: 5px;
-}
-
-.main-container img {
-    display: block;
-    max-height: 100px;
-}
-
-.main-container div {
-    margin: 10px 0;
+.main-container-segment {
+    margin-inline: 0;
+    padding: 0;
     border-bottom: 2px solid #333;
+}
+
+.main-container-segment nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0D0D0D;
+}
+
+.main-container-segment nav button {
+    display: block;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    border: 2px solid #333;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    margin: 10px;
+    font-size: 1rem;
+}
+
+.main-container-segment p {
+    margin: 10px;
+    line-height: 25px;
+}
+
+.main-container-segment img {
+    max-width: 500px;
+    background-color: #333;
 }
 
 /* Aside Container: The menus on each side of the main content. */
@@ -149,16 +160,18 @@ nav a {
     font-size: 1rem;
 }
 
-.header-container {
+.main-container-header {
     display: flex;
+    margin: 10px;
     align-items: center;
-    background-color: #333;
-    color: #fff;
+    justify-content: left;
+    border-bottom: 2px solid #333;
 }
 
-.header-container img {
+.main-container-header img {
 
-    margin-right: 20px;
+    width: 14%;
+    margin: 10px;
 
 }
 
@@ -229,4 +242,19 @@ nav a {
 .author-structures div {
     margin: 10px;
     padding: 10px;
+}
+
+.author-banner {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.author-banner img {
+    width: 14%;
+    margin-right: 20px;
+}
+
+img[alt] {
+    font-size: 0;
 }
