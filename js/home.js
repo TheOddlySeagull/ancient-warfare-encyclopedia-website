@@ -200,7 +200,7 @@ const filterData = {
 const keywordData = {
     "keywords": {
         // Boat
-        "boat": ["-island", "-worship", "-airship", "-towngen", "sloop", "schooner", "galleon", "brigantine", "dinghy", "rowboat", "longship", "caravel", "carrack", "ship", "boat", "leviathan", "manofwar"],
+        "boat": ["-island", "-worship", "-airship", "-towngen", "trireme", "sloop", "schooner", "galleon", "brigantine", "dinghy", "rowboat", "longship", "caravel", "carrack", "ship", "boat", "leviathan", "manofwar"],
         // Noble 
         "noble": ["-parking", "-icelord", "-citywall", "-sinking", "lord", "emperor", "king", "queen", "prince", "princess", "duke", "baron", "count", "earl", "viscount", "viscountess", "noble", "nobility"],
     }
