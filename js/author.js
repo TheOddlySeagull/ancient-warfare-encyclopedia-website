@@ -310,7 +310,7 @@ function createAuthorStructures() {
     authorStructures.appendChild(structureList);
 
     //cards per page
-    var cardsPerPage = 10;
+    var cardsPerPage = 7;
     //current page
     var currentPage = 1;
     //total pages
