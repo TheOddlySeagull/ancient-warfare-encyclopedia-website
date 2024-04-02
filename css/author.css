@@ -192,12 +192,13 @@ nav a {
 
 .structure-card {
     border: 2px solid #333;
-    width: 350px;
+    width: 300px;
     display: inline-block;
     margin: 10px;
     padding: 10px;
     text-align: center;
     cursor: pointer;
+    overflow: hidden;
 }
 
 .structure-card img {
