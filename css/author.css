@@ -1,4 +1,3 @@
-
 /* Website-wide styles */
 
 body {
@@ -33,7 +32,8 @@ footer {
 
 
 nav {
-    background-color: #333;;
+    background-color: #333;
+    ;
     padding: 10px;
     text-align: center;
     color: #fff;
@@ -106,10 +106,12 @@ nav a {
     border: 2px solid #333;
     width: 20%;
 }
+
 .aside-container div {
     padding: 10px;
     width: 90%;
 }
+
 .aside-container h3 {
     margin: 10px 0;
     text-align: center;
@@ -138,7 +140,6 @@ nav a {
 
 .author-button-panel {
     display: flex;
-    /*wrap the buttons*/
     flex-wrap: wrap;
     margin: 10px;
     padding: 10px;
@@ -233,7 +234,7 @@ nav a {
     height: 100%;
 }
 
-.author-structures{
+.author-structures {
     align-items: center;
     justify-content: center;
     display: inline-block;
