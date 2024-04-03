@@ -136,9 +136,13 @@ function createAsideGeneralMenu() {
         authorCountDiv.innerHTML += '<p>There is ' + authorCount + ' structure by this author</p>';
     }
 
-    // Add a "see structures" button that moves to the authorStructures div
-    authorCountDiv.innerHTML += '<button onclick="window.location.href=\'#authorStructures\'">See structures</button>';
-
+    // Add a "see structures" button that moves to the authorStructures div (smooth scroll)
+    const seeStructuresButton = document.createElement('button');
+    seeStructuresButton.innerHTML = 'See structures';
+    seeStructuresButton.onclick = function() {
+        document.getElementById('authorStructures').scrollIntoView({behavior: "smooth"});
+    }
+    authorCountDiv.appendChild(seeStructuresButton);
 
     // Add the authorCountDiv to the asideGeneralMenu
     asideGeneralMenu.appendChild(authorCountDiv);
@@ -310,7 +314,7 @@ function createAuthorStructures() {
     authorStructures.appendChild(structureList);
 
     //cards per page
-    var cardsPerPage = 7;
+    var cardsPerPage = 6;
     //current page
     var currentPage = 1;
     //total pages
@@ -342,7 +346,7 @@ function createAuthorStructures() {
             maxIndex -= cardsPerPage;
             structureList.innerHTML = '';
             for (var key in structureListArray) {
-                if (currentIndex < key && key < maxIndex) {
+                if (currentIndex <= key && key < maxIndex) {
                     const card = createStructureCard(structureListArray[key]);
                     structureList.appendChild(card);
                 }
@@ -370,7 +374,7 @@ function createAuthorStructures() {
             maxIndex += cardsPerPage;
             structureList.innerHTML = '';
             for (var key in structureListArray) {
-                if (currentIndex < key && key < maxIndex) {
+                if (currentIndex <= key && key < maxIndex) {
                     const card = createStructureCard(structureListArray[key]);
                     structureList.appendChild(card);
                 }
@@ -384,7 +388,7 @@ function createAuthorStructures() {
     //loop through the list of all structures by the author
     for (var key in structureListArray) {
         // if the index is between the current index and the max index
-        if (currentIndex < key && key < maxIndex) {
+        if (currentIndex <= key && key < maxIndex) {
             // Create the structure card:
             const card = createStructureCard(structureListArray[key]);
             // Add the card to the structure list:
