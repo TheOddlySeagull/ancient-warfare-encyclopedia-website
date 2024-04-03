@@ -462,8 +462,17 @@ function createAuthorGallery() {
             const image = document.createElement('img');
             image.src = '../img/authors/gallery/' + author + '/' + AuthorGallery[i];
             image.alt = author + ' gallery image ' + i;
-            // Add the image to the authorGallery:
-            authorGallery.appendChild(image);
+
+            // Create a link:
+            const link = document.createElement('a');
+            link.href = image.src;
+            link.target = '_blank';
+
+            // Add the image to the link:
+            link.appendChild(image);
+
+            // Add the link to the authorGallery:
+            authorGallery.appendChild(link);
         }
     }
 }
