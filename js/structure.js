@@ -22,7 +22,7 @@ function GetJsonPath() {
     const awsPathSplit = awsPath.split('/');
     awsPathSplit[1] = "../json/structures_jsons/";
     //Replace tha ".aws" with ".json"
-    awsPathSplit[awsPathSplit.length-1] = awsPathSplit[awsPathSplit.length-1].replace(".aws", ".json");
+    awsPathSplit[awsPathSplit.length - 1] = awsPathSplit[awsPathSplit.length - 1].replace(".aws", ".json");
     // Join the array back into a string
     const awsPathJson = awsPathSplit.join('/');
     //console.log(awsPathJson);
@@ -37,27 +37,27 @@ const awsPathJson = GetJsonPath();
 // if it does, then fetch the json file
 // if it doesn't, then fetch the .aws file
 fetch(awsPathJson)
-  .then(response => response.json())
-  .then(data => {
-    //console.log(data);
+    .then(response => response.json())
+    .then(data => {
+        //console.log(data);
 
-    // Generate the structure page
-    GenerateStructurePage(data);
-    // Generate the aside general info
-    GenerateAsideGeneralInfo(data);
-  })
-  .catch((error) => {
-    console.error('Error:', error);
-    // Fetch the .aws file
-    fetch(awsPath)
-      .then(response => response.text())
-      .then(data => {
-        console.log(data);
-      })
-      .catch((error) => {
+        // Generate the structure page
+        GenerateStructurePage(data);
+        // Generate the aside general info
+        GenerateAsideGeneralInfo(data);
+    })
+    .catch((error) => {
         console.error('Error:', error);
-      });
-  });
+        // Fetch the .aws file
+        fetch(awsPath)
+            .then(response => response.text())
+            .then(data => {
+                console.log(data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    });
 
 
 function GenerateStructurePage(data) {
@@ -118,8 +118,8 @@ function GenerateStructurePage(data) {
     descriptionButton.textContent = "Description";
     descriptionButton.className = "structure-detail-nav-button";
     descriptionButton.id = "descriptionButton";
-    descriptionButton.onclick = function() {
-        document.getElementById("structureDetailDescription").scrollIntoView({behavior: "smooth"});
+    descriptionButton.onclick = function () {
+        document.getElementById("structureDetailDescription").scrollIntoView({ behavior: "smooth" });
     };
 
     // Create the "validation" button that links to "structureDetailValidation" id div
@@ -127,8 +127,8 @@ function GenerateStructurePage(data) {
     validationButton.textContent = "Validation";
     validationButton.className = "structure-detail-nav-button";
     validationButton.id = "validationButton";
-    validationButton.onclick = function() {
-        document.getElementById("structureDetailValidation").scrollIntoView({behavior: "smooth"});
+    validationButton.onclick = function () {
+        document.getElementById("structureDetailValidation").scrollIntoView({ behavior: "smooth" });
     };
 
     // Create the "Structure" button that links to "structureDetailStructure" id div
@@ -136,8 +136,8 @@ function GenerateStructurePage(data) {
     structureButton.textContent = "Structure";
     structureButton.className = "structure-detail-nav-button";
     structureButton.id = "structureButton";
-    structureButton.onclick = function() {
-        document.getElementById("structureDetailStructure").scrollIntoView({behavior: "smooth"});
+    structureButton.onclick = function () {
+        document.getElementById("structureDetailStructure").scrollIntoView({ behavior: "smooth" });
     };
 
     // Create the "Entities" button that links to "structureDetailEntities" id div
@@ -145,8 +145,8 @@ function GenerateStructurePage(data) {
     entitiesButton.textContent = "Entities";
     entitiesButton.className = "structure-detail-nav-button";
     entitiesButton.id = "entitiesButton";
-    entitiesButton.onclick = function() {
-        document.getElementById("structureDetailEntities").scrollIntoView({behavior: "smooth"});
+    entitiesButton.onclick = function () {
+        document.getElementById("structureDetailEntities").scrollIntoView({ behavior: "smooth" });
     };
 
     // Create the "Gallery" button that links to "structureDetailGallery" id div
@@ -154,8 +154,8 @@ function GenerateStructurePage(data) {
     galleryButton.textContent = "Gallery";
     galleryButton.className = "structure-detail-nav-button";
     galleryButton.id = "galleryButton";
-    galleryButton.onclick = function() {
-        document.getElementById("structureDetailGallery").scrollIntoView({behavior: "smooth"});
+    galleryButton.onclick = function () {
+        document.getElementById("structureDetailGallery").scrollIntoView({ behavior: "smooth" });
     };
 
     // Add the buttons to the nav bar
@@ -229,7 +229,7 @@ function GenerateStructurePage(data) {
     authorButton.textContent = "Author";
     authorButton.className = "structure-detail-nav-button";
     authorButton.id = "authorButton";
-    authorButton.onclick = function() {
+    authorButton.onclick = function () {
         window.location.href = "author.html?author=" + structure['validation']['structureAuthor'];
     };
 
@@ -238,7 +238,7 @@ function GenerateStructurePage(data) {
     packButton.textContent = "Pack";
     packButton.className = "structure-detail-nav-button";
     packButton.id = "packButton";
-    packButton.onclick = function() {
+    packButton.onclick = function () {
         window.location.href = "package.html?packName=" + structure['pack'];
     };
 
