@@ -308,6 +308,50 @@ function createAuthorStructures() {
     authorStructures.appendChild(pageButtons);
     pageButtons.className = 'page-buttons';
 
+    // Create the page input div:
+    const pageInputDiv = document.createElement('div');
+    pageInputDiv.className = 'page-input-div';
+    pageButtons.appendChild(pageInputDiv);
+
+    // Create the page input:
+    const pageInput = document.createElement('input');
+    pageInput.type = 'number';
+    pageInput.min = 1;
+    pageInput.max = totalPages;
+    pageInput.value = currentPage;
+    pageInputDiv.appendChild(pageInput);
+
+    // Create the go button:
+    const goButton = document.createElement('button');
+    goButton.innerHTML = 'Go';
+    pageInputDiv.appendChild(goButton);
+
+    const goToPage = function() {
+        const inputPage = parseInt(pageInput.value);
+        if (inputPage >= 1 && inputPage <= totalPages) {
+            currentPage = inputPage;
+            currentIndex = (currentPage - 1) * cardsPerPage;
+            maxIndex = currentIndex + cardsPerPage;
+            structureList.innerHTML = '';
+            for (var key in structureListArray) {
+                if (currentIndex <= key && key < maxIndex) {
+                    const card = createStructureCard(structureListArray[key]);
+                    structureList.appendChild(card);
+                }
+            }
+            // Update the page number:
+            pageNumber.innerHTML = 'Page ' + currentPage + ' of ' + totalPages;
+        }
+    };
+
+    goButton.onclick = goToPage;
+
+    pageInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            goToPage();
+        }
+    });
+
     // Create the structure list:
     const structureList = document.createElement('div');
     structureList.className = 'author-structures';
