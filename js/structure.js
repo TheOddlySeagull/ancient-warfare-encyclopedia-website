@@ -384,4 +384,26 @@ function GenerateAsideGeneralInfo(data) {
     // Add the h2 and ul to asideGeneralMenu
     asideGeneralMenu.appendChild(generalInfo);
     asideGeneralMenu.appendChild(generalInfoUl);
+
+    // Create a "download" button
+    const downloadButton = document.createElement("button");
+    downloadButton.textContent = "Download";
+    downloadButton.className = "aside-button";
+    downloadButton.id = "downloadButton";
+    downloadButton.onclick = () => {
+        // Create a link to the file
+        const link = document.createElement('a');
+        link.setAttribute('href', data['path']);
+        let download_url = data['path'];
+        download_url = download_url.split("/");
+        download_url[0] = "http://ancient-warfare.legends-of-gramdatis.com";
+        download_url = download_url.join("/");
+        link.setAttribute('href', download_url);
+        link.setAttribute('download', data['name'] + ".aws");
+        link.click();
+    };
+
+    // Add the button to asideGeneralMenu
+    asideGeneralMenu.appendChild(downloadButton);
+
 }

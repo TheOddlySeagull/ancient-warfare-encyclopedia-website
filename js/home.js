@@ -596,7 +596,12 @@ function createStructureDiv(structure) {
         // Create a link to the file
         const link = document.createElement('a');
         link.setAttribute('href', structure.path);
-        link.setAttribute('download', structure.name + '.aws');
+        let download_url = structure.path;
+        download_url = download_url.split("/");
+        download_url[0] = "http://ancient-warfare.legends-of-gramdatis.com";
+        download_url = download_url.join("/");
+        link.setAttribute('href', download_url);
+        link.setAttribute('download', structure.name + ".aws");
         link.click();
     };
     const openDetailButton = document.createElement('button');

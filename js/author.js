@@ -271,26 +271,34 @@ function createAuthorContact() {
     // Add the contact information to the authorContact
     authorContact.innerHTML += '<h2>Contact</h2>';
 
-    // create the contact informations (from the author JSON, in the "socialMediaLinks" dictionary)
-    //create an UL
-    var ul = document.createElement('ul');
-    //loop through the socialMediaLinks dictionary
-    for (var key in AuthorData.socialMediaLinks) {
-        //create an LI
-        var li = document.createElement('li');
-        //create an A element
-        var a = document.createElement('a');
-        //set the href attribute to the value of the key
-        a.href = AuthorData.socialMediaLinks[key];
-        //set the innerHTML to the key
-        a.innerHTML = key;
-        //add the A element to the LI element
-        li.appendChild(a);
-        //add the LI element to the UL element
-        ul.appendChild(li);
+    //if no contact, add a message to the authorContact
+    if (AuthorData.socialMediaLinks !== undefined) {
+
+        // create the contact informations (from the author JSON, in the "socialMediaLinks" dictionary)
+        //create an UL
+        var ul = document.createElement('ul');
+        //loop through the socialMediaLinks dictionary
+        for (var key in AuthorData.socialMediaLinks) {
+            //create an LI
+            var li = document.createElement('li');
+            //create an A element
+            var a = document.createElement('a');
+            //set the href attribute to the value of the key
+            a.href = AuthorData.socialMediaLinks[key];
+            //set the innerHTML to the key
+            a.innerHTML = key;
+            //add the A element to the LI element
+            li.appendChild(a);
+            //add the LI element to the UL element
+            ul.appendChild(li);
+        }
+        //add the UL element to the authorContact div
+        authorContact.appendChild(ul);
+    } else {
+        // Add a message to the authorContact
+        authorContact.innerHTML += '<p>No contact information available</p>';
     }
-    //add the UL element to the authorContact div
-    authorContact.appendChild(ul);
+    
 }
 
 // Function to create the "authorStructures" div
