@@ -3,7 +3,6 @@
 body {
     font-family: sans-serif;
     background-color: #0D0D0D;
-    color: #fff;
     margin: 0;
     padding: 0;
     width: 100%;
@@ -105,11 +104,13 @@ nav a {
 .aside-container {
     border: 2px solid #333;
     width: 20%;
+    padding: 0;
 }
 
 .aside-container div {
     padding: 10px;
     width: 90%;
+    margin: 10px auto;
 }
 
 .aside-container h3 {
@@ -209,6 +210,34 @@ nav a {
     margin: 0 auto;
 }
 
+.package-card {
+    background-color: #1b1b1b;
+    border-radius: 5px;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    overflow: auto;
+    max-width: 90%;
+
+}
+
+.package-card p {
+    padding: 10px;
+    line-height: 20px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.package-card h4 {
+    max-width: 150px;
+    margin: 0;
+    padding: 0;
+    line-height: 20px;
+    text-align: center;
+    display: inline-block;
+    overflow: hidden;
+}
+
 .page-buttons {
     display: flex;
     justify-content: center;
@@ -298,4 +327,13 @@ img[alt] {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.gallery-wrap img {
+    border: 5px inset #333;
+    margin: 0 auto;
+    max-height: 300px;
+    cursor: pointer;
 }

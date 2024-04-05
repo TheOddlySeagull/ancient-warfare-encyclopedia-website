@@ -75,6 +75,7 @@ nav a {
 .aside-container div {
     padding: 10px;
     width: 90%;
+    margin: 10px auto;
 }
 .aside-container h3 {
     margin: 10px 0;

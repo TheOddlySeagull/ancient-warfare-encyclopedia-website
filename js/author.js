@@ -11,8 +11,6 @@ var authorPageMain = document.getElementById('authorHeader');
 // From local storage, get the structure data
 const structureData = JSON.parse(localStorage.getItem("structure_list"));
 
-var PackAuthors;
-
 var AuthorData = {};
 var AuthorProfileImage = new Image();
 var AuthorGallery = [];
@@ -20,7 +18,7 @@ var AuthorGallery = [];
 // Function to load the data from the author JSON, and the author folders
 async function loadAuthorData() {
     // Load the author JSON file
-    console.log(author + ' json path: ' + '../json/authors/' + author + '.json');
+    //console.log(author + ' json path: ' + '../json/authors/' + author + '.json');
     
     try {
         const response = await fetch('../json/authors/' + author + '.json');
@@ -44,24 +42,27 @@ async function loadAuthorData() {
     // Load the author gallery as an array of images.
     // The authhor gallery images are found in the folder ../img/authors/gallery/authorName/
     // Load and store all the images from the author gallery folder
-    console.log(author + ' gallery path: ' + '../img/authors/gallery/' + author + '/');
+    //console.log(author + ' gallery path: ' + '../img/authors/gallery/' + author + '/');
     try {
+        //Load all .png files from the author gallery folder
         const response = await fetch('../img/authors/gallery/' + author + '/');
         const data = await response.text();
-        var parser = new DOMParser();
-        var htmlDoc = parser.parseFromString(data, 'text/html');
-        var images = htmlDoc.getElementsByTagName('a');
+        const parser = new DOMParser();
+        const htmlDoc = parser.parseFromString(data, 'text/html');
+        const images = htmlDoc.getElementsByTagName('a');
         for (var i = 0; i < images.length; i++) {
-            AuthorGallery.push(images[i].href.split('/').pop());
+            if (images[i].href.includes('.png')) {
+                AuthorGallery.push(images[i].href.split('/').pop());
+            }
         }
     }
     catch (error) {
         console.log('Author gallery not found');
     }
 
-    console.log(AuthorData);
+    //console.log(AuthorData);
 
-    console.log(AuthorProfileImage);
+    //console.log(AuthorProfileImage);
 
 
 }
@@ -86,6 +87,33 @@ function createStructureCard(structure)
     const name = document.createElement('p');
     name.innerHTML = structure.name;
     card.appendChild(name);
+
+    return card;
+}
+
+// Function to create a small package card
+function createPackageCard(pack, count)
+{
+    // The card is simply the package name, and a text telling "package has count structures of this author". Clicking on the card will take you to the package page.
+    const card = document.createElement('div');
+    card.className = 'package-card';
+    card.onclick = function() {
+        window.location.href = 'package.html?packName=' + pack;
+    }
+
+    // Create the package name:
+    const name = document.createElement('h4');
+    name.innerHTML = pack;
+    card.appendChild(name);
+
+    // Create the structure count:
+    const structureCount = document.createElement('p');
+    if (count > 1) {
+        structureCount.innerHTML = '( ' + count + ' structures)';
+    } else {
+        structureCount.innerHTML = '( ' + count + ' structure)';
+    }
+    card.appendChild(structureCount);
 
     return card;
 }
@@ -176,6 +204,83 @@ function createAsideGeneralMenu() {
     asideGeneralMenu.appendChild(packagesDiv);
 }
 
+// Function to create teh "asideGeneralMenu" div if the author is unknown
+function createAsideGeneralMenuUnknown() {
+    console.log('Creating asideGeneralMenu for unknown author');
+    console.log(authors);
+    // get the asideGeneralMenu div
+    var asideGeneralMenu = document.getElementById('asideGeneralMenu');
+    //clean the asideGeneralMenu div
+    asideGeneralMenu.innerHTML = '';
+
+    // Count how many structures in the structure list have no author
+    var noAuthorCount = authors["Unknown"];
+
+    // Create a div for the noAuthorCount
+    const noAuthorCountDiv = document.createElement('div');
+
+    // Add the "structures" h3 to the noAuthorCountDiv
+    noAuthorCountDiv.innerHTML += '<h3>Structures</h3>';
+
+    // Add the noAuthorCount to the noAuthorCountDiv
+    noAuthorCountDiv.innerHTML += '<p>There are ' + noAuthorCount + ' structures with unknown author</p>';
+
+    // Add a "see structures" button that moves to the authorStructures div (smooth scroll)
+    const seeStructuresButton = document.createElement('button');
+    seeStructuresButton.innerHTML = 'See structures';
+    seeStructuresButton.onclick = function() {
+        document.getElementById('authorStructures').scrollIntoView({behavior: "smooth"});
+    }
+    noAuthorCountDiv.appendChild(seeStructuresButton);
+
+    // Add the noAuthorCountDiv to the asideGeneralMenu
+    asideGeneralMenu.appendChild(noAuthorCountDiv);
+
+    // Create a div for the packages
+    const packagesDiv = document.createElement('div');
+
+    // tell in what packages the author has structures
+    var authorPackages = {};
+    console.log(structureData);
+    for (var key in structureData) {
+        if (structureData[key].validation.structureAuthor === 'Unknown') {
+            if (!(structureData[key].pack in authorPackages)) {
+                authorPackages[structureData[key].pack] = 1;
+            } else {
+                authorPackages[structureData[key].pack]++;
+            }
+        }
+    }
+
+    // Add the authorPackages to the packagesDiv
+    packagesDiv.innerHTML += '<h3>Packages</h3>';
+    //cont the number of packs that have some structures with unknown author
+    let packCount = 0;
+    for (var key in authorPackages) {
+        if (authorPackages[key] > 0) {
+            packCount++;
+        }
+    }
+    // add a p element with the number of packs that have some structures with unknown author
+    if (packCount > 1) {
+        packagesDiv.innerHTML += '<p>' + packCount + ' packages have structures with unknown author</p>';
+    } else {
+        packagesDiv.innerHTML += '<p>' + packCount + ' package has structures with unknown author</p>';
+    }
+    //loop through the authorPackages to create package cards
+    console.log(authorPackages);
+    for (var key in authorPackages) {
+        const card = createPackageCard(key, authorPackages[key]);
+        packagesDiv.appendChild(card);
+    }
+
+    // Add the packagesDiv to the asideGeneralMenu
+    asideGeneralMenu.appendChild(packagesDiv);
+
+
+    
+
+}
 
 // Funbction to create the "authorHeader" div
 function createAuthorHeader() {
@@ -464,6 +569,11 @@ function createAuthorGallery() {
         // Add a message to the authorGallery
         authorGallery.innerHTML += '<p>No images available</p>';
     } else {
+        //console.log(AuthorGallery);
+        // Create a new div of class "gallery-wrap"
+        const galleryWrap = document.createElement('div');
+        galleryWrap.className = 'gallery-wrap';
+
         // Create the gallery images
         for (var i = 0; i < AuthorGallery.length; i++) {
             // Create the image:
@@ -471,27 +581,77 @@ function createAuthorGallery() {
             image.src = '../img/authors/gallery/' + author + '/' + AuthorGallery[i];
             image.alt = author + ' gallery image ' + i;
 
-            // Create a link:
-            const link = document.createElement('a');
-            link.href = image.src;
-            link.target = '_blank';
+            // When image is clicked, open the image in a new tab
+            image.onclick = function() {
+                // Create the image in a new tab
+                var newTab = window.open();
+                newTab.document.write('<img src="' + image.src + '">');
+                // Add the author name to the title of the new tab
+                newTab.document.title = author + ' gallery image ' + i;
+            }
 
-            // Add the image to the link:
-            link.appendChild(image);
-
-            // Add the link to the authorGallery:
-            authorGallery.appendChild(link);
+            // Add the image to the galleryWrap:
+            galleryWrap.appendChild(image);
         }
+        authorGallery.appendChild(galleryWrap);
     }
 }
 
 
-
+createLoadingScreen()
 
 var authors = getAuthors();
 
 // if author is empty
 if (author === '' || author === undefined) {
+    
+    createUnknownAuthorPage();
+
+} else {
+    createKnownAuthorPage();
+}
+
+// Function to create the loading screen
+function createLoadingScreen() {
+    // Create the loading screen
+    authorPageMain.innerHTML = '<h2>Loading...</h2>';
+}
+
+// Function to create the known author page
+function createKnownAuthorPage() {
+    // Load the author data
+    loadAuthorData().then(() => {
+        // Create the asideGeneralMenu
+        createAsideGeneralMenu();
+
+        // Create the authorHeader
+        createAuthorHeader();
+
+        // Create the authorInfo
+        createAuthorInfo();
+
+        // Create the authorStructures
+        createAuthorStructures();
+
+        // Create the authorGallery
+        createAuthorGallery();
+
+        // Create the authorContact
+        createAuthorContact();
+    });
+}
+
+// Function to create the unknown author page
+function createUnknownAuthorPage() {
+
+    // Create the asideGeneralMenu
+    createAsideGeneralMenuUnknown();
+
+
+
+
+
+
     //in authorPageMain, as H2 element, add the text "No author specified"
     authorPageMain.innerHTML = '<h2>No author specified</h2>';
 
@@ -548,28 +708,9 @@ if (author === '' || author === undefined) {
     }
 
     authorPageMain.appendChild(buttonPanel);
-
-} else {
-
-    // Load the author data
-    loadAuthorData().then(() => {
-        // Create the asideGeneralMenu
-        createAsideGeneralMenu();
-
-        // Create the authorHeader
-        createAuthorHeader();
-
-        // Create the authorInfo
-        createAuthorInfo();
-
-        // Create the authorStructures
-        createAuthorStructures();
-
-        // Create the authorGallery
-        createAuthorGallery();
-
-        // Create the authorContact
-        createAuthorContact();
-    });
-
 }
+
+
+
+
+    
