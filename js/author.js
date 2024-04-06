@@ -148,20 +148,31 @@ function createAsideGeneralMenu() {
     //clean the asideGeneralMenu div
     asideGeneralMenu.innerHTML = '';
 
-    // Count how many structures in the structure list have the author
+    // If "author" is not in the authors dictionary, set it to "Unknown"
+    if (!(author in authors)) {
+        author = "Unknown";
+    }
+
+    // Count how many structures in the structure list have no author
     var authorCount = authors[author];
 
-    // Create a div for the author count
+    // Create a div for the AuthorCount
     const authorCountDiv = document.createElement('div');
 
     // Add the "structures" h3 to the authorCountDiv
     authorCountDiv.innerHTML += '<h3>Structures</h3>';
 
-    // Add the authorCount to the authorCountDiv
-    if (authorCount > 1) {
-        authorCountDiv.innerHTML += '<p>There are ' + authorCount + ' structures by this author</p>';
+    //if author is unknown
+    if (author === "Unknown") {
+        // Add the noAuthorCount to the authorCountDiv
+        authorCountDiv.innerHTML += '<p>There are ' + authorCount + ' structures with unknown author</p>';
     } else {
-        authorCountDiv.innerHTML += '<p>There is ' + authorCount + ' structure by this author</p>';
+        // Add the authorCount to the authorCountDiv
+        if (authorCount > 1) {
+            authorCountDiv.innerHTML += '<p>There are ' + authorCount + ' structures by this author</p>';
+        } else {
+            authorCountDiv.innerHTML += '<p>There is ' + authorCount + ' structure by this author</p>';
+        }
     }
 
     // Add a "see structures" button that moves to the authorStructures div (smooth scroll)
@@ -172,69 +183,8 @@ function createAsideGeneralMenu() {
     }
     authorCountDiv.appendChild(seeStructuresButton);
 
-    // Add the authorCountDiv to the asideGeneralMenu
+    // Add the noauthorCountDiv to the asideGeneralMenu
     asideGeneralMenu.appendChild(authorCountDiv);
-
-    // Create a div for the packages
-    const packagesDiv = document.createElement('div');
-
-    // tell in what packages the author has structures
-    var authorPackages = {};
-    for (var key in structureData) {
-        if (structureData[key].validation.structureAuthor === author) {
-            if (!(structureData[key].pack in authorPackages)) {
-                authorPackages[structureData[key].pack] = 1;
-            } else {
-                authorPackages[structureData[key].pack]++;
-            }
-        }
-    }
-
-    // Add the authorPackages to the packagesDiv
-    packagesDiv.innerHTML += '<h3>Packages</h3>';
-    for (var key in authorPackages) {
-        if (authorPackages[key] > 1) {
-            packagesDiv.innerHTML += '<p>' + key + ' (' + authorPackages[key] + ' structures)</p>';
-        } else {
-            packagesDiv.innerHTML += '<p>' + key + ' (' + authorPackages[key] + ' structure)</p>';
-        }
-    }
-
-    // Add the packagesDiv to the asideGeneralMenu
-    asideGeneralMenu.appendChild(packagesDiv);
-}
-
-// Function to create teh "asideGeneralMenu" div if the author is unknown
-function createAsideGeneralMenuUnknown() {
-    console.log('Creating asideGeneralMenu for unknown author');
-    console.log(authors);
-    // get the asideGeneralMenu div
-    var asideGeneralMenu = document.getElementById('asideGeneralMenu');
-    //clean the asideGeneralMenu div
-    asideGeneralMenu.innerHTML = '';
-
-    // Count how many structures in the structure list have no author
-    var noAuthorCount = authors["Unknown"];
-
-    // Create a div for the noAuthorCount
-    const noAuthorCountDiv = document.createElement('div');
-
-    // Add the "structures" h3 to the noAuthorCountDiv
-    noAuthorCountDiv.innerHTML += '<h3>Structures</h3>';
-
-    // Add the noAuthorCount to the noAuthorCountDiv
-    noAuthorCountDiv.innerHTML += '<p>There are ' + noAuthorCount + ' structures with unknown author</p>';
-
-    // Add a "see structures" button that moves to the authorStructures div (smooth scroll)
-    const seeStructuresButton = document.createElement('button');
-    seeStructuresButton.innerHTML = 'See structures';
-    seeStructuresButton.onclick = function() {
-        document.getElementById('authorStructures').scrollIntoView({behavior: "smooth"});
-    }
-    noAuthorCountDiv.appendChild(seeStructuresButton);
-
-    // Add the noAuthorCountDiv to the asideGeneralMenu
-    asideGeneralMenu.appendChild(noAuthorCountDiv);
 
     // Create a div for the packages
     const packagesDiv = document.createElement('div');
@@ -243,7 +193,7 @@ function createAsideGeneralMenuUnknown() {
     var authorPackages = {};
     console.log(structureData);
     for (var key in structureData) {
-        if (structureData[key].validation.structureAuthor === 'Unknown') {
+        if (structureData[key].validation.structureAuthor === author) {
             if (!(structureData[key].pack in authorPackages)) {
                 authorPackages[structureData[key].pack] = 1;
             } else {
@@ -261,12 +211,23 @@ function createAsideGeneralMenuUnknown() {
             packCount++;
         }
     }
-    // add a p element with the number of packs that have some structures with unknown author
-    if (packCount > 1) {
-        packagesDiv.innerHTML += '<p>' + packCount + ' packages have structures with unknown author</p>';
+    //if author is unknown
+    if (author === "Unknown") {
+        // add a p element with the number of packs that have some structures with unknown author
+        if (packCount > 1) {
+            packagesDiv.innerHTML += '<p>' + packCount + ' packages have structures with unknown author</p>';
+        } else {
+            packagesDiv.innerHTML += '<p>' + packCount + ' package has structures with unknown author</p>';
+        }
     } else {
-        packagesDiv.innerHTML += '<p>' + packCount + ' package has structures with unknown author</p>';
+        if (authorPackages[key] > 1) {
+            packagesDiv.innerHTML += '<p>' + author + ' has structures in ' + packCount + ' packages</p>';
+        } else {
+            packagesDiv.innerHTML += '<p>' + author + ' has structures in ' + packCount + ' package</p>';
+        }
+
     }
+
     //loop through the authorPackages to create package cards
     console.log(authorPackages);
     for (var key in authorPackages) {
@@ -276,9 +237,6 @@ function createAsideGeneralMenuUnknown() {
 
     // Add the packagesDiv to the asideGeneralMenu
     asideGeneralMenu.appendChild(packagesDiv);
-
-
-    
 
 }
 
@@ -344,6 +302,70 @@ function createAuthorHeader() {
     AuthorHeader.appendChild(navBar);
 }
 
+// Funbction to create the "authorHeader" div if the author is unknown
+function createUnknownAuthorHeader() {
+    // get the authorHeader div
+    let AuthorHeader = document.getElementById('authorHeader');
+    AuthorHeader.innerHTML = '';
+
+    //inside this div, we have a div and a nav bar
+    // create the div for the author profile image
+    let AuthorProfile = document.createElement('div');
+    AuthorProfile.className = 'author-banner';
+
+    //Inside "AuthorProfile", we have the image of the author, and a h1 element with the author name
+    let AuthorProfileImage = new Image();
+    AuthorProfileImage.src = '../img/AW2.png';
+    AuthorProfile.appendChild(AuthorProfileImage);
+    let authorName = document.createElement('h1');
+    authorName.innerHTML = 'Unknown author';
+    AuthorProfile.appendChild(authorName);
+
+    // Add the authorProfile to the authorHeader
+    AuthorHeader.appendChild(AuthorProfile);
+
+
+    // Create the nav bar
+    const navBar = document.createElement('nav');
+
+    // Create the "Authors" button
+    const aboutButton = document.createElement('button');
+    aboutButton.innerHTML = 'Authors';
+    aboutButton.onclick = function() {
+        document.getElementById('authorInfo').scrollIntoView({behavior: "smooth"});
+    }
+
+    // Create the "Structures" button
+    const structuresButton = document.createElement('button');
+    structuresButton.innerHTML = 'Structures';
+    structuresButton.onclick = function() {
+        document.getElementById('authorStructures').scrollIntoView({behavior: "smooth"});
+    }
+
+    // Create the "Gallery" button
+    const galleryButton = document.createElement('button');
+    galleryButton.innerHTML = 'Gallery';
+    galleryButton.onclick = function() {
+        document.getElementById('authorGallery').scrollIntoView({behavior: "smooth"});
+    }
+
+    // Create the "Contact" button
+    const contactButton = document.createElement('button');
+    contactButton.innerHTML = 'Contact';
+    contactButton.onclick = function() {
+        document.getElementById('authorContact').scrollIntoView({behavior: "smooth"});
+    }
+
+    // Add the buttons to the nav bar
+    navBar.appendChild(aboutButton);
+    navBar.appendChild(structuresButton);
+    navBar.appendChild(galleryButton);
+    navBar.appendChild(contactButton);
+
+    // Add the nav bar to the authorHeader
+    AuthorHeader.appendChild(navBar);
+}
+
 //Function to create the "authorInfo" div
 function createAuthorInfo() {
     // Here we make an h2 title "About", add the description of the author
@@ -364,6 +386,61 @@ function createAuthorInfo() {
         // Add the description to the authorInfo div
         authorInfo.innerHTML += '<p>' + descriptionArray[i] + '</p>';
     }
+}
+
+//Function to create the "authorInfo" div if the author is unknown
+function createUnknownAuthorInfo() {
+
+    // get the authorInfo div
+    let authorInfo = document.getElementById('authorInfo');
+    authorInfo.innerHTML = '';
+
+    // Add the h2 title "Authors" to the authorInfo div
+    let aboutTitle = document.createElement('h2');
+    aboutTitle.innerHTML = 'Authors';
+    authorInfo.appendChild(aboutTitle);
+
+    // Create the button panel:
+    const buttonPanel = document.createElement('div');
+    buttonPanel.className = 'author-button-panel';
+
+    //sort the authors by number of structures
+    authors = Object.fromEntries(Object.entries(authors).sort(([,a],[,b]) => b-a));
+
+
+    for (var key in authors) {
+
+        let buttonName = key;
+        let authorName = key;
+
+        // Create the button's text:
+        if (key === "Unknown") {
+            buttonName = "Unknown author for " + authors[key] + " structures";
+        } else {
+            if (authors[key] > 1)
+            {
+                buttonName = key + ' with ' + authors[key] + ' structures';
+            } else {
+                buttonName = key + ' with ' + authors[key] + ' structure';
+            }
+        }
+
+        // Create the button:
+        const button = document.createElement('button');
+        button.innerHTML = buttonName;
+        button.onclick = function() {
+            window.location.href = 'author.html?author=' + authorName;
+        };
+
+        // Add the button to the authorPageMain:
+        buttonPanel.appendChild(button);
+
+    }
+
+    // Add the button panel to the authorInfo div
+    authorInfo.appendChild(buttonPanel);
+
+
 }
 
 // Function to create the "authorContact" div
@@ -412,6 +489,11 @@ function createAuthorStructures() {
     var authorStructures = document.getElementById('authorStructures');
     //clean the authorStructures div
     authorStructures.innerHTML = '';
+
+    // If "author" is not in the authors dictionary, set it to "Unknown"
+    if (!(author in authors)) {
+        author = "Unknown";
+    }
 
     // Add a list of all structures by the author to the authorStructures
     authorStructures.innerHTML += '<h2>Structures</h2>';
@@ -603,7 +685,7 @@ createLoadingScreen()
 var authors = getAuthors();
 
 // if author is empty
-if (author === '' || author === undefined) {
+if (author === '' || author === 'undefined' || author === undefined || author === 'Unknown') {
     
     createUnknownAuthorPage();
 
@@ -645,69 +727,22 @@ function createKnownAuthorPage() {
 function createUnknownAuthorPage() {
 
     // Create the asideGeneralMenu
-    createAsideGeneralMenuUnknown();
+    createAsideGeneralMenu();
 
+    // Create the authorHeader
+    createUnknownAuthorHeader();
 
+    // Create the authorInfo
+    createUnknownAuthorInfo();
 
+    // Create the authorStructures
+    createAuthorStructures();
 
+    // Create the authorGallery
+    createAuthorGallery();
 
-
-    //in authorPageMain, as H2 element, add the text "No author specified"
-    authorPageMain.innerHTML = '<h2>No author specified</h2>';
-
-    // Count how many structures in the structure list have no author
-    var noAuthorCount = authors["Unknown"];
-    
-
-    let totalStructures = 0;
-    for (var key in authors) {
-        totalStructures += authors[key];
-    }
-    
-
-    // Add the noAuthorCount to the authorPageMain
-    authorPageMain.innerHTML += '<p>There are ' + noAuthorCount + ' structures with unknown author out of ' + totalStructures + ' structures</p>';
-
-    // Add a list of all authors to the authorPageMain, with buttons to view their pages
-    authorPageMain.innerHTML += '<h3>Authors</h3>';
-    // Create the button panel:
-    const buttonPanel = document.createElement('div');
-    buttonPanel.className = 'author-button-panel';
-
-    //sort the authors by number of structures
-    authors = Object.fromEntries(Object.entries(authors).sort(([,a],[,b]) => b-a));
-
-
-    for (var key in authors) {
-
-        let buttonName = key;
-        let authorName = key;
-
-        // Create the button's text:
-        if (key === "Unknown") {
-            buttonName = "Unknown author for " + authors[key] + " structures";
-        } else {
-            if (authors[key] > 1)
-            {
-                buttonName = key + ' with ' + authors[key] + ' structures';
-            } else {
-                buttonName = key + ' with ' + authors[key] + ' structure';
-            }
-        }
-
-        // Create the button:
-        const button = document.createElement('button');
-        button.innerHTML = buttonName;
-        button.onclick = function() {
-            window.location.href = 'author.html?author=' + authorName;
-        };
-
-        // Add the button to the authorPageMain:
-        buttonPanel.appendChild(button);
-
-    }
-
-    authorPageMain.appendChild(buttonPanel);
+    // Create the authorContact
+    createAuthorContact();
 }
 
 
