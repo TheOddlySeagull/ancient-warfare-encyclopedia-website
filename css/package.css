@@ -1,0 +1,339 @@
+/* Website-wide styles */
+
+body {
+    font-family: sans-serif;
+    background-color: #0D0D0D;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+main {
+    margin: 10px;
+    display: flex;
+    max-height: 100%;
+    color: #fff;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+
+nav {
+    background-color: #333;
+    ;
+    padding: 10px;
+    text-align: center;
+    color: #fff;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav li {
+    margin: 10px 0;
+}
+
+nav a {
+    text-decoration: none;
+    color: #fff;
+}
+
+
+/* Main Container: central element of page. */
+
+.main-container {
+    border-bottom: 2px solid #333;
+    border-top: 2px solid #333;
+    width: 100%;
+    margin-inline: 1rem;
+    padding: 1rem;
+    overflow: auto;
+}
+
+.main-container-segment {
+    margin-inline: 0;
+    padding: 0;
+    border-bottom: 2px solid #333;
+}
+
+.main-container-segment nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0D0D0D;
+}
+
+.main-container-segment nav button {
+    display: block;
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    border: 2px solid #333;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    margin: 10px;
+    font-size: 1rem;
+}
+
+.main-container-segment p {
+    margin: 10px;
+    line-height: 25px;
+}
+
+.main-container-segment img {
+    max-width: 500px;
+}
+
+/* Aside Container: The menus on each side of the main content. */
+
+.aside-container {
+    border: 2px solid #333;
+    width: 20%;
+    padding: 0;
+}
+
+.aside-container div {
+    padding: 10px;
+    width: 90%;
+    margin: 10px auto;
+}
+
+.aside-container h3 {
+    margin: 10px 0;
+    text-align: center;
+    padding: 10px;
+    border-top: 2px solid #333;
+    border-bottom: 2px solid #333;
+}
+
+.aside-container button {
+    display: block;
+    width: 100%;
+    background-color: #333;
+    border: 2px solid #333;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    margin: 10px 0;
+    color: #fff;
+}
+
+.aside-container p {
+    margin: 10px 0;
+    text-align: center;
+}
+
+
+.author-button-panel {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.author-button-panel button {
+    display: block;
+    width: 40%;
+    background-color: #333;
+    color: #fff;
+    border: 2px solid #333;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    margin: 10px;
+    font-size: 1rem;
+}
+
+.main-container-header {
+    display: flex;
+    margin: 10px;
+    align-items: center;
+    justify-content: left;
+    border-bottom: 2px solid #333;
+}
+
+.main-container-header img {
+
+    width: 14%;
+    margin: 10px;
+
+}
+
+.social-media-list {
+    list-style-type: none;
+}
+
+.social-media-list button {
+    background-color: #333;
+    width: 10%;
+    color: #fff;
+    border: 2px solid #333;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    margin: 10px;
+    font-size: 1rem;
+}
+
+.structure-card {
+    border: 2px solid #333;
+    width: 300px;
+    display: inline-block;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.structure-card img {
+    height: 100px;
+    width: 100px;
+    border: 5px inset #333;
+    margin: 0 auto;
+}
+
+.package-card {
+    background-color: #1b1b1b;
+    border-radius: 5px;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    overflow: auto;
+    max-width: 90%;
+
+}
+
+.package-card p {
+    padding: 10px;
+    line-height: 20px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.package-card h4 {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    line-height: 20px;
+    text-align: center;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.page-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.page-buttons button {
+    background-color: #333;
+    color: #fff;
+    border: 2px solid #333;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    margin: 10px;
+    font-size: 1rem;
+    width: 5rem;
+}
+
+.page-buttons p {
+    margin: 10px;
+    text-align: center;
+    align-self: center;
+    width: fit-content;
+    height: 100%;
+}
+
+.package-structures {
+    align-items: center;
+    justify-content: center;
+    display: inline-block;
+    text-align: center;
+
+}
+
+.package-structures div {
+    margin: 10px;
+    padding: 10px;
+}
+
+.package-banner {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+
+.package-banner img {
+    width: 14%;
+    margin-right: 20px;
+}
+
+img[alt] {
+    font-size: 0;
+}
+
+.page-input-div {
+    /*looks like a button*/
+    display: inline-block;
+    border: 2px solid #333;
+    background-color: #333;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 30px;
+    padding: 5px;
+    margin: 10px;
+    font-size: 1rem;
+}
+
+.page-input-div button {
+    color: #fff;
+    padding: 0px;
+    cursor: pointer;
+    margin: 0px;
+    font-size: 1rem;
+    height: 100%;
+}
+
+.page-input-div input {
+    background-color: #3e3e3e;
+    color: #fff;
+    border: 0px;
+    cursor: pointer;
+    margin: 0px;
+    font-size: 1rem;
+    height: 100%;
+}
+
+.gallery-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.gallery-wrap img {
+    border: 5px inset #333;
+    margin: 0 auto;
+    max-height: 300px;
+    cursor: pointer;
+}
