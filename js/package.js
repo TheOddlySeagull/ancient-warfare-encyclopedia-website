@@ -123,11 +123,22 @@ function createHeader() {
         document.getElementById('packageGallery').scrollIntoView({behavior: "smooth"});
     }
 
+    // Create the "Download" button
+    const downloadButton = document.createElement('button');
+    downloadButton.innerHTML = 'Download';
+    downloadButton.onclick = function() {
+        console.log("Downloading package: " + packageName);
+        var zip_path = "../downloads/" + packageName + ".zip";
+        window
+            .open(zip_path);
+    }
+
     // Add the buttons to the nav bar
     navBar.appendChild(aboutButton);
     navBar.appendChild(authorsButton);
     navBar.appendChild(structuresButton);
     navBar.appendChild(galleryButton);
+    navBar.appendChild(downloadButton);
 
     // Add the nav bar to the package header
     packageHeader.appendChild(navBar);
