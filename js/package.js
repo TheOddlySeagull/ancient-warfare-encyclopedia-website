@@ -48,6 +48,8 @@ async function loadPackageData() {
         };
     }
 
+    console.log(packageData);
+
     // Load the package image
     let packageImage = new Image();
     try {
@@ -156,6 +158,15 @@ function createPackageInfo(packageData) {
     let aboutTitle = document.createElement("h2");
     aboutTitle.innerHTML = "About";
     packageInfo.appendChild(aboutTitle);
+
+    // Split the description on \n
+    let descriptionParts = packageData.description.split("\n");
+    // create a p per part
+    for (let i = 0; i < descriptionParts.length; i++) {
+        let descriptionPart = document.createElement("p");
+        descriptionPart.innerHTML = descriptionParts[i];
+        packageInfo.appendChild(descriptionPart);
+    }
 }
 
 //Function to create the "packageAuthors" div
@@ -197,7 +208,7 @@ function createPackageAuthors(packageName, structureData) {
     packageAuthors.appendChild(authorTitle);
 
     // Create the author list
-    let authorList = document.createElement("ul");
+    /*let authorList = document.createElement("ul");
     packageAuthors.appendChild(authorList);
 
     // Add the authors to the author list
@@ -210,7 +221,41 @@ function createPackageAuthors(packageName, structureData) {
         link.innerHTML = author + " (" + count + " structures)";
         listItem.appendChild(link);
         authorList.appendChild(listItem);
+    }*/
+
+    // Create the button panel:
+    const buttonPanel = document.createElement('div');
+    buttonPanel.className = 'author-button-panel';
+
+    for (var i = 0; i < sortedAuthors.length; i++) {
+        console.log(sortedAuthors[i]);
+        let buttonName = sortedAuthors[i][0];
+        let authorName = sortedAuthors[i][0];
+
+        // Create the button's text:
+        if (authorName === "Unknown") {
+            buttonName = "Unknown author for " + sortedAuthors[i][1] + " structures";
+        } else {
+            if (sortedAuthors[i][1] > 1) {
+                buttonName = authorName + ' with ' + sortedAuthors[i][1] + ' structures';
+            } else {
+                buttonName = authorName + ' with ' + sortedAuthors[i][1] + ' structure';
+            }
+        }
+
+        // Create the button:
+        const authorButton = document.createElement('button');
+        authorButton.innerHTML = buttonName;
+        authorButton.onclick = function() {
+            window.location.href = 'author.html?author=' + authorName;
+        };
+
+        // Add the button to the panel:
+        buttonPanel.appendChild(authorButton);
     }
+
+    // Add the button panel to the package authors
+    packageAuthors.appendChild(buttonPanel);
 }
 
 // Function to create the "packageStructures" div
