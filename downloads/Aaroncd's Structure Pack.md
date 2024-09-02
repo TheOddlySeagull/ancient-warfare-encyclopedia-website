@@ -1,4 +1,4 @@
-# Seagull's WorldG Structure Pack
+# Aaroncd's Structure Pack
 
 Download generated on 02/09/2024 10:53:43 for the [Ancient Warfare Encyclopedia](http://ancient-warfare.legends-of-gramdatis.com/)
 
