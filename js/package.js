@@ -321,98 +321,124 @@ function createPackageGallery(packageName, structureData) {
     packageGallery.appendChild(gallery);
 }
 
+// Function to create the page header for all packages page
+function createUnknownHeader() {
+    let packageHeader = document.getElementById("packageHeader");
+    packageHeader.innerHTML = "";
 
-// Get the "packageDetail" div
-/*var packageDetail = document.getElementById("packageDetail");
+    // inside this div, we have a div and a nav bar
+    // create the div for the package image
+    let packageBanner = document.createElement("div");
+    packageBanner.className = 'package-banner';
 
-//empty the packageDetail div
-packageDetail.innerHTML = "";
+    // Inside the package image div, we have the image of the package, and a h1 element with the package name
+    let packageImage = document.createElement("img");
+    packageImage.src = '../img/AW2.png';
+    packageBanner.appendChild(packageImage);
 
-// Create the package title
-var title = document.createElement("h1");
-title.innerHTML = packageName;
-packageDetail.appendChild(title);
+    let packageNameDiv = document.createElement("h1");
+    packageNameDiv.innerHTML = "Ancient Warfare 2 - Structure Packs";
+    packageBanner.appendChild(packageNameDiv);
 
-// Create the structure count
-var count = document.createElement("p");
-count.innerHTML = "This package has " + structureCount + " structures";
-packageDetail.appendChild(count);
+    // Add the package image div to the package header
+    packageHeader.appendChild(packageBanner);
+}
 
-// List all the authors of the structures in the package (structure count and percentage of total)
-var authors = {};
-for (var structure in structureData) {
-    if (structureData[structure].pack == packageName) {
-        var author = structureData[structure].validation.structureAuthor;
-        if (author == "") {
-            author = "Unknown";
+//Function to create the "packageInfo" div for all packages page
+function createUnknownPackageInfo() {
+    // Here we make an h2 title "About", add the description of the package
+
+    //get the div
+    let packageInfo = document.getElementById("packageInfo");
+    packageInfo.innerHTML = "";
+
+    // Add the h2 title "About"
+    let aboutTitle = document.createElement("h2");
+    aboutTitle.innerHTML = "About";
+    packageInfo.appendChild(aboutTitle);
+
+    // create a p per part
+    let descriptionPart = document.createElement("p");
+    descriptionPart.innerHTML = "Ancient Warfare 2 is a mod that adds a variety of structures to the game. Here you can find the structure packs that are available for the mod. The structure packs contain a variety of structures, from houses to castles, and from farms to factories. Each structure pack has its own theme and style, and can be used to enhance your world.";
+    packageInfo.appendChild(descriptionPart);
+}
+
+// Function to create the list of all packages on the website
+function createAllPackagesList() {
+    // Load the package data
+    loadPackageData().then(function(data) {
+        console.log(data);
+
+        // Run through all structures and count the number of structures per package
+        var packageCount = {};
+        for (var structure in data.structureData) {
+            var pack = data.structureData[structure].pack;
+            if (pack in packageCount) {
+                packageCount[pack]++;
+            } else {
+                packageCount[pack] = 1;
+            }
         }
-        if (author in authors) {
-            authors[author]++;
-        } else {
-            authors[author] = 1;
+
+        // Sort the packages by structure count
+        var sortedPackages = [];
+        for (var pack in packageCount) {
+            sortedPackages.push([pack, packageCount[pack]]);
         }
-    }
+        sortedPackages.sort(function(a, b) {
+            return b[1] - a[1];
+        });
+
+        console.log(sortedPackages);
+
+        // Get the div
+        let packageAuthors = document.getElementById("packageAuthors");
+        packageAuthors.innerHTML = "";
+
+        // Add the h2 title "Packages"
+        let authorTitle = document.createElement("h2");
+        authorTitle.innerHTML = "Packages";
+        packageAuthors.appendChild(authorTitle);
+
+        // Create the button panel:
+        const buttonPanel = document.createElement('div');
+        buttonPanel.className = 'author-button-panel';
+
+        for (var i = 0; i < sortedPackages.length; i++) {
+            console.log(sortedPackages[i]);
+            let buttonName = sortedPackages[i][0];
+            let packageName = sortedPackages[i][0];
+
+            // Create the button's text:
+            if (packageName === "Unknown") {
+                buttonName = "Unknown package for " + sortedPackages[i][1] + " structures";
+            } else {
+                if (sortedPackages[i][1] > 1) {
+                    buttonName = packageName + ' with ' + sortedPackages[i][1] + ' structures';
+                } else {
+                    buttonName = packageName + ' with ' + sortedPackages[i][1] + ' structure';
+                }
+            }
+
+            // Create the button:
+            const authorButton = document.createElement('button');
+            authorButton.innerHTML = buttonName;
+            authorButton.onclick = function() {
+                window.location.href = 'package.html?packName=' + packageName;
+            };
+
+            // Add the button to the panel:
+            buttonPanel.appendChild(authorButton);
+        }
+
+        // Add the button panel to the package authors
+        packageAuthors.appendChild(buttonPanel);
+
+
+    });
+
+    
 }
-
-//sort the authors by structure count
-var sortedAuthors = [];
-for (var author in authors) {
-    sortedAuthors.push([author, authors[author]]);
-}
-sortedAuthors.sort(function(a, b) {
-    return b[1] - a[1];
-}
-);
-
-console.log(sortedAuthors);
-
-
-
-//add a title "Authors" to the packageDetail div
-var authorTitle = document.createElement("h2");
-authorTitle.innerHTML = "Authors";
-packageDetail.appendChild(authorTitle);
-var authorList = document.createElement("ul");
-packageDetail.appendChild(authorList);
-
-for (var i = 0; i < sortedAuthors.length; i++) {
-    var author = sortedAuthors[i][0];
-    var count = sortedAuthors[i][1];
-    var listItem = document.createElement("li");
-    var link = document.createElement("a");
-    link.href = "author.html?author=" + author;
-    link.innerHTML = author + " (" + count + " structures)";
-    listItem.appendChild(link);
-    authorList.appendChild(listItem);
-}
-
-// Add a "Download Package" button
-var downloadButton = document.createElement("button");
-downloadButton.innerHTML = "Download Package";
-downloadButton.onclick = function() {
-    console.log("Downloading package: " + packageName);
-    var zip_path = "../downloads/" + packageName + ".zip";
-    window.open(zip_path);
-}
-
-packageDetail.appendChild(downloadButton);
-
-// Create the structure list
-var structureList = document.createElement("ul");
-packageDetail.appendChild(structureList);
-
-// Create the structure list items
-for (var structure in structureData) {
-    if (structureData[structure].pack == packageName) {
-        var listItem = document.createElement("li");
-        var link = document.createElement("a");
-        link.href = "structure.html?structureName=" + structure;
-        link.innerHTML = structure;
-        listItem.appendChild(link);
-        structureList.appendChild(listItem);
-    }
-}
-*/
 
 function createKnownPackagePage() {
 
@@ -429,4 +455,16 @@ function createKnownPackagePage() {
 
 }
 
-createKnownPackagePage()
+function createUnknownPackagePage() {
+
+    createUnknownHeader();
+    createUnknownPackageInfo();
+    createAllPackagesList();
+}
+
+console.log("Package name: " + packageName);
+if (packageName != null) {
+    createKnownPackagePage();
+} else {
+    createUnknownPackagePage();
+}
