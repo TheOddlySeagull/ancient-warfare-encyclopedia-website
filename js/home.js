@@ -1,199 +1,199 @@
 // JSON data
 const filterData = {
     "filter_groups": [
-      { // Structure Category
-        "group_name": "Structure Category",
-        "filter_subgroups": [
-          {
-            "subgroup_name": "Category",
-            "filters": {
-              "Structure": true,
-              "Town": true
-            }
-          }
-        ]
-      },
-      { // Structure Generation
-        "group_name": "Structure Generation",
-        "filter_subgroups": [
-          {
-            "subgroup_name": "Generated",
-            "filters": {
-              "World Gen": true,
-              "Survival Build": true
-            }
-          }
-        ]
-      },
-      { // Structure Type
-        "group_name": "Structure Type",
-        "filter_subgroups": [
-          {
-            "subgroup_name": "Type",
-            "filters": {
-                "Ground": true,
-                "Underground": true,
-                "Sky": true,
-                "Water": true,
-                "Lava": true,
-                "Underwater": true,
-                "Island": true,
-                "Harbor": true
-            }
-          }
-        ]
-      },
-      { // Structure Size
-        "group_name": "Structure Size",
-        "filter_subgroups": [
-          {
-            "subgroup_name": "Size",
-            "filters": {
-              "Small": true,
-              "Medium": true,
-              "Large": true,
-              "Huge": true,
-              "Gigantic": true
-            }
-          }
-        ]
-      },
-      { // Structure Rarity
-        "group_name": "Structure Rarity",
-        "filter_subgroups": [
-          {
-            "subgroup_name": "Rarity",
-            "filters": {
-                "Widespread": true,
-                "Common": true,
-                "Uncommon": true,
-                "Rare": true,
-                "Legendary": true,
-                "Unique": true,
-                "Irrevelevant": true
-            }
-          }
-        ]
-      },
-      { // Structure Biome
-        "group_name": "Structure Biome",
-        "filter_subgroups": [
-            {
-                "subgroup_name": "Biome Type",
-                "filters": {
-                    "Desert": true,
-                    "Forest": true,
-                    "Jungle": true,
-                    "Mountain": true,
-                    "Plains": true,
-                    "Snow": true,
-                    "Swamp": true,
-                    "Tundra": true,
-                    "None": true
+        { // Structure Category
+            "group_name": "Structure Category",
+            "filter_subgroups": [
+                {
+                    "subgroup_name": "Category",
+                    "filters": {
+                        "Structure": true,
+                        "Town": true
+                    }
                 }
-            }
-        ]
-      },
-      { // Structure Dimension
-        "group_name": "Structure Dimension",
-        "filter_subgroups": [
-            {
-                "subgroup_name": "Dimension",
-                "filters": {
-                    "Overworld": true,
-                    "Nether": true,
-                    "End": true,
-                    "None": true
+            ]
+        },
+        { // Structure Generation
+            "group_name": "Structure Generation",
+            "filter_subgroups": [
+                {
+                    "subgroup_name": "Generated",
+                    "filters": {
+                        "World Gen": true,
+                        "Survival Build": true
+                    }
                 }
-            }
-        ]
-      },
-      { // Structure Civilization
-        "group_name": "Structure Civilization",
-        "filter_subgroups": [
-            { // Nations
-                "subgroup_name": "Nation",
-                "filters": {
-                    "Empire": true,
-                    "Empire Witchbane": true,
-                    "Empire Crusaders": true,
-                    "Norska": true,
-                    "Sarkonid": true,
-                    "Xoltec": true,
-                    "Nogg": true,
-                    "Guild": true,
-                    "Shakayana": true,
-                    "Reiksgard": true,
-                    "Zamurai": true
+            ]
+        },
+        { // Structure Type
+            "group_name": "Structure Type",
+            "filter_subgroups": [
+                {
+                    "subgroup_name": "Type",
+                    "filters": {
+                        "Ground": true,
+                        "Underground": true,
+                        "Sky": true,
+                        "Water": true,
+                        "Lava": true,
+                        "Underwater": true,
+                        "Island": true,
+                        "Harbor": true
+                    }
                 }
-            },
-            { // Tribal
-                "subgroup_name": "Tribal",
-                "filters": {
-                    "Amazon": true,
-                    "Barbarian": true,
-                    "Brigand": true,
-                    "Buffloka": true,
-                    "Kong": true,
-                    "Pirate": true,
-                    "Smingol": true,
-                    "Sealsker": true,
-                    "Vyncan": true,
-                    "Zimba": true
+            ]
+        },
+        { // Structure Size
+            "group_name": "Structure Size",
+            "filter_subgroups": [
+                {
+                    "subgroup_name": "Size",
+                    "filters": {
+                        "Small": true,
+                        "Medium": true,
+                        "Large": true,
+                        "Huge": true,
+                        "Gigantic": true
+                    }
                 }
-            },
-            { // Non-Human
-                "subgroup_name": "Non-Human",
-                "filters": {
-                    "Elf": true,
-                    "Dwarf": true,
-                    "Hobbit": true,
-                    "Ent": true,
-                    "Gnome": true,
-                    "Orc": true,
-                    "Lizardmen": true
+            ]
+        },
+        { // Structure Rarity
+            "group_name": "Structure Rarity",
+            "filter_subgroups": [
+                {
+                    "subgroup_name": "Rarity",
+                    "filters": {
+                        "Widespread": true,
+                        "Common": true,
+                        "Uncommon": true,
+                        "Rare": true,
+                        "Legendary": true,
+                        "Unique": true,
+                        "Irrevelevant": true
+                    }
                 }
-            },
-            { // Monsters
-                "subgroup_name": "Monsters",
-                "filters": {
-                    "Beast": true,
-                    "Gremlin": true,
-                    "Giant": true,
-                    "Minossian": true,
-                    "Monster": true,
-                    "Klown": true,
-                    "Rakshasa": true,
-                    "Mindflayers": true
+            ]
+        },
+        { // Structure Biome
+            "group_name": "Structure Biome",
+            "filter_subgroups": [
+                {
+                    "subgroup_name": "Biome Type",
+                    "filters": {
+                        "Desert": true,
+                        "Forest": true,
+                        "Jungle": true,
+                        "Mountain": true,
+                        "Plains": true,
+                        "Snow": true,
+                        "Swamp": true,
+                        "Tundra": true,
+                        "None": true
+                    }
                 }
-            },
-            { // Undead
-                "subgroup_name": "Undead",
-                "filters": {
-                    "Icelord": true,
-                    "Ishtari": true,
-                    "Undead": true,
-                    "Vampire": true
+            ]
+        },
+        { // Structure Dimension
+            "group_name": "Structure Dimension",
+            "filter_subgroups": [
+                {
+                    "subgroup_name": "Dimension",
+                    "filters": {
+                        "Overworld": true,
+                        "Nether": true,
+                        "End": true,
+                        "None": true
+                    }
                 }
-            },
-            { // Powers
-                "subgroup_name": "Powers",
-                "filters": {
-                    "Coven": true,
-                    "Demon": true,
-                    "Guardians": true,
-                    "Malice": true,
-                    "Wizardly": true
+            ]
+        },
+        { // Structure Civilization
+            "group_name": "Structure Civilization",
+            "filter_subgroups": [
+                { // Nations
+                    "subgroup_name": "Nation",
+                    "filters": {
+                        "Empire": true,
+                        "Empire Witchbane": true,
+                        "Empire Crusaders": true,
+                        "Norska": true,
+                        "Sarkonid": true,
+                        "Xoltec": true,
+                        "Nogg": true,
+                        "Guild": true,
+                        "Shakayana": true,
+                        "Reiksgard": true,
+                        "Zamurai": true
+                    }
+                },
+                { // Tribal
+                    "subgroup_name": "Tribal",
+                    "filters": {
+                        "Amazon": true,
+                        "Barbarian": true,
+                        "Brigand": true,
+                        "Buffloka": true,
+                        "Kong": true,
+                        "Pirate": true,
+                        "Smingol": true,
+                        "Sealsker": true,
+                        "Vyncan": true,
+                        "Zimba": true
+                    }
+                },
+                { // Non-Human
+                    "subgroup_name": "Non-Human",
+                    "filters": {
+                        "Elf": true,
+                        "Dwarf": true,
+                        "Hobbit": true,
+                        "Ent": true,
+                        "Gnome": true,
+                        "Orc": true,
+                        "Lizardmen": true
+                    }
+                },
+                { // Monsters
+                    "subgroup_name": "Monsters",
+                    "filters": {
+                        "Beast": true,
+                        "Gremlin": true,
+                        "Giant": true,
+                        "Minossian": true,
+                        "Monster": true,
+                        "Klown": true,
+                        "Rakshasa": true,
+                        "Mindflayers": true
+                    }
+                },
+                { // Undead
+                    "subgroup_name": "Undead",
+                    "filters": {
+                        "Icelord": true,
+                        "Ishtari": true,
+                        "Undead": true,
+                        "Vampire": true
+                    }
+                },
+                { // Powers
+                    "subgroup_name": "Powers",
+                    "filters": {
+                        "Coven": true,
+                        "Demon": true,
+                        "Guardians": true,
+                        "Malice": true,
+                        "Wizardly": true
+                    }
+                },
+                { // Other
+                    "subgroup_name": "Other",
+                    "filters": {
+                        "No Territory": true,
+                    }
                 }
-            },
-            { // Other
-                "subgroup_name": "Other",
-                "filters": {
-                    "No Territory": true,
-                }
-            }
-        ]
-      }
+            ]
+        }
     ]
 };
 // keyword JSON data
@@ -232,67 +232,67 @@ function createFilterGroups() {
     applyFiltersButton.id = "apply-filters-button";
     applyFiltersButton.innerHTML = "Select all Filters";
     filterDiv.appendChild(applyFiltersButton);
-    
-  for (let i = 0; i < filterData.filter_groups.length; i++) {
-      let filterGroup = filterData.filter_groups[i];
-      let filterGroupDiv = document.createElement("div");
-      filterGroupDiv.classList.add("filter-group");
-      filterGroupDiv.innerHTML = `<h3>${filterGroup.group_name}</h3>`;
-      // Create filter subgroups
-      for (let j = 0; j < filterGroup.filter_subgroups.length; j++) {
-          let filterSubgroup = filterGroup.filter_subgroups[j];
-          let filterSubgroupDiv = document.createElement("div");
-          filterSubgroupDiv.classList.add("filter-subgroup");
-          filterSubgroupDiv.innerHTML = `<h4>${filterSubgroup.subgroup_name}</h4>`;
-          // Create filters
-          for (let filter in filterSubgroup.filters) {
-              let filterLabel = document.createElement("label");
-              let filterCheckbox = document.createElement("input");
-              filterCheckbox.type = "checkbox";
-              filterCheckbox.classList.add("filter-checkbox");
-              filterCheckbox.value = filter;
-              filterCheckbox.checked = filterSubgroup.filters[filter];
-              filterLabel.appendChild(filterCheckbox);
-              filterLabel.appendChild(document.createTextNode(filter));
-              filterSubgroupDiv.appendChild(filterLabel);
-          }
-          filterGroupDiv.appendChild(filterSubgroupDiv);
-      }
 
-      // At the end of each filter group, add a button to clear all filters
-      let clearFiltersButton = document.createElement("button");
-      clearFiltersButton.classList.add("filters-button");
-      clearFiltersButton.innerHTML = "Select None";
-      clearFiltersButton.addEventListener("click", function() {
-          let filterCheckboxes = filterGroupDiv.getElementsByClassName("filter-checkbox");
-          for (let i = 0; i < filterCheckboxes.length; i++) {
-              filterCheckboxes[i].checked = false;
-          }
-      });
-      filterGroupDiv.appendChild(clearFiltersButton);
+    for (let i = 0; i < filterData.filter_groups.length; i++) {
+        let filterGroup = filterData.filter_groups[i];
+        let filterGroupDiv = document.createElement("div");
+        filterGroupDiv.classList.add("filter-group");
+        filterGroupDiv.innerHTML = `<h3>${filterGroup.group_name}</h3>`;
+        // Create filter subgroups
+        for (let j = 0; j < filterGroup.filter_subgroups.length; j++) {
+            let filterSubgroup = filterGroup.filter_subgroups[j];
+            let filterSubgroupDiv = document.createElement("div");
+            filterSubgroupDiv.classList.add("filter-subgroup");
+            filterSubgroupDiv.innerHTML = `<h4>${filterSubgroup.subgroup_name}</h4>`;
+            // Create filters
+            for (let filter in filterSubgroup.filters) {
+                let filterLabel = document.createElement("label");
+                let filterCheckbox = document.createElement("input");
+                filterCheckbox.type = "checkbox";
+                filterCheckbox.classList.add("filter-checkbox");
+                filterCheckbox.value = filter;
+                filterCheckbox.checked = filterSubgroup.filters[filter];
+                filterLabel.appendChild(filterCheckbox);
+                filterLabel.appendChild(document.createTextNode(filter));
+                filterSubgroupDiv.appendChild(filterLabel);
+            }
+            filterGroupDiv.appendChild(filterSubgroupDiv);
+        }
 
-      // At the end of each filter group, add a button to apply all filters
-      let applyFiltersButton = document.createElement("button");
-      applyFiltersButton.classList.add("filters-button");
-      applyFiltersButton.innerHTML = "Select All";
-      applyFiltersButton.addEventListener("click", function() {
-          let filterCheckboxes = filterGroupDiv.getElementsByClassName("filter-checkbox");
-          for (let i = 0; i < filterCheckboxes.length; i++) {
-              filterCheckboxes[i].checked = true;
-          }
-      });
-      filterGroupDiv.appendChild(applyFiltersButton);
+        // At the end of each filter group, add a button to clear all filters
+        let clearFiltersButton = document.createElement("button");
+        clearFiltersButton.classList.add("filters-button");
+        clearFiltersButton.innerHTML = "Select None";
+        clearFiltersButton.addEventListener("click", function () {
+            let filterCheckboxes = filterGroupDiv.getElementsByClassName("filter-checkbox");
+            for (let i = 0; i < filterCheckboxes.length; i++) {
+                filterCheckboxes[i].checked = false;
+            }
+        });
+        filterGroupDiv.appendChild(clearFiltersButton);
+
+        // At the end of each filter group, add a button to apply all filters
+        let applyFiltersButton = document.createElement("button");
+        applyFiltersButton.classList.add("filters-button");
+        applyFiltersButton.innerHTML = "Select All";
+        applyFiltersButton.addEventListener("click", function () {
+            let filterCheckboxes = filterGroupDiv.getElementsByClassName("filter-checkbox");
+            for (let i = 0; i < filterCheckboxes.length; i++) {
+                filterCheckboxes[i].checked = true;
+            }
+        });
+        filterGroupDiv.appendChild(applyFiltersButton);
 
 
-      filterDiv.appendChild(filterGroupDiv);
-  }
+        filterDiv.appendChild(filterGroupDiv);
+    }
 }
 
 // Function that returns the saved data called structure_list
 function getSavedData() {
     console.log("Loading data from local storage...");
     // If the structure list or disclamer is not in local storage, create it from the structures.JSON file
-    if (localStorage.getItem("structure_list") === null || localStorage.getItem("disclamer") === null ) {
+    if (localStorage.getItem("structure_list") === null || localStorage.getItem("disclamer") === null) {
         console.log("Creating structure list and data from structures.json...");
 
         // test if user is under safari
@@ -338,7 +338,7 @@ function getSavedData() {
                 location.reload();
 
                 // Check if data was saved to local storage
-                if (localStorage.getItem("structure_list") === null || localStorage.getItem("disclamer") === null ) {
+                if (localStorage.getItem("structure_list") === null || localStorage.getItem("disclamer") === null) {
                     console.log("Error saving data to local storage");
                     // Let the user know the error by a pop-up message
                     let error_div = document.createElement("div");
@@ -381,7 +381,7 @@ function getSavedData() {
                     structureList.innerHTML = "";
                     structureList.appendChild(disclamer_div);
 
-                    
+
 
 
 
@@ -451,7 +451,7 @@ function createRandomStructureMenu() {
     // Add a view button
     let viewButton = document.createElement("button");
     viewButton.innerHTML = "View";
-    viewButton.addEventListener("click", function() {
+    viewButton.addEventListener("click", function () {
         window.location.href = 'structure.html?structureName=' + randomStructure.pack + '/' + randomStructure.name;
     }
     );
@@ -476,7 +476,7 @@ function createStructurePerPageMenu() {
         let structurePerPageOption = document.createElement("button");
         structurePerPageOption.classList.add("structure-per-page-option");
         structurePerPageOption.innerHTML = structurePerPageOptions[i];
-        structurePerPageOption.addEventListener("click", function() {
+        structurePerPageOption.addEventListener("click", function () {
             structure_per_page = structurePerPageOptions[i];
             structure_index = 0;
             structureList.innerHTML = "";
@@ -633,7 +633,7 @@ function createStructureDiv(structure) {
     mainInfoDiv.appendChild(icon);
     mainInfoDiv.appendChild(infoGridDiv);
     structureContainer.appendChild(mainInfoDiv);
-    
+
     // Assemble the Buttons Div
     buttonsDiv.appendChild(downloadButton);
     buttonsDiv.appendChild(openDetailButton);
@@ -689,138 +689,138 @@ function passesFilters(structure, filterCheckboxes) {
 function createStructureDivs(structure_list, first_structure_index) {
     // Create a structure div for each structure in the list
     for (let i = first_structure_index; i < first_structure_index + structure_per_page; i++) {
-      // If the index is out of range, break out of the loop
-      if (i >= Object.keys(structure_list).length) {
-        break;
-      } else {
-        // Create a structure div
-        createStructureDiv(structure_list[Object.keys(structure_list)[i]]);
-      }
+        // If the index is out of range, break out of the loop
+        if (i >= Object.keys(structure_list).length) {
+            break;
+        } else {
+            // Create a structure div
+            createStructureDiv(structure_list[Object.keys(structure_list)[i]]);
+        }
     }
 }
 
 // Function to create the pagination buttons
 function createPaginationButtons(structure_list) {
 
-  // Remove all pagination buttons
-  let paginationButtons = document.getElementsByClassName("pagination-button");
-  while (paginationButtons.length > 0) {
-      paginationButtons[0].parentNode.removeChild(paginationButtons[0]);
-  }
+    // Remove all pagination buttons
+    let paginationButtons = document.getElementsByClassName("pagination-button");
+    while (paginationButtons.length > 0) {
+        paginationButtons[0].parentNode.removeChild(paginationButtons[0]);
+    }
 
-  // Create the pagination buttons
-  let num_pages = Math.ceil(Object.keys(structure_list).length / structure_per_page);
+    // Create the pagination buttons
+    let num_pages = Math.ceil(Object.keys(structure_list).length / structure_per_page);
 
-  // Get the current page
-  let current_page = Math.floor(structure_index / structure_per_page);
+    // Get the current page
+    let current_page = Math.floor(structure_index / structure_per_page);
 
-  // Get the start and end page
-  let start_page = Math.max(current_page - 2, 0);
-  let end_page = Math.min(start_page + 5, num_pages);
+    // Get the start and end page
+    let start_page = Math.max(current_page - 2, 0);
+    let end_page = Math.min(start_page + 5, num_pages);
 
-  // Create the first page button
-  if (start_page > 0) {
-    let firstPageButton = document.createElement("button");
-    firstPageButton.classList.add("pagination-button");
-    firstPageButton.innerHTML = "◀◀";
-    firstPageButton.addEventListener("click", function() {
-        structure_index = 0;
-        structureList.innerHTML = "";
-        createStructureDivs(structure_list, structure_index);
-        createPaginationButtons(structure_list);
-    });
-    structureList.appendChild(firstPageButton);
-  } else {
-    // Create a disabled first page button
-    let firstPageButton = document.createElement("button");
-    firstPageButton.classList.add("pagination-button");
-    firstPageButton.innerHTML = "◀◀";
-    firstPageButton.disabled = true;
-    structureList.appendChild(firstPageButton);
-  }
+    // Create the first page button
+    if (start_page > 0) {
+        let firstPageButton = document.createElement("button");
+        firstPageButton.classList.add("pagination-button");
+        firstPageButton.innerHTML = "◀◀";
+        firstPageButton.addEventListener("click", function () {
+            structure_index = 0;
+            structureList.innerHTML = "";
+            createStructureDivs(structure_list, structure_index);
+            createPaginationButtons(structure_list);
+        });
+        structureList.appendChild(firstPageButton);
+    } else {
+        // Create a disabled first page button
+        let firstPageButton = document.createElement("button");
+        firstPageButton.classList.add("pagination-button");
+        firstPageButton.innerHTML = "◀◀";
+        firstPageButton.disabled = true;
+        structureList.appendChild(firstPageButton);
+    }
 
-  // Create the previous page button
-  if (current_page > 0) {
-      let previousPageButton = document.createElement("button");
-      previousPageButton.classList.add("pagination-button");
-      previousPageButton.innerHTML = "◀";
-      previousPageButton.addEventListener("click", function() {
-          structure_index -= structure_per_page;
-          structureList.innerHTML = "";
-          createStructureDivs(structure_list, structure_index);
-          createPaginationButtons(structure_list);
-      });
-      structureList.appendChild(previousPageButton);
-  } else {
-      // Create a disabled previous page button
-      let previousPageButton = document.createElement("button");
-      previousPageButton.classList.add("pagination-button");
-      previousPageButton.innerHTML = "◀";
-      previousPageButton.disabled = true;
-      structureList.appendChild(previousPageButton);
-  }
+    // Create the previous page button
+    if (current_page > 0) {
+        let previousPageButton = document.createElement("button");
+        previousPageButton.classList.add("pagination-button");
+        previousPageButton.innerHTML = "◀";
+        previousPageButton.addEventListener("click", function () {
+            structure_index -= structure_per_page;
+            structureList.innerHTML = "";
+            createStructureDivs(structure_list, structure_index);
+            createPaginationButtons(structure_list);
+        });
+        structureList.appendChild(previousPageButton);
+    } else {
+        // Create a disabled previous page button
+        let previousPageButton = document.createElement("button");
+        previousPageButton.classList.add("pagination-button");
+        previousPageButton.innerHTML = "◀";
+        previousPageButton.disabled = true;
+        structureList.appendChild(previousPageButton);
+    }
 
-  // Create the page buttons between the previous and next page buttons (only show 5 page buttons at a time)
-  for (let i = start_page; i < end_page; i++) {
-      let pageButton = document.createElement("button");
-      pageButton.classList.add("pagination-page-button");
-      pageButton.innerHTML = i + 1;
-      pageButton.addEventListener("click", function() {
-          structure_index = i * structure_per_page;
-          structureList.innerHTML = "";
-          createStructureDivs(structure_list, structure_index);
-          createPaginationButtons(structure_list);
-      });
-      structureList.appendChild(pageButton);
-  }
+    // Create the page buttons between the previous and next page buttons (only show 5 page buttons at a time)
+    for (let i = start_page; i < end_page; i++) {
+        let pageButton = document.createElement("button");
+        pageButton.classList.add("pagination-page-button");
+        pageButton.innerHTML = i + 1;
+        pageButton.addEventListener("click", function () {
+            structure_index = i * structure_per_page;
+            structureList.innerHTML = "";
+            createStructureDivs(structure_list, structure_index);
+            createPaginationButtons(structure_list);
+        });
+        structureList.appendChild(pageButton);
+    }
 
-  // Create the next page button
-  if (current_page < num_pages - 1) {
-      let nextPageButton = document.createElement("button");
-      nextPageButton.classList.add("pagination-button");
-      nextPageButton.innerHTML = "▶";
-      nextPageButton.addEventListener("click", function() {
-          structure_index += structure_per_page;
-          structureList.innerHTML = "";
-          createStructureDivs(structure_list, structure_index);
-          createPaginationButtons(structure_list);
-      });
-      structureList.appendChild(nextPageButton);
-  } else { 
-      // Create a disabled next page button
-      let nextPageButton = document.createElement("button");
-      nextPageButton.classList.add("pagination-button");
-      nextPageButton.innerHTML = "▶";
-      nextPageButton.disabled = true;
-      structureList.appendChild(nextPageButton);
-  }
+    // Create the next page button
+    if (current_page < num_pages - 1) {
+        let nextPageButton = document.createElement("button");
+        nextPageButton.classList.add("pagination-button");
+        nextPageButton.innerHTML = "▶";
+        nextPageButton.addEventListener("click", function () {
+            structure_index += structure_per_page;
+            structureList.innerHTML = "";
+            createStructureDivs(structure_list, structure_index);
+            createPaginationButtons(structure_list);
+        });
+        structureList.appendChild(nextPageButton);
+    } else {
+        // Create a disabled next page button
+        let nextPageButton = document.createElement("button");
+        nextPageButton.classList.add("pagination-button");
+        nextPageButton.innerHTML = "▶";
+        nextPageButton.disabled = true;
+        structureList.appendChild(nextPageButton);
+    }
 
-  // Create the last page button
-  if (end_page < num_pages) {
-      let lastPageButton = document.createElement("button");
-      lastPageButton.classList.add("pagination-button");
-      lastPageButton.innerHTML = "▶▶";
-      lastPageButton.addEventListener("click", function() {
-          structure_index = (num_pages - 1) * structure_per_page;
-          structureList.innerHTML = "";
-          createStructureDivs(structure_list, structure_index);
-          createPaginationButtons(structure_list);
-      });
-      structureList.appendChild(lastPageButton);
-  } else {
-      // Create a disabled last page button
-      let lastPageButton = document.createElement("button");
-      lastPageButton.classList.add("pagination-button");
-      lastPageButton.innerHTML = "▶▶";
-      lastPageButton.disabled = true;
-      structureList.appendChild(lastPageButton);
-  }
+    // Create the last page button
+    if (end_page < num_pages) {
+        let lastPageButton = document.createElement("button");
+        lastPageButton.classList.add("pagination-button");
+        lastPageButton.innerHTML = "▶▶";
+        lastPageButton.addEventListener("click", function () {
+            structure_index = (num_pages - 1) * structure_per_page;
+            structureList.innerHTML = "";
+            createStructureDivs(structure_list, structure_index);
+            createPaginationButtons(structure_list);
+        });
+        structureList.appendChild(lastPageButton);
+    } else {
+        // Create a disabled last page button
+        let lastPageButton = document.createElement("button");
+        lastPageButton.classList.add("pagination-button");
+        lastPageButton.innerHTML = "▶▶";
+        lastPageButton.disabled = true;
+        structureList.appendChild(lastPageButton);
+    }
 
-  // Add a "x/y" page number indicator
-  let pageIndicator = document.createElement("div");
-  pageIndicator.classList.add("page-indicator");
-  pageIndicator.innerHTML = `Page ${current_page + 1}/${num_pages}`;
-  structureList.appendChild(pageIndicator);
+    // Add a "x/y" page number indicator
+    let pageIndicator = document.createElement("div");
+    pageIndicator.classList.add("page-indicator");
+    pageIndicator.innerHTML = `Page ${current_page + 1}/${num_pages}`;
+    structureList.appendChild(pageIndicator);
 }
 
 // Function to create the search bar
@@ -832,7 +832,7 @@ function createSearchBar() {
     searchBar.className = "search-bar";
     searchBar.placeholder = "Search...";
     searchBarElement.appendChild(searchBar);
-    
+
     // Create the clear search button
     let clearSearchButton = document.createElement("button");
     clearSearchButton.id = "clear-search-button";
@@ -848,7 +848,7 @@ function createSearchBar() {
     searchBarElement.appendChild(seeKeywordsButton);
 
     // Add an event listener to the "see keywords" button
-    seeKeywordsButton.addEventListener("click", function() {
+    seeKeywordsButton.addEventListener("click", function () {
         // Get the keyword list
         let keywordList = document.getElementById("keyword-list");
         // If the keyword list is already displayed, remove it
@@ -901,7 +901,7 @@ function createKeywordList() {
     searchBarElement.appendChild(keywordList);
 
     // Add an event listener to the keyword list to remove it when clicked outside of it
-    document.addEventListener("click", function(event) {
+    document.addEventListener("click", function (event) {
         if (!keywordList.contains(event.target) && event.target.id !== "see-keywords-button") {
             keywordList.remove();
         }
@@ -942,7 +942,7 @@ let searchBar = document.getElementById("search-bar");
     No character: the name must contain the search element
 */
 
-searchBar.addEventListener("keyup", function() {
+searchBar.addEventListener("keyup", function () {
     // Get the search string
     let searchString = searchBar.value.toLowerCase();
 
@@ -1068,7 +1068,7 @@ searchBar.addEventListener("keyup", function() {
         } else {
             blacklistedStructures = andStructures;
         }
-        
+
         // OR statements
         if (orStatements.length > 0) {
             for (let key in blacklistedStructures) {
@@ -1103,7 +1103,7 @@ searchBar.addEventListener("keyup", function() {
 
 // Add event listener to the clear search button
 let clearSearchButton = document.getElementById("clear-search-button");
-clearSearchButton.addEventListener("click", function() {
+clearSearchButton.addEventListener("click", function () {
     searchBar.value = "";
     structure_list = getSavedData();
     structure_index = 0;
