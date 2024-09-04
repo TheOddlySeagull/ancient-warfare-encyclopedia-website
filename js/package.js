@@ -321,6 +321,72 @@ function createPackageGallery(packageName, structureData) {
     packageGallery.appendChild(gallery);
 }
 
+// Function to create teh "asideGeneralMenu" div
+function createAsideGeneralMenuUnknown() {
+    // get the asideGeneralMenu div
+    var asideGeneralMenu = document.getElementById('asideGeneralMenu');
+    //clean the asideGeneralMenu div
+    asideGeneralMenu.innerHTML = '';
+
+    // count the total number of packages
+    var totalPackages = 0;
+    var pack_name_list = [];
+    for (var structure in structureData) {
+        if (!pack_name_list.includes(structureData[structure].pack)) {
+            pack_name_list.push(structureData[structure].pack);
+            totalPackages++;
+        }
+    }
+
+    // create a div for the "there are x packages on this website" message
+    var packageCountDiv = document.createElement('div');
+
+    packageCountDiv.innerHTML += '<h3>Packages</h3>'
+    packageCountDiv.innerHTML += '<p>There are ' + totalPackages + ' packages on this website</p>';
+
+    // add the packageCountDiv to the asideGeneralMenu div
+    asideGeneralMenu.appendChild(packageCountDiv);
+
+}
+
+// Function to create teh "asideGeneralMenu" div
+function createAsideGeneralMenu() {
+    // get the number of structure in that package
+    var totalStructures = 0;
+    for (var structure in structureData) {
+        if (structureData[structure].pack == packageName) {
+            totalStructures++;
+        }
+    }
+
+    // get the asideGeneralMenu div
+    var asideGeneralMenu = document.getElementById('asideGeneralMenu');
+    //clean the asideGeneralMenu div
+    asideGeneralMenu.innerHTML = '';
+
+    // create a div for the "there are x structures in this package" message
+    var structureCountDiv = document.createElement('div');
+
+    structureCountDiv.innerHTML += '<h3>Structures</h3>'
+
+    if (totalStructures > 1) {
+        structureCountDiv.innerHTML += '<p>There are ' + totalStructures + ' structures in this package</p>';
+    } else {
+        structureCountDiv.innerHTML += '<p>There is ' + totalStructures + ' structure in this package</p>';
+    }
+
+    // add the structureCountDiv to the asideGeneralMenu div
+    asideGeneralMenu.appendChild(structureCountDiv);
+
+    // create a div for the "Download" button
+    var downloadDiv = document.createElement('div');
+    downloadDiv.innerHTML += '<button onclick="downloadPackage()">Download</button>';
+
+    // add the downloadDiv to the asideGeneralMenu div
+    asideGeneralMenu.appendChild(downloadDiv);
+
+}
+
 // Function to create the page header for all packages page
 function createUnknownHeader() {
     let packageHeader = document.getElementById("packageHeader");
@@ -437,7 +503,7 @@ function createAllPackagesList() {
 
     });
 
-    
+
 }
 
 function createKnownPackagePage() {
@@ -450,7 +516,7 @@ function createKnownPackagePage() {
         createPackageAuthors(data.packageName, data.structureData);
         createPackageStructures(data.packageName, data.structureData);
         //createPackageGallery(data.packageName, data.structureData);
-
+        createAsideGeneralMenu();
     });
 
 }
@@ -460,6 +526,7 @@ function createUnknownPackagePage() {
     createUnknownHeader();
     createUnknownPackageInfo();
     createAllPackagesList();
+    createAsideGeneralMenuUnknown();
 }
 
 console.log("Package name: " + packageName);
