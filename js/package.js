@@ -375,14 +375,57 @@ function createAsideGeneralMenu() {
         structureCountDiv.innerHTML += '<p>There is ' + totalStructures + ' structure in this package</p>';
     }
 
+    // create a div for the "there are x authors that worked on this package" message
+    var authorCountDiv = document.createElement('div');
+    authorCountDiv.innerHTML += '<h3>Authors</h3>'
+
+
+    var totalAuthors = 0;
+    var authors = {};
+    for (var structure in structureData) {
+        if (structureData[structure].pack == packageName) {
+            var author = structureData[structure].validation.structureAuthor;
+            if (author == "" || author == null || author == undefined || author == " ") {
+                author = "Unknown";
+            }
+            if (author in authors) {
+                authors[author]++;
+            } else {
+                authors[author] = 1;
+            }
+        }
+    }
+
+    for (var author in authors) {
+        if (author != "Unknown") {
+            totalAuthors++;
+        }
+    }
+
+    if (totalAuthors > 1) {
+        authorCountDiv.innerHTML += '<p>There are ' + totalAuthors + ' authors that worked on this package</p>';
+    } else if (totalAuthors == 0) {
+        authorCountDiv.innerHTML += '<p>There are no known authors that worked on this package</p>';
+    } else {
+        authorCountDiv.innerHTML += '<p>There is ' + totalAuthors + ' author that worked on this package</p>';
+    }
+
     // add the structureCountDiv to the asideGeneralMenu div
     asideGeneralMenu.appendChild(structureCountDiv);
+    // add the authorCountDiv to the asideGeneralMenu div
+    asideGeneralMenu.appendChild(authorCountDiv);
 
     // create a div for the "Download" button
     var downloadDiv = document.createElement('div');
-    downloadDiv.innerHTML += '<button onclick="downloadPackage()">Download</button>';
-
-    // add the downloadDiv to the asideGeneralMenu div
+    const packDownloadButton = document.createElement('button');
+    packDownloadButton.innerHTML = 'Download Package';
+    packDownloadButton.onclick = function() {
+        console.log("Downloading package: " + packageName);
+        var zip_path = "../downloads/" + packageName + ".zip";
+        window
+            .open(zip_path);
+    }
+    downloadDiv.appendChild(packDownloadButton);
     asideGeneralMenu.appendChild(downloadDiv);
 
 }
