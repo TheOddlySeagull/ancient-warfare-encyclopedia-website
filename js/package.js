@@ -233,7 +233,7 @@ function createPackageAuthors(packageName, structureData) {
         let authorName = sortedAuthors[i][0];
 
         // Create the button's text:
-        if (authorName === "Unknown") {
+        if (authorName == "Unknown" || authorName == "" || authorName == null || authorName == undefined) {
             buttonName = "Unknown author for " + sortedAuthors[i][1] + " structures";
         } else {
             if (sortedAuthors[i][1] > 1) {
@@ -403,11 +403,11 @@ function createAsideGeneralMenu() {
     }
 
     if (totalAuthors > 1) {
-        authorCountDiv.innerHTML += '<p>There are ' + totalAuthors + ' authors that worked on this package</p>';
+        authorCountDiv.innerHTML += '<p>There are ' + totalAuthors + ' known authors that worked on this package</p>';
     } else if (totalAuthors == 0) {
         authorCountDiv.innerHTML += '<p>There are no known authors that worked on this package</p>';
     } else {
-        authorCountDiv.innerHTML += '<p>There is ' + totalAuthors + ' author that worked on this package</p>';
+        authorCountDiv.innerHTML += '<p>There is ' + totalAuthors + ' known author that worked on this package</p>';
     }
 
     // add the structureCountDiv to the asideGeneralMenu div
