@@ -464,6 +464,91 @@ function createRandomStructureMenu() {
     pageSizeConfigurator.appendChild(randomStructureMenu);
 }
 
+// Function to create a mini menu to show a random structure (with guarantee illustration)
+function createRandomStructureMenuIllustrated() {
+    // Create a random structure mini menu (an image and the structure name)
+    let randomStructureMenu = document.createElement("div");
+    randomStructureMenu.classList.add("random-structure-menu");
+    randomStructureMenu.innerHTML = `<h3>Random Structure (Illustrated)</h3>`;
+    // Get a random file from "img/structures/"
+    // Get the number of files in folder
+    let numberOfFiles = 0;
+    fetch('../img/structures/')
+        .then(response => response.text())
+        .then(text => {
+            // Count the number of files
+            let parser = new DOMParser();
+            let htmlDocument = parser.parseFromString(text, 'text/html');
+            let files = htmlDocument.getElementsByTagName("a");
+            for (let i = 0; i < files.length; i++) {
+                if (files[i].href.endsWith(".png")) {
+                    numberOfFiles++;
+                }
+            }
+
+            // Get a random index
+            let randomIndex = Math.floor(Math.random() * numberOfFiles);
+
+            // Get the file name
+            let fileName = "";
+            let counter = 0;
+            for (let i = 0; i < files.length; i++) {
+                if (files[i].href.endsWith(".png")) {
+                    if (counter == randomIndex) {
+                        fileName = files[i].href;
+                        break;
+                    }
+                    counter++;
+                }
+            }
+
+            // Remove the " https://ancient-warfare.legends-of-gramdatis.com/html/ " part
+            fileName = fileName.replace("https://ancient-warfare.legends-of-gramdatis.com/html/", "https://ancient-warfare.legends-of-gramdatis.com/img/structures/");
+            let structureId = fileName.replace("https://ancient-warfare.legends-of-gramdatis.com/img/structures/", "").replace(".png", "");
+            // Create the structure div
+            let randomStructureDiv = document.createElement("div");
+            randomStructureDiv.classList.add("random-structure-div");
+            // Create the structure image
+            let randomStructureImage = document.createElement("img");
+            randomStructureImage.src = fileName;
+            // Create the structure name
+            let randomStructureName = document.createElement("p");
+            // Get structure Json:
+            for (let i = 0; i < Object.keys(structure_list).length; i++) {
+                if (structure_list[Object.keys(structure_list)[i]].name == structureId) {
+                    //Get the name, replace _ by space
+                    let name = structure_list[Object.keys(structure_list)[i]].name.replace(/_/g, " ");
+                    // Add spaces in front of caps
+                    name = name.replace(/([A-Z])/g, ' $1').trim();
+                    //Replace "S B " by "Survival Build "
+                    name = name.replace("S B ", "Survival Build ");
+                    name = name.replace("R U S T I C", "Rustic");
+                    name = name.replace("Q U A R K", "Quark ");
+                    name = name.replace(" Col ", " Collection ");
+                    randomStructureName.innerHTML = name;
+                    break;
+                }
+            }
+            // Add a view button
+            let viewButton = document.createElement("button");
+            viewButton.innerHTML = "View";
+            viewButton.addEventListener("click", function () {
+                window.location.href = 'illustrated_structure.html?structureName=' + structureId;
+            }
+            );
+            randomStructureDiv.appendChild(viewButton);
+            // Append the structure div to the random structure menu
+            randomStructureDiv.appendChild(randomStructureImage);
+            randomStructureDiv.appendChild(randomStructureName);
+            randomStructureMenu.appendChild(randomStructureDiv);
+            // Append the random structure menu to the filter div
+            pageSizeConfigurator.appendChild(randomStructureMenu);
+        }
+        );
+}
+
+
+
 // Function to create a mini menu to let the user choose how many structures to display per page
 function createStructurePerPageMenu() {
     // Create the menu
@@ -925,6 +1010,9 @@ createStructurePerPageMenu();
 
 // Create the random structure menu
 createRandomStructureMenu();
+
+// Create the random structure menu illustrated
+createRandomStructureMenuIllustrated();
 
 // Create the structure divs
 createStructureDivs(structure_list, structure_index);
