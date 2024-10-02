@@ -513,6 +513,7 @@ function createRandomStructureMenuIllustrated() {
             randomStructureImage.src = fileName;
             // Create the structure name
             let randomStructureName = document.createElement("p");
+            let structure_URL = structureId;
             // Get structure Json:
             for (let i = 0; i < Object.keys(structure_list).length; i++) {
                 if (structure_list[Object.keys(structure_list)[i]].name == structureId) {
@@ -526,6 +527,9 @@ function createRandomStructureMenuIllustrated() {
                     name = name.replace("Q U A R K", "Quark ");
                     name = name.replace(" Col ", " Collection ");
                     randomStructureName.innerHTML = name;
+
+                    // To the "structure_URL" add the pack name
+                    structure_URL = structure_list[Object.keys(structure_list)[i]].pack + "/" + structure_URL;
                     break;
                 }
             }
@@ -533,7 +537,7 @@ function createRandomStructureMenuIllustrated() {
             let viewButton = document.createElement("button");
             viewButton.innerHTML = "View";
             viewButton.addEventListener("click", function () {
-                window.location.href = 'illustrated_structure.html?structureName=' + structureId;
+                window.location.href = 'structure.html?structureName=' + structure_URL;
             }
             );
             randomStructureDiv.appendChild(viewButton);
