@@ -49,7 +49,7 @@ fetch(awsPathJson)
     .catch((error) => {
         console.error('Error:', error);
         // Fetch the .aws file
-        fetch(awsPath)
+        fetch(awsPathJson)
             .then(response => response.text())
             .then(data => {
                 console.log(data);
