@@ -1,4 +1,4 @@
-# MohawkyPack1.12.2V72
+# MohawkyPack
 
 Download generated on 10/09/2024 16:33:09 for the [Ancient Warfare Encyclopedia](http://ancient-warfare.legends-of-gramdatis.com/)
 
