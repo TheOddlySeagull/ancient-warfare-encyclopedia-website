@@ -682,16 +682,15 @@ function createStructureDiv(structure) {
     const downloadButton = document.createElement('button');
     downloadButton.innerText = 'Download';
     downloadButton.onclick = () => {
-        // Create a link to the file
+        // Build absolute URL preserving full path and encoding segments
+        const segments = structure.path.split('/').map(s => encodeURIComponent(s));
+        const absoluteUrl = 'http://ancient-warfare.legends-of-gramdatis.com/' + segments.join('/');
         const link = document.createElement('a');
-        link.setAttribute('href', structure.path);
-        let download_url = structure.path;
-        download_url = download_url.split("/");
-        download_url[0] = "http://ancient-warfare.legends-of-gramdatis.com";
-        download_url = download_url.join("/");
-        link.setAttribute('href', download_url);
-        link.setAttribute('download', structure.name + ".aws");
+        link.href = absoluteUrl;
+        link.download = structure.name + '.aws';
+        document.body.appendChild(link);
         link.click();
+        document.body.removeChild(link);
     };
     const openDetailButton = document.createElement('button');
     openDetailButton.innerText = 'Open Detail Page';

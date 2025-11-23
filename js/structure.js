@@ -394,16 +394,16 @@ function GenerateAsideGeneralInfo(data) {
     downloadButton.className = "aside-button";
     downloadButton.id = "downloadButton";
     downloadButton.onclick = () => {
-        // Create a link to the file
+        // Build absolute URL preserving 'structures' root and encoding segments
+        const relativePath = data['path']; // e.g. structures/Pack/Structure.aws
+        const segments = relativePath.split('/').map(s => encodeURIComponent(s));
+        const absoluteUrl = 'https://ancient-warfare.legends-of-gramdatis.com/' + segments.join('/');
         const link = document.createElement('a');
-        link.setAttribute('href', data['path']);
-        let download_url = data['path'];
-        download_url = download_url.split("/");
-        download_url[0] = "http://ancient-warfare.legends-of-gramdatis.com";
-        download_url = download_url.join("/");
-        link.setAttribute('href', download_url);
-        link.setAttribute('download', data['name'] + ".aws");
+        link.href = absoluteUrl;
+        link.download = data['name'] + '.aws';
+        document.body.appendChild(link);
         link.click();
+        document.body.removeChild(link);
     };
 
     // Add the button to asideGeneralMenu
