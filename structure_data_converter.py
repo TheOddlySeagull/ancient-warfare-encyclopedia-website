@@ -445,7 +445,7 @@ def open_structure_file(file, descriptions, version):
     data = {
         'icon': icon,
         'description': description,
-        'pack': os.path.split(file)[0].split(os.path.sep)[2],
+        'pack': os.path.basename(os.path.dirname(file)),
         'name': header['name'],
         'path': file,
         'size': size,
@@ -557,9 +557,10 @@ def loop_through_files(directory):
     # If user specified a file, only convert that file
     if args.file:
         file_path = args.file
-        structure_name = os.path.splitext(os.path.basename(file_path))[0]
-        pack_name = file_path.split(os.path.sep)[2]
-        structure_name = pack_name + os.path.sep + structure_name
+        # Extract structure and pack names robustly
+        structure_base = os.path.splitext(os.path.basename(file_path))[0]
+        pack_name = os.path.basename(os.path.dirname(file_path))
+        structure_name = pack_name + os.path.sep + structure_base
         data[structure_name], disclamer = open_structure_file(file_path, descriptions, stored_data_version)
         structure_count += 1
         # If split is true, create a json for each structure
@@ -603,8 +604,8 @@ def loop_through_files(directory):
                 #print(file_path)
                 # The name of the structure is the file name
                 structure_name = os.path.splitext(file)[0]
-                # split the path to its folder names
-                pack_name = os.path.split(root)[0].split(os.path.sep)[2]
+                # Pack name is the last directory under structures
+                pack_name = os.path.basename(root)
                 structure_name = pack_name + os.path.sep + structure_name
                 data[structure_name], disclamer = open_structure_file(file_path, descriptions, stored_data_version)
                 structure_count += 1
