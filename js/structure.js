@@ -1,63 +1,66 @@
 // this script will generate a structure specific page.
 
-// Get the path to the structure structureName from the URL
+// Deep link handling with fallback: restore original global usage pattern
 const urlParams = new URLSearchParams(window.location.search);
 const structurePackAndName = urlParams.get('structureName');
+let structureData = null;
+let structure = null; // will hold the selected structure (from aggregated list)
 
-// From local storage, get the structure data
-const structureData = JSON.parse(localStorage.getItem("structure_list"));
-
-// Get the structure data from the structureName
-//make structureName only the name (after the /)
-let structureName = structurePackAndName.split("/")[1];
-let structurePack = structurePackAndName.split("/")[0];
-//console.log("Opening structure " + structureName + " from pack " + structurePack);
-const structure = structureData[structurePackAndName];
-//console.log(structure);
-
-function GetJsonPath() {
-    // Get the path to the structure
-    const awsPath = structure['path'];
-    // Replace the first folder name with "structures_jsons"
-    const awsPathSplit = awsPath.split('/');
-    awsPathSplit[1] = "../json/structures_jsons/";
-    //Replace tha ".aws" with ".json"
-    awsPathSplit[awsPathSplit.length - 1] = awsPathSplit[awsPathSplit.length - 1].replace(".aws", ".json");
-    // Join the array back into a string
-    const awsPathJson = awsPathSplit.join('/');
-    //console.log(awsPathJson);
-    return awsPathJson;
+function loadStructureDataAndInit() {
+    try {
+        structureData = JSON.parse(localStorage.getItem('structure_list'));
+    } catch (e) {
+        structureData = null;
+    }
+    if (!structureData) {
+        // Fetch full structures list and cache
+        fetch('../json/structures.json')
+            .then(r => r.json())
+            .then(json => {
+                localStorage.setItem('structure_list', JSON.stringify(json.data));
+                structureData = json.data;
+                proceed();
+            })
+            .catch(err => console.error('Failed to fetch structures.json:', err));
+    } else {
+        proceed();
+    }
 }
 
+function proceed() {
+    if (!structurePackAndName) {
+        console.error('No structureName query parameter provided.');
+        return;
+    }
+    structure = structureData[structurePackAndName];
+    if (!structure) {
+        console.error('Structure key not found in list:', structurePackAndName);
+        return;
+    }
+    const awsPathJson = GetJsonPath();
+    fetch(awsPathJson)
+        .then(resp => resp.json())
+        .then(data => {
+            GenerateStructurePage(data);
+            GenerateAsideGeneralInfo(data);
+        })
+        .catch(error => {
+            console.error('Error fetching split JSON file:', error);
+            // Fallback: use aggregated structure data only
+            GenerateStructurePage(structure);
+            GenerateAsideGeneralInfo(structure);
+        });
+}
 
-// Generate the path to the json file
-const awsPathJson = GetJsonPath();
+loadStructureDataAndInit();
 
-// check if the structure has a json file
-// if it does, then fetch the json file
-// if it doesn't, then fetch the .aws file
-fetch(awsPathJson)
-    .then(response => response.json())
-    .then(data => {
-        //console.log(data);
-
-        // Generate the structure page
-        GenerateStructurePage(data);
-        // Generate the aside general info
-        GenerateAsideGeneralInfo(data);
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-        // Fetch the .aws file
-        fetch(awsPathJson)
-            .then(response => response.text())
-            .then(data => {
-                console.log(data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
-    });
+function GetJsonPath() {
+    if (!structure) return '';
+    const parts = structure['path'].split('/');
+    if (parts[0] === 'structures') parts.shift(); // remove leading folder
+    parts[parts.length - 1] = parts[parts.length - 1].replace('.aws', '.json');
+    return '../json/structures_jsons/' + parts.join('/');
+}
 
 
 function GenerateStructurePage(data) {
