@@ -573,10 +573,9 @@ def loop_through_files(directory):
                 print(f"Default path: {directory}")
             # Create the file name
             file_name = os.path.splitext(os.path.basename(file_path))[0] + ".json"
-            # Keep the folder structure after the pack name (including the pack name)
-            path = data[structure_name]['path'].split(os.path.sep)[2:]
-            # remove file from path
-            path = path[:-1]
+            # Keep the folder structure after 'structures' (include pack and nested dirs, exclude file)
+            path_parts = data[structure_name]['path'].split(os.path.sep)
+            path = path_parts[1:-1]  # skip leading 'structures', drop filename
             # Create the path
             file_name = os.path.join(directory, *path, file_name)
 
@@ -642,10 +641,9 @@ def loop_through_files(directory):
             file_name = os.path.splitext(file_name)[0]
             # Create the file name
             file_name = file_name + ".json"
-            # Keep the folder structure after the pack name (including the pack name)
-            path = content['path'].split(os.path.sep)[2:]
-            # remove file from path
-            path = path[:-1]
+            # Keep folder structure after 'structures' (pack + nested dirs)
+            path_parts = content['path'].split(os.path.sep)
+            path = path_parts[1:-1]
             # Create the path
             file_name = os.path.join(directory, *path, file_name)
 
