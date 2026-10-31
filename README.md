@@ -58,3 +58,23 @@ Run the compatibility regression tests with Node.js 18 or newer:
 ```sh
 node --test tests/catalogue.test.mjs
 ```
+
+## Phone layout
+
+A shared `css/mobile.css` applies up to 800 CSS pixels across the catalogue,
+structure, pack, author, About and Contact pages. It retains the desktop styles
+above that breakpoint. The phone navigation uses native HTML details/summary,
+so it works before the catalogue loads and without JavaScript.
+
+Phones start with five results per page (desktop: twenty). All existing page-size
+choices remain available. Paging on a phone returns to the top of the results;
+random discoveries follow the catalogue instead of squeezing it into a sidebar.
+Detail section tabs scroll horizontally within their own strip. Author cards and
+gallery images fit the viewport. Inputs use a 16px font to avoid iOS focus zoom.
+
+For visual regression checks, use 320, 390, 768 and 1280 CSS-pixel viewports. Check
+menu expansion, search + Enter, page size, next/previous page, structure details,
+pack lists/details, author pagination/gallery, About and Contact. Verify no page
+horizontal overflow, while detail-tab strips remain horizontally scrollable. Also
+check keyboard focus and the skip-to-content link. Real-device Safari and Android
+touch/keyboard testing remains useful in addition to desktop browser viewport QA.
