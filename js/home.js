@@ -223,7 +223,7 @@ const pageSizeConfigurator = document.getElementById("page-size-configurator");
 
 // pagination variables
 let structure_index = 0; // index of first structure to display
-let structure_per_page = 20; // number of structures to display per page
+let structure_per_page = window.matchMedia('(max-width: 800px)').matches ? 5 : 20; // number of structures to display per page
 
 // Create filter groups
 function createFilterGroups() {
@@ -391,6 +391,7 @@ function createStructurePerPageMenu() {
     // Create the menu
     let structurePerPageMenu = document.createElement("div");
     structurePerPageMenu.classList.add("structure-per-page-menu");
+    structurePerPageMenu.id = "browse-options";
     structurePerPageMenu.innerHTML = `<h3>Structures Per Page</h3>`;
     // Create the options
     let structurePerPageOptions = [2, 5, 10, 20, 50, 100];
@@ -642,18 +643,21 @@ function createPaginationButtons(structure_list) {
     if (start_page > 0) {
         let firstPageButton = document.createElement("button");
         firstPageButton.classList.add("pagination-button");
+        firstPageButton.setAttribute("aria-label", "First page");
         firstPageButton.innerHTML = "◀◀";
         firstPageButton.addEventListener("click", function () {
             structure_index = 0;
             structureList.innerHTML = "";
             createStructureDivs(structure_list, structure_index);
             createPaginationButtons(structure_list);
+            if (window.matchMedia('(max-width: 800px)').matches) searchBarElement.scrollIntoView({ block: 'start' });
         });
         structureList.appendChild(firstPageButton);
     } else {
         // Create a disabled first page button
         let firstPageButton = document.createElement("button");
         firstPageButton.classList.add("pagination-button");
+        firstPageButton.setAttribute("aria-label", "First page");
         firstPageButton.innerHTML = "◀◀";
         firstPageButton.disabled = true;
         structureList.appendChild(firstPageButton);
@@ -663,18 +667,21 @@ function createPaginationButtons(structure_list) {
     if (current_page > 0) {
         let previousPageButton = document.createElement("button");
         previousPageButton.classList.add("pagination-button");
+        previousPageButton.setAttribute("aria-label", "Previous page");
         previousPageButton.innerHTML = "◀";
         previousPageButton.addEventListener("click", function () {
             structure_index -= structure_per_page;
             structureList.innerHTML = "";
             createStructureDivs(structure_list, structure_index);
             createPaginationButtons(structure_list);
+            if (window.matchMedia('(max-width: 800px)').matches) searchBarElement.scrollIntoView({ block: 'start' });
         });
         structureList.appendChild(previousPageButton);
     } else {
         // Create a disabled previous page button
         let previousPageButton = document.createElement("button");
         previousPageButton.classList.add("pagination-button");
+        previousPageButton.setAttribute("aria-label", "Previous page");
         previousPageButton.innerHTML = "◀";
         previousPageButton.disabled = true;
         structureList.appendChild(previousPageButton);
@@ -685,11 +692,14 @@ function createPaginationButtons(structure_list) {
         let pageButton = document.createElement("button");
         pageButton.classList.add("pagination-page-button");
         pageButton.innerHTML = i + 1;
+        pageButton.setAttribute("aria-label", "Page " + (i + 1));
+        if (i === current_page) pageButton.setAttribute("aria-current", "page");
         pageButton.addEventListener("click", function () {
             structure_index = i * structure_per_page;
             structureList.innerHTML = "";
             createStructureDivs(structure_list, structure_index);
             createPaginationButtons(structure_list);
+            if (window.matchMedia('(max-width: 800px)').matches) searchBarElement.scrollIntoView({ block: 'start' });
         });
         structureList.appendChild(pageButton);
     }
@@ -698,18 +708,21 @@ function createPaginationButtons(structure_list) {
     if (current_page < num_pages - 1) {
         let nextPageButton = document.createElement("button");
         nextPageButton.classList.add("pagination-button");
+        nextPageButton.setAttribute("aria-label", "Next page");
         nextPageButton.innerHTML = "▶";
         nextPageButton.addEventListener("click", function () {
             structure_index += structure_per_page;
             structureList.innerHTML = "";
             createStructureDivs(structure_list, structure_index);
             createPaginationButtons(structure_list);
+            if (window.matchMedia('(max-width: 800px)').matches) searchBarElement.scrollIntoView({ block: 'start' });
         });
         structureList.appendChild(nextPageButton);
     } else {
         // Create a disabled next page button
         let nextPageButton = document.createElement("button");
         nextPageButton.classList.add("pagination-button");
+        nextPageButton.setAttribute("aria-label", "Next page");
         nextPageButton.innerHTML = "▶";
         nextPageButton.disabled = true;
         structureList.appendChild(nextPageButton);
@@ -719,18 +732,21 @@ function createPaginationButtons(structure_list) {
     if (end_page < num_pages) {
         let lastPageButton = document.createElement("button");
         lastPageButton.classList.add("pagination-button");
+        lastPageButton.setAttribute("aria-label", "Last page");
         lastPageButton.innerHTML = "▶▶";
         lastPageButton.addEventListener("click", function () {
             structure_index = (num_pages - 1) * structure_per_page;
             structureList.innerHTML = "";
             createStructureDivs(structure_list, structure_index);
             createPaginationButtons(structure_list);
+            if (window.matchMedia('(max-width: 800px)').matches) searchBarElement.scrollIntoView({ block: 'start' });
         });
         structureList.appendChild(lastPageButton);
     } else {
         // Create a disabled last page button
         let lastPageButton = document.createElement("button");
         lastPageButton.classList.add("pagination-button");
+        lastPageButton.setAttribute("aria-label", "Last page");
         lastPageButton.innerHTML = "▶▶";
         lastPageButton.disabled = true;
         structureList.appendChild(lastPageButton);
@@ -747,7 +763,9 @@ function createPaginationButtons(structure_list) {
 function createSearchBar() {
     // Create the search bar
     let searchBar = document.createElement("input");
-    searchBar.type = "text";
+    searchBar.type = "search";
+    searchBar.setAttribute("aria-label", "Search structures");
+    searchBar.enterKeyHint = "search";
     searchBar.id = "search-bar";
     searchBar.className = "search-bar";
     searchBar.placeholder = "Search...";
@@ -848,6 +866,9 @@ createRandomStructureMenu();
 
 // Create the random structure menu illustrated
 createRandomStructureMenuIllustrated();
+
+// Replace the initial loading state when the catalogue is ready.
+structureList.replaceChildren();
 
 // Create the structure divs
 createStructureDivs(structure_list, structure_index);
