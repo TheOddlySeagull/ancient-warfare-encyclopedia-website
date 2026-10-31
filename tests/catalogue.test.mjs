@@ -11,7 +11,7 @@ async function moduleFor(suffix) {
 
 test('fresh-page loading preserves duplicate names, normalizes artwork and encodes canonical links', async () => {
     let calls = 0;
-    globalThis.fetch = async () => { calls++; return { ok: true, json: async () => ({ data: {
+    globalThis.fetch = async url => { if (String(url).endsWith('structures_version.json')) return { ok: true, json: async () => ({ version: 1 }) }; calls++; return { ok: true, json: async () => ({ data: {
         'Pack A/Original&Name': { pack: 'Pack A', name: 'Renamed', icon: 'http://ancient-warfare.legends-of-gramdatis.com/img/structures/a.png' },
         'Pack B/Original': { pack: 'Pack B', name: 'Renamed', icon: '../img/AW2_512.png' }
     } }) }; };
@@ -70,4 +70,60 @@ test('illustrated random handles empty catalogues and exhausted images', () => {
     const fixture = randomFixture({ only: { icon: '/img/structures/missing.png', name: 'Missing' } });
     fixture.created.find(item => item.tag === 'img').onerror();
     assert.equal(fixture.panel.textContent, 'No illustrated structures available.');
+});
+
+// Minimal asynchronous IndexedDB harness, used to verify navigation/cache behavior.
+function installCache(initial) {
+    let saved = initial;
+    globalThis.indexedDB = { open() {
+        const request = {};
+        queueMicrotask(() => {
+            request.result = { close() {}, transaction() {
+                const transaction = { objectStore() { return {
+                    get() { const read = {}; queueMicrotask(() => { read.result = structuredClone(saved); read.onsuccess(); }); return read; },
+                    put(value) { saved = structuredClone(value); queueMicrotask(() => transaction.oncomplete()); }
+                }; } };
+                return transaction;
+            } };
+            request.onsuccess();
+        });
+        return request;
+    } };
+}
+
+test('unchanged cached version avoids a full catalogue request on a new page', async () => {
+    installCache({ disclamer: { version: 187 }, data: { existing: { name: 'Cached', icon: '../img/AW2.png' } } });
+    const requests = [];
+    globalThis.fetch = async url => { requests.push(String(url)); return { ok: true, json: async () => ({ version: 187 }) }; };
+    try {
+        const api = await moduleFor('cached-navigation');
+        assert.equal((await api.loadCatalogue()).existing.name, 'Cached');
+        assert.equal(requests.length, 1);
+        assert.ok(requests[0].endsWith('structures_version.json'));
+    } finally { delete globalThis.indexedDB; }
+});
+
+test('version changes refresh the catalogue and a subsequent page uses the new cache', async () => {
+    installCache({ disclamer: { version: 186 }, data: {} });
+    let fullDownloads = 0;
+    globalThis.fetch = async url => ({ ok: true, json: async () => {
+        if (String(url).endsWith('structures_version.json')) return { version: 187 };
+        fullDownloads++;
+        return { disclamer: { version: 187 }, data: { updated: { name: 'New', icon: '../img/AW2.png' } } };
+    } });
+    try {
+        assert.equal((await (await moduleFor('updated')).loadCatalogue()).updated.name, 'New');
+        // Let the background IndexedDB write complete before the next navigation.
+        await new Promise(resolve => setImmediate(resolve));
+        assert.equal((await (await moduleFor('next-page')).loadCatalogue()).updated.name, 'New');
+        assert.equal(fullDownloads, 1);
+    } finally { delete globalThis.indexedDB; }
+});
+
+test('blocked storage falls back to downloading instead of breaking initialization', async () => {
+    globalThis.indexedDB = { open() { throw new Error('Storage blocked'); } };
+    globalThis.fetch = async url => ({ ok: true, json: async () => String(url).endsWith('structures_version.json')
+        ? { version: 1 } : { disclamer: { version: 1 }, data: {} } });
+    try { assert.deepEqual(await (await moduleFor('blocked-storage')).loadCatalogue(), {}); }
+    finally { delete globalThis.indexedDB; }
 });
