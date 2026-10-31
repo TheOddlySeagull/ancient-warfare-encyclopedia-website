@@ -348,3 +348,9 @@ nav a {
     margin: 10px;
     font-size: 1rem;
 }
+.catalogue-loading {
+    min-height: 8rem;
+    padding: 1rem;
+    border: 2px solid #333;
+    background: #1a1a1a;
+}

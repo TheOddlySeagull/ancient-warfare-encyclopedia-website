@@ -1,3 +1,9 @@
+import { loadCatalogue, sitePath, reportCatalogueError } from './catalogue.js';
+
+let catalogue;
+try { catalogue = await loadCatalogue(); }
+catch (error) { reportCatalogueError(error); throw error; }
+
 // This script will generate a package specific page
 
 var packageData = {};
@@ -10,9 +16,9 @@ function getPackageName() {
     return urlParams.get('packName');
 }
 
-// From local storage, get the structure data
+// Use the catalogue loaded for this page.
 function getStructureData() {
-    const structureData = JSON.parse(localStorage.getItem("structure_list"));
+    const structureData = catalogue;
     if (structureData) {
         return structureData;
     }
@@ -38,7 +44,7 @@ async function loadPackageData() {
 
     // Load the package json file
     try {
-        const response = await fetch("../json/packages/" + packageName + ".json");
+        const response = await fetch(sitePath('json/packages/' + packageName + '.json'));
         const data = await response.json();
         packageData = data;
     } catch (error) {
@@ -278,7 +284,7 @@ function createPackageStructures(packageName, structureData) {
         if (structureData[structure].pack == packageName) {
             let listItem = document.createElement("li");
             let link = document.createElement("a");
-            link.href = "structure.html?structureName=" + structure;
+            link.href = "structure.html?structureName=" + encodeURIComponent(structure);
             link.innerHTML = structure;
             listItem.appendChild(link);
             structureList.appendChild(listItem);
@@ -308,7 +314,7 @@ function createPackageGallery(packageName, structureData) {
             let galleryItem = document.createElement("div");
             galleryItem.className = 'gallery-item';
             let link = document.createElement("a");
-            link.href = "structure.html?structureName=" + structure;
+            link.href = "structure.html?structureName=" + encodeURIComponent(structure);
             let image = new Image();
             image.src = "../img/structures/" + structure + ".png";
             link.appendChild(image);

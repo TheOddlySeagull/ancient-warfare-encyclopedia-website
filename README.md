@@ -34,3 +34,27 @@ This script is used to convert the .aws structure files into the structures.json
 
 This project is licensed under the [MIT License](link_to_license). Feel free to explore, modify, and distribute the codebase as per the terms of the license.
 
+
+## Static hosting compatibility
+
+Serve the repository over HTTP(S) with JavaScript module MIME types. Catalogue
+pages fetch `json/structures.json` through a shared loader; they do not require a
+previous Home visit or browser localStorage capacity. IndexedDB caches the full
+catalogue; repeat visits check the small version file and reuse it when unchanged.
+If browser storage is blocked, the pages fall back to downloading the catalogue.
+Illustrated random recommendations use catalogue artwork and retry missing images,
+so the host does not need to expose directory listings.
+
+Author galleries use `json/author-galleries.json`. The structure converter refreshes
+this index from `img/authors/gallery/<author>/*.png` whenever it runs a conversion
+or ZIP generation. Run it on the host containing the gallery assets when adding or
+removing gallery pictures; the checked-in index covers the existing gallery.
+
+Generated image paths and downloads follow the current site location. Existing
+catalogues containing image URLs for the original domain remain supported.
+
+Run the compatibility regression tests with Node.js 18 or newer:
+
+```sh
+node --test tests/catalogue.test.mjs
+```

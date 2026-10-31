@@ -1,15 +1,18 @@
+import { loadCatalogue, structureUrl, sitePath, reportCatalogueError } from './catalogue.js';
+
+let catalogue;
+try { catalogue = await loadCatalogue(); }
+catch (error) { reportCatalogueError(error); throw error; }
+
 // this script will generate an author's specific page.
 
-//Get the author name from the URL if any
-if (window.location.search.substring(1).split('=')[0] === 'author') {
-    var author = window.location.search.substring(1).split('=')[1];
-}
+const author = new URLSearchParams(window.location.search).get('author');
 
 // Get the div of id authorHeader
 var authorPageMain = document.getElementById('authorHeader');
 
-// From local storage, get the structure data
-const structureData = JSON.parse(localStorage.getItem("structure_list"));
+// Use the catalogue loaded for this page.
+const structureData = catalogue;
 
 var AuthorData = {};
 var AuthorProfileImage = new Image();
@@ -18,10 +21,10 @@ var AuthorGallery = [];
 // Function to load the data from the author JSON, and the author folders
 async function loadAuthorData() {
     // Load the author JSON file
-    //console.log(author + ' json path: ' + '../json/authors/' + author + '.json');
+    //console.log(author + ' json path: ' + sitePath('json/authors/' + author + '.json'));
     
     try {
-        const response = await fetch('../json/authors/' + author + '.json');
+        const response = await fetch(sitePath('json/authors/' + author + '.json'));
         const data = await response.json();
         AuthorData = data;
     } catch (error) {
@@ -33,7 +36,7 @@ async function loadAuthorData() {
     
 
     // Load the author profile image
-    AuthorProfileImage.src = '../img/authors/profiles/' + author + '.png';
+    AuthorProfileImage.src = sitePath('img/authors/profiles/' + author + '.png');
     AuthorProfileImage.onerror = function() {
         console.log('Author image not found');
         AuthorProfileImage.src = '../img/AW2.png';
@@ -44,17 +47,10 @@ async function loadAuthorData() {
     // Load and store all the images from the author gallery folder
     //console.log(author + ' gallery path: ' + '../img/authors/gallery/' + author + '/');
     try {
-        //Load all .png files from the author gallery folder
-        const response = await fetch('../img/authors/gallery/' + author + '/');
-        const data = await response.text();
-        const parser = new DOMParser();
-        const htmlDoc = parser.parseFromString(data, 'text/html');
-        const images = htmlDoc.getElementsByTagName('a');
-        for (var i = 0; i < images.length; i++) {
-            if (images[i].href.includes('.png')) {
-                AuthorGallery.push(images[i].href.split('/').pop());
-            }
-        }
+        const response = await fetch(sitePath('json/author-galleries.json'));
+        if (!response.ok) throw new Error('Gallery index unavailable');
+        const galleries = await response.json();
+        AuthorGallery = galleries[author] || [];
     }
     catch (error) {
         console.log('Author gallery not found');
@@ -74,7 +70,7 @@ function createStructureCard(structure)
     const card = document.createElement('div');
     card.className = 'structure-card';
     card.onclick = function() {
-        window.location.href = 'structure.html?structureName=' + structure.pack + '/' + structure.name;
+        window.location.href = structureUrl(structure);
     }
 
     // Create the structure icon:
@@ -660,7 +656,7 @@ function createAuthorGallery() {
         for (var i = 0; i < AuthorGallery.length; i++) {
             // Create the image:
             const image = document.createElement('img');
-            image.src = '../img/authors/gallery/' + author + '/' + AuthorGallery[i];
+            image.src = sitePath('img/authors/gallery/' + author + '/' + AuthorGallery[i]);
             image.alt = author + ' gallery image ' + i;
 
             // When image is clicked, open the image in a new tab
