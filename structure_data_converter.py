@@ -353,14 +353,14 @@ def open_structure_file(file, descriptions, version):
     date = today.strftime("%d/%m/%Y") + " " + time.strftime("%H:%M:%S")
 
     # Create the icon url
-    #icon = "http://ancient-warfare.legends-of-gramdatis.com/img/AW2_512.png"
+    #icon = "../img/AW2_512.png"
     structure_name = os.path.splitext(os.path.basename(file))[0]
     # Check if the icon file exists
     if os.path.isfile(f"img/structures/{structure_name}.png"):
-        icon = f"http://ancient-warfare.legends-of-gramdatis.com/img/structures/{structure_name}.png"
+        icon = f"../img/structures/{structure_name}.png"
         #print(f"Icon found and exists : {icon}")
     else:
-        icon = "http://ancient-warfare.legends-of-gramdatis.com/img/AW2_512.png"
+        icon = "../img/AW2_512.png"
     #print(f"Icon: {icon}")
         
     # Calculate the size of the structure
@@ -690,6 +690,18 @@ if __name__ == "__main__":
     if not args.json and not args.zip:
         print("No arguments given, nothing to do. Please use the -j or --json argument to convert the files to json, or the -z or --zip argument to create a zip of the packages.")
         exit()
+
+    # Refresh the static author gallery index without requiring server autoindex.
+    galleries = {}
+    gallery_root = "./img/authors/gallery"
+    if os.path.isdir(gallery_root):
+        for author in sorted(os.listdir(gallery_root)):
+            folder = os.path.join(gallery_root, author)
+            if os.path.isdir(folder):
+                galleries[author] = sorted(name for name in os.listdir(folder) if name.endswith(".png"))
+    os.makedirs("./json", exist_ok=True)
+    with open("./json/author-galleries.json", "w", encoding="utf-8") as gallery_file:
+        json.dump(galleries, gallery_file, indent=2)
 
     # Run the functions
     if args.json:
