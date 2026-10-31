@@ -1,3 +1,9 @@
+import { loadCatalogue, structureUrl, sitePath, reportCatalogueError } from './catalogue.js';
+
+let catalogue;
+try { catalogue = await loadCatalogue(); }
+catch (error) { reportCatalogueError(error); throw error; }
+
 // JSON data
 const filterData = {
     "filter_groups": [
@@ -290,139 +296,14 @@ function createFilterGroups() {
 
 // Function that returns the saved data called structure_list
 function getSavedData() {
-    console.log("Loading data from local storage...");
-    // If the structure list or disclamer is not in local storage, create it from the structures.JSON file
-    if (localStorage.getItem("structure_list") === null || localStorage.getItem("disclamer") === null) {
-        console.log("Creating structure list and data from structures.json...");
-
-        // test if user is under safari
-        let isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-        if (isSafari) {
-            // Let the user know that the browser is not supported by a pop-up message
-            let error_div = document.createElement("div");
-            error_div.classList.add("error");
-            error_div.innerHTML = "<h1>Error</h1>";
-            error_div.innerHTML += "<p>Your browser is not supported. Please use a different browser.</p>";
-
-            structureList.appendChild(error_div);
-            return;
-
-        }
-
-        // Add a loading message to let the user know the disclamer version is being fetched
-        let disclamer_div = document.createElement("div");
-        disclamer_div.classList.add("disclamer");
-        disclamer_div.innerHTML = "<h1>Loading...</h1>";
-        disclamer_div.innerHTML += "<p>This may take a few seconds...</p>";
-        disclamer_div.innerHTML += "<p>Currenly fetching data from structures.json...</p>";
-
-        // Replace the structure list with the loading message
-        structureList.innerHTML = "";
-        structureList.appendChild(disclamer_div);
-
-
-        // Fetch the structures.json file
-        fetch('../json/structures.json')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-
-                // As "disclamer", save the data[0] to local storage
-                localStorage.setItem("disclamer", JSON.stringify(data['disclamer']));
-
-                // As "structure_list", save the data[1] to local storage (try)
-                localStorage.setItem("structure_list", JSON.stringify(data['data']));
-
-                // reload the page
-                location.reload();
-
-                // Check if data was saved to local storage
-                if (localStorage.getItem("structure_list") === null || localStorage.getItem("disclamer") === null) {
-                    console.log("Error saving data to local storage");
-                    // Let the user know the error by a pop-up message
-                    let error_div = document.createElement("div");
-                    error_div.classList.add("error");
-                    error_div.innerHTML = "<h1>Error</h1>";
-                    error_div.innerHTML += "<p>There was an error saving the data to local storage. Please try again later.</p>";
-                    error_div.innerHTML += "<p>If the problem persists, please contact the server administrator.</p>";
-                    structureList.appendChild(error_div);
-                }
-            });
-
-    } else {
-
-        // Read the disclamer from local storage
-        let disclamer = JSON.parse(localStorage.getItem("disclamer"));
-        console.log(disclamer['disclamer']);
-        console.log("Data date: " + disclamer['date']);
-        console.log("Data version: " + disclamer['version']);
-
-        console.log("Checking for new version of structures.json...");
-
-        // Open structures_version.json and compare the version with the one in local storage
-        fetch('../json/structures_version.json')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-
-                // If the version is different, fetch the structures.json file
-                if (data['version'] != disclamer['version']) {
-                    console.log("New version of structures.json detected. Fetching new data...");
-
-                    // Let the user know that the data is being fetched, with a loading message
-                    let disclamer_div = document.createElement("div");
-                    disclamer_div.classList.add("disclamer");
-                    disclamer_div.innerHTML = "<h1>Loading...</h1>";
-                    disclamer_div.innerHTML += "<p>This may take a few seconds...</p>";
-                    disclamer_div.innerHTML += "<p>Currenly fetching data: User has version " + disclamer['version'] + " and the latest version is " + data['version'] + "...</p>";
-
-                    // Replace the structure list with the loading message
-                    structureList.innerHTML = "";
-                    structureList.appendChild(disclamer_div);
-
-
-
-
-
-                    // Fetch the structures.json file
-                    fetch('../json/structures.json')
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log(data);
-
-                            // As "disclamer", save the data[0] to local storage
-                            localStorage.setItem("disclamer", JSON.stringify(data['disclamer']));
-
-                            // As "structure_list", save the data[1] to local storage
-                            localStorage.setItem("structure_list", JSON.stringify(data['data']));
-
-                            // reload the page
-                            location.reload();
-                        });
-
-                    console.log("You have the latest version of structures.json");
-                } else {
-                    console.log("No new version of structures.json detected. Using local data...");
-                }
-            });
-    }
-    let structure_list = JSON.parse(localStorage.getItem("structure_list"));
-    //Alphabetize the data. The data is a dictionary, so we need to convert it to a list, sort it on the "name", and then convert it back to a dictionary
-    let structure_list_list = [];
-    for (let key in structure_list) {
-        structure_list_list.push(structure_list[key]);
-    }
-    structure_list_list.sort((a, b) => (a.name > b.name) ? 1 : -1);
-    let sorted_structure_list = {};
-    for (let i = 0; i < structure_list_list.length; i++) {
-        sorted_structure_list[structure_list_list[i].name] = structure_list_list[i];
-    }
-    return sorted_structure_list;
+    // Keep the original pack-qualified keys; names are not unique across packs.
+    return Object.fromEntries(Object.entries(catalogue).sort((a, b) =>
+        a[1].name.localeCompare(b[1].name)));
 }
 
 // Function to create a mini menu to show a random structure
 function createRandomStructureMenu() {
+    if (!Object.keys(structure_list).length) return;
     // Create a random structure mini menu (an image and the structure name)
     let randomStructureMenu = document.createElement("div");
     randomStructureMenu.classList.add("random-structure-menu");
@@ -452,7 +333,7 @@ function createRandomStructureMenu() {
     let viewButton = document.createElement("button");
     viewButton.innerHTML = "View";
     viewButton.addEventListener("click", function () {
-        window.location.href = 'structure.html?structureName=' + randomStructure.pack + '/' + randomStructure.name;
+        window.location.href = structureUrl(randomStructure);
     }
     );
     randomStructureDiv.appendChild(viewButton);
@@ -466,92 +347,44 @@ function createRandomStructureMenu() {
 
 // Function to create a mini menu to show a random structure (with guarantee illustration)
 function createRandomStructureMenuIllustrated() {
-    // Create a random structure mini menu (an image and the structure name)
-    let randomStructureMenu = document.createElement("div");
-    randomStructureMenu.classList.add("random-structure-menu");
-    randomStructureMenu.innerHTML = `<h3>Random Structure (Illustrated)</h3>`;
-    // Get a random file from "img/structures/"
-    // Get the number of files in folder
-    let numberOfFiles = 0;
-    fetch('../img/structures/')
-        .then(response => response.text())
-        .then(text => {
-            // Count the number of files
-            let parser = new DOMParser();
-            let htmlDocument = parser.parseFromString(text, 'text/html');
-            let files = htmlDocument.getElementsByTagName("a");
-            for (let i = 0; i < files.length; i++) {
-                if (files[i].href.endsWith(".png")) {
-                    numberOfFiles++;
-                }
-            }
+    const menu = document.createElement('div');
+    menu.className = 'random-structure-menu';
+    const title = document.createElement('h3');
+    title.textContent = 'Random Structure (Illustrated)';
+    menu.appendChild(title);
+    pageSizeConfigurator.appendChild(menu);
 
-            // Get a random index
-            let randomIndex = Math.floor(Math.random() * numberOfFiles);
-
-            // Get the file name
-            let fileName = "";
-            let counter = 0;
-            for (let i = 0; i < files.length; i++) {
-                if (files[i].href.endsWith(".png")) {
-                    if (counter == randomIndex) {
-                        fileName = files[i].href;
-                        break;
-                    }
-                    counter++;
-                }
-            }
-
-            // Remove the " https://ancient-warfare.legends-of-gramdatis.com/html/ " part
-            fileName = fileName.replace("https://ancient-warfare.legends-of-gramdatis.com/html/", "https://ancient-warfare.legends-of-gramdatis.com/img/structures/");
-            let structureId = fileName.replace("https://ancient-warfare.legends-of-gramdatis.com/img/structures/", "").replace(".png", "");
-            // Create the structure div
-            let randomStructureDiv = document.createElement("div");
-            randomStructureDiv.classList.add("random-structure-div");
-            // Create the structure image
-            let randomStructureImage = document.createElement("img");
-            randomStructureImage.src = fileName;
-            // Create the structure name
-            let randomStructureName = document.createElement("p");
-            let structure_URL = structureId;
-            // Get structure Json:
-            for (let i = 0; i < Object.keys(structure_list).length; i++) {
-                if (structure_list[Object.keys(structure_list)[i]].name == structureId) {
-                    //Get the name, replace _ by space
-                    let name = structure_list[Object.keys(structure_list)[i]].name.replace(/_/g, " ");
-                    // Add spaces in front of caps
-                    name = name.replace(/([A-Z])/g, ' $1').trim();
-                    //Replace "S B " by "Survival Build "
-                    name = name.replace("S B ", "Survival Build ");
-                    name = name.replace("R U S T I C", "Rustic");
-                    name = name.replace("Q U A R K", "Quark ");
-                    name = name.replace(" Col ", " Collection ");
-                    randomStructureName.innerHTML = name;
-
-                    // To the "structure_URL" add the pack name
-                    structure_URL = structure_list[Object.keys(structure_list)[i]].pack + "/" + structure_URL;
-                    break;
-                }
-            }
-            // Add a view button
-            let viewButton = document.createElement("button");
-            viewButton.innerHTML = "View";
-            viewButton.addEventListener("click", function () {
-                window.location.href = 'structure.html?structureName=' + structure_URL;
-            }
-            );
-            randomStructureDiv.appendChild(viewButton);
-            // Append the structure div to the random structure menu
-            randomStructureDiv.appendChild(randomStructureImage);
-            randomStructureDiv.appendChild(randomStructureName);
-            randomStructureMenu.appendChild(randomStructureDiv);
-            // Append the random structure menu to the filter div
-            pageSizeConfigurator.appendChild(randomStructureMenu);
+    // Use catalogue artwork rather than scraping a server directory listing.
+    // Keep the actual catalogue record so renamed templates link correctly.
+    const candidates = Object.values(structure_list).filter(structure =>
+        new URL(structure.icon, location.href).pathname.includes('/img/structures/'));
+    const panel = document.createElement('div');
+    panel.className = 'random-structure-div';
+    menu.appendChild(panel);
+    function showNext() {
+        panel.replaceChildren();
+        if (!candidates.length) {
+            panel.textContent = 'No illustrated structures available.';
+            return;
         }
-        );
+        const index = Math.floor(Math.random() * candidates.length);
+        const structure = candidates.splice(index, 1)[0];
+        const image = document.createElement('img');
+        image.alt = structure.name;
+        // Stale/missing artwork must not leave a broken random recommendation.
+        image.onerror = showNext;
+        image.onload = () => {
+            const button = document.createElement('button');
+            button.textContent = 'View';
+            button.onclick = () => { window.location.href = structureUrl(structure); };
+            const name = document.createElement('p');
+            name.textContent = structure.name.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1').trim();
+            panel.replaceChildren(button, image, name);
+        };
+        image.src = structure.icon;
+    }
+    showNext();
 }
-
-
 
 // Function to create a mini menu to let the user choose how many structures to display per page
 function createStructurePerPageMenu() {
@@ -683,8 +516,7 @@ function createStructureDiv(structure) {
     downloadButton.innerText = 'Download';
     downloadButton.onclick = () => {
         // Build absolute URL preserving full path and encoding segments
-        const segments = structure.path.split('/').map(s => encodeURIComponent(s));
-        const absoluteUrl = 'http://ancient-warfare.legends-of-gramdatis.com/' + segments.join('/');
+        const absoluteUrl = sitePath(structure.path);
         const link = document.createElement('a');
         link.href = absoluteUrl;
         link.download = structure.name + '.aws';
@@ -697,7 +529,7 @@ function createStructureDiv(structure) {
     openDetailButton.onclick = () => {
         if (structure.path.endsWith('.aws')) {
             // Handle opening detail page logic here
-            window.location.href = 'structure.html?structureName=' + structure.pack + '/' + structure.name;
+            window.location.href = structureUrl(structure);
         }
     };
 
