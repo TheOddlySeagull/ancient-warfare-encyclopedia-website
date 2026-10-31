@@ -1,40 +1,25 @@
+import { loadCatalogue, sitePath, reportCatalogueError } from './catalogue.js';
+
+let catalogue;
+try { catalogue = await loadCatalogue(); }
+catch (error) { reportCatalogueError(error); throw error; }
+
 // this script will generate a structure specific page.
 
 // Deep link handling with fallback: restore original global usage pattern
 const urlParams = new URLSearchParams(window.location.search);
 const structurePackAndName = urlParams.get('structureName');
-let structureData = null;
-let structure = null; // will hold the selected structure (from aggregated list)
-
-function loadStructureDataAndInit() {
-    try {
-        structureData = JSON.parse(localStorage.getItem('structure_list'));
-    } catch (e) {
-        structureData = null;
-    }
-    if (!structureData) {
-        // Fetch full structures list and cache
-        fetch('../json/structures.json')
-            .then(r => r.json())
-            .then(json => {
-                localStorage.setItem('structure_list', JSON.stringify(json.data));
-                structureData = json.data;
-                proceed();
-            })
-            .catch(err => console.error('Failed to fetch structures.json:', err));
-    } else {
-        proceed();
-    }
-}
+const structureData = catalogue;
+let structure = null;
 
 function proceed() {
     if (!structurePackAndName) {
-        console.error('No structureName query parameter provided.');
+        document.getElementById('structureDetail').textContent = 'No structure specified.';
         return;
     }
-    structure = structureData[structurePackAndName];
+    structure = structureData[structurePackAndName] || Object.values(structureData).find(item => item.pack + '/' + item.name === structurePackAndName);
     if (!structure) {
-        console.error('Structure key not found in list:', structurePackAndName);
+        document.getElementById('structureDetail').textContent = 'Structure not found.';
         return;
     }
     const awsPathJson = GetJsonPath();
@@ -52,14 +37,14 @@ function proceed() {
         });
 }
 
-loadStructureDataAndInit();
+proceed();
 
 function GetJsonPath() {
     if (!structure) return '';
-    const parts = structure['path'].split('/');
+    const parts = structure['path'].replace(/^\.\//, '').split('/');
     if (parts[0] === 'structures') parts.shift(); // remove leading folder
     parts[parts.length - 1] = parts[parts.length - 1].replace('.aws', '.json');
-    return '../json/structures_jsons/' + parts.join('/');
+    return sitePath('json/structures_jsons/' + parts.join('/'));
 }
 
 
@@ -233,7 +218,7 @@ function GenerateStructurePage(data) {
     authorButton.className = "structure-detail-nav-button";
     authorButton.id = "authorButton";
     authorButton.onclick = function () {
-        window.location.href = "author.html?author=" + structure['validation']['structureAuthor'];
+        window.location.href = 'author.html?author=' + encodeURIComponent(structure['validation']['structureAuthor']);
     };
 
     // Create the "Pack" button that links to the pack's page
@@ -242,7 +227,7 @@ function GenerateStructurePage(data) {
     packButton.className = "structure-detail-nav-button";
     packButton.id = "packButton";
     packButton.onclick = function () {
-        window.location.href = "package.html?packName=" + structure['pack'];
+        window.location.href = 'package.html?packName=' + encodeURIComponent(structure['pack']);
     };
 
     // Add the buttons to the mini-nav bar
@@ -396,8 +381,7 @@ function GenerateAsideGeneralInfo(data) {
     downloadButton.onclick = () => {
         // Build absolute URL preserving 'structures' root and encoding segments
         const relativePath = data['path']; // e.g. structures/Pack/Structure.aws
-        const segments = relativePath.split('/').map(s => encodeURIComponent(s));
-        const absoluteUrl = 'https://ancient-warfare.legends-of-gramdatis.com/' + segments.join('/');
+        const absoluteUrl = sitePath(relativePath);
         const link = document.createElement('a');
         link.href = absoluteUrl;
         link.download = data['name'] + '.aws';
