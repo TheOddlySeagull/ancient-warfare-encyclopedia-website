@@ -39,7 +39,9 @@ This project is licensed under the [MIT License](link_to_license). Feel free to 
 
 Serve the repository over HTTP(S) with JavaScript module MIME types. Catalogue
 pages fetch `json/structures.json` through a shared loader; they do not require a
-previous Home visit or browser localStorage capacity. Normal HTTP caching applies.
+previous Home visit or browser localStorage capacity. IndexedDB caches the full
+catalogue; repeat visits check the small version file and reuse it when unchanged.
+If browser storage is blocked, the pages fall back to downloading the catalogue.
 Illustrated random recommendations use catalogue artwork and retry missing images,
 so the host does not need to expose directory listings.
 
