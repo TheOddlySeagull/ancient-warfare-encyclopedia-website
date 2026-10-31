@@ -6,7 +6,7 @@ catch (error) { reportCatalogueError(error); throw error; }
 
 // this script will generate an author's specific page.
 
-const author = new URLSearchParams(window.location.search).get('author');
+let author = new URLSearchParams(window.location.search).get('author');
 
 // Get the div of id authorHeader
 var authorPageMain = document.getElementById('authorHeader');
@@ -507,6 +507,8 @@ function createAuthorStructures() {
     // Create the page input:
     const pageInput = document.createElement('input');
     pageInput.type = 'number';
+    pageInput.setAttribute('aria-label', 'Page number');
+    pageInput.inputMode = 'numeric';
     pageInput.min = 1;
     pageInput.max = totalPages;
     pageInput.value = currentPage;
