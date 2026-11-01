@@ -1,3 +1,4 @@
+import { createStructureImage } from './structure-images.js';
 import { loadCatalogue, sitePath, reportCatalogueError } from './catalogue.js';
 
 let catalogue;
@@ -62,8 +63,7 @@ function GenerateStructurePage(data) {
     structureDetailHeader.id = "structureDetailHeader";
 
     // in that div, add an img tag with the structure icon
-    const structureIcon = document.createElement("img");
-    structureIcon.src = structure['icon'];
+    const structureIcon = createStructureImage(structure, { lazy: false });
     structureIcon.alt = structurePackAndName;
 
     //in that div, add a div of id structureDetailHeaderInfo and class structure-detail-header-info
