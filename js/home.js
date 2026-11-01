@@ -316,7 +316,7 @@ function createRandomStructureMenu() {
     let randomStructureDiv = document.createElement("div");
     randomStructureDiv.classList.add("random-structure-div");
     // Create the structure image
-    let randomStructureImage = createStructureImage(randomStructure);
+    let randomStructureImage = createStructureImage(randomStructure, { lazy: false });
     // Create the structure name
     let randomStructureName = document.createElement("p");
     //Get the name, replace _ by space
