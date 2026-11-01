@@ -7,21 +7,39 @@
     <meta name="description" content="A community catalogue of structures and structure packs for the Ancient Warfare 2 Minecraft mod. Browse builds, authors, illustrations and pack downloads.">
     <link rel="canonical" href="https://ancient-warfare.legends-of-gramdatis.com/">
     <link rel="icon" href="img/AW2.png">
+    <link rel="stylesheet" href="css/stylestest.css">
+    <link rel="stylesheet" href="css/mobile.css">
+    <link rel="stylesheet" href="css/navigation.css">
     <link rel="stylesheet" href="css/discovery.css">
 </head>
 <body>
     <a class="skip-link" href="#main-content">Skip to content</a>
-    <header><a class="site-name" href="index.html">Ancient Warfare Structures Encyclopedia</a><nav aria-label="Main navigation"><a href="html/home.html">Structures</a><a href="html/package.html">Packs</a><a href="html/author.html">Authors</a><a href="html/structure-index.html">Text index</a><a href="html/about.html">About</a></nav></header>
+    <header>
+        <h1>Ancient Warfare Structures Encyclopedia</h1>
+    <details class="mobile-navigation"><summary>Explore the encyclopedia</summary><nav aria-label="Mobile navigation"><ul><li><a href="html/home.html">Structures</a></li><li><a href="html/package.html">Packs</a></li><li><a href="html/author.html">Authors</a></li><li><a href="html/structure-index.html">Text index</a></li><li><a href="html/about.html">About</a></li><li><a href="html/contact.html">Contact</a></li></ul></nav></details>
+    </header>
     <main id="main-content">
-<section class="intro">
+        <div id="asideMenu" class="aside-container">
+            <nav>
+                <ul>
+                    <li><a href="html/home.html">Home</a></li>
+                    <li><a href="html/author.html">Authors</a></li>
+                    <li><a href="html/package.html">Packages</a></li>
+                    <li><a href="html/structure-index.html">Text index</a></li><li><a href="html/about.html">About</a></li>
+                    <li><a href="html/contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="search-and-structure discovery-content">
+<section class="main-container-segment intro">
     <p class="eyebrow">COMMUNITY STRUCTURE CATALOGUE FOR MINECRAFT</p>
-    <h1>Explore structures for Ancient Warfare 2</h1>
+    <h2>Explore structures for Ancient Warfare 2</h2>
     <p>The Ancient Warfare Structures Encyclopedia is a community catalogue of downloadable structures and structure packs for the <a href="https://www.curseforge.com/minecraft/mc-mods/ancient-warfare-2">Ancient Warfare 2 (AW2) Minecraft mod</a>. Discover builds, see who made them, and find packs to try in your world.</p>
     <p>Maintained by TheOddlySeagull, this encyclopedia is a separate community website, not the mod itself. Its catalogue includes survival builds and world-generation structures, with metadata such as size, author, required mods, and generation settings where available.</p>
-    <a class="primary-link" href="html/home.html">Browse the structure catalogue →</a>
+    <a class="navigation-action" href="html/home.html">Browse the structure catalogue →</a>
 </section>
 <div class="overview-grid">
-<section><h2>Structure packs</h2><p>Explore the packs currently represented in the catalogue.</p><ul><li><a href="html/package.html?packName=Aaroncd%27s+Structure+Pack">Aaroncd&#x27;s Structure Pack</a></li>
+<section class="main-container-segment"><h2>Structure packs</h2><p>Explore the packs currently represented in the catalogue.</p><ul><li><a href="html/package.html?packName=Aaroncd%27s+Structure+Pack">Aaroncd&#x27;s Structure Pack</a></li>
 <li><a href="html/package.html?packName=Loki61089%27s+Survival+Builds">Loki61089&#x27;s Survival Builds</a></li>
 <li><a href="html/package.html?packName=MohawkyPack">MohawkyPack</a></li>
 <li><a href="html/package.html?packName=MunausPackV1.1">MunausPackV1.1</a></li>
@@ -29,14 +47,21 @@
 <li><a href="html/package.html?packName=Seagull%27s+Survival+Structure+Pack">Seagull&#x27;s Survival Structure Pack</a></li>
 <li><a href="html/package.html?packName=Seagull%27s+WorldG+Structure+Pack">Seagull&#x27;s WorldG Structure Pack</a></li>
 </ul></section>
-<section><h2>Meet the builders</h2><p>Find work by community creators and explore their contributions.</p><ul><li><a href="html/author.html?author=TheOddlySeagull">TheOddlySeagull</a></li>
+<section class="main-container-segment"><h2>Meet the builders</h2><p>Find work by community creators and explore their contributions.</p><ul><li><a href="html/author.html?author=TheOddlySeagull">TheOddlySeagull</a></li>
 <li><a href="html/author.html?author=mohawky">mohawky</a></li>
 <li><a href="html/author.html?author=Loki61089">Loki61089</a></li>
 </ul><a href="html/author.html">View all authors →</a></section>
 </div>
-<section><h2>Find a structure</h2><p>Use the <a href="html/home.html">searchable catalogue</a> to browse builds, illustrations, sizes and generation information. For a complete list of structure links without JavaScript, open the <a href="html/structure-index.html">text-only structure index</a>.</p><p>Check each structure's required mods and its source pack's instructions before installing. The catalogue does not guarantee compatibility with other Minecraft versions or AW2 ports.</p></section>
-<section><h2>About the projects</h2><p>Learn about the mod on the <a href="https://www.curseforge.com/minecraft/mc-mods/ancient-warfare-2">Ancient Warfare 2 project page</a>. Website source and contributions are available in the <a href="https://github.com/TheOddlySeagull/ancient-warfare-encyclopedia-website">encyclopedia GitHub repository</a>.</p><p>Example pack source repositories: <a href="https://github.com/TheOddlySeagull/Seagull-Survival-Structure-Pack">Seagull's Survival Structure Pack</a> and <a href="https://github.com/TheOddlySeagull/Seagull-s-WorldG-Structure-Pack">Seagull's WorldG Structure Pack</a>.</p></section>
-</main>
-    <footer>A community project maintained by <a href="html/author.html?author=TheOddlySeagull">TheOddlySeagull</a>. Structure credits belong to their respective builders.</footer>
+<section class="main-container-segment"><h2>Find a structure</h2><p>Use the <a href="html/home.html">searchable catalogue</a> to browse builds, illustrations, sizes and generation information. For a complete list of structure links without JavaScript, open the <a href="html/structure-index.html">text-only structure index</a>.</p><p>Check each structure's required mods and its source pack's instructions before installing. The catalogue does not guarantee compatibility with other Minecraft versions or AW2 ports.</p></section>
+<section class="main-container-segment"><h2>About the projects</h2><p>Learn about the mod on the <a href="https://www.curseforge.com/minecraft/mc-mods/ancient-warfare-2">Ancient Warfare 2 project page</a>. Website source and contributions are available in the <a href="https://github.com/TheOddlySeagull/ancient-warfare-encyclopedia-website">encyclopedia GitHub repository</a>.</p><p>Example pack source repositories: <a href="https://github.com/TheOddlySeagull/Seagull-Survival-Structure-Pack">Seagull's Survival Structure Pack</a> and <a href="https://github.com/TheOddlySeagull/Seagull-s-WorldG-Structure-Pack">Seagull's WorldG Structure Pack</a>.</p></section>
+</div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Ancient Warfare Structure Encyclopedia. All rights reserved.</p>
+        <a>Contact the author of this site:</a>
+        <address>
+            <a href="mailto:TheOddlySeagull00@gmail.com">TheOddlySeagull00@gmail.com</a>
+        </address> 
+    </footer>
 </body>
 </html>
