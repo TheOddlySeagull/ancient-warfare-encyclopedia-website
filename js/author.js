@@ -683,7 +683,10 @@ createLoadingScreen()
 var authors = getAuthors();
 
 // if author is empty
-if (author === '' || author === 'undefined' || author === undefined || author === 'Unknown') {
+if (author === null || author === '') {
+    const { renderAuthorDirectory } = await import('./author-directory.js');
+    renderAuthorDirectory(structureData);
+} else if (author === 'undefined' || author === 'Unknown') {
     
     createUnknownAuthorPage();
 

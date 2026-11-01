@@ -1,0 +1,30 @@
+/* Directory-only styles; profile layouts retain their existing presentation. */
+.author-directory { min-width: 0; color: #eee9df; }
+.directory-intro { border-bottom: 1px solid #645438; padding-bottom: 1rem; }
+.directory-eyebrow { font-size: .72rem; letter-spacing: .12em; color: #c4a669; }
+.directory-intro h1 { margin: .4rem 0; font-size: clamp(1.6rem, 4vw, 2.3rem); }
+.directory-intro p { line-height: 1.65; }
+.directory-totals { color: #d5b777; }
+.directory-controls { padding: 1.25rem 0 .4rem; }
+.directory-controls label { display: grid; gap: .5rem; font-size: .9rem; }
+.directory-controls input { box-sizing: border-box; width: 100%; min-width: 0; min-height: 48px; padding: .8rem; border: 1px solid #76613d; border-radius: 4px; background: #242321; color: #fff; font: inherit; font-size: 16px; }
+.directory-status, .directory-pack-count { color: #bcb7ac; font-size: .85rem; }
+.directory-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr)); gap: 1rem; }
+.directory-author { display: flex; flex-direction: column; min-width: 0; padding: 1.1rem; border: 1px solid #484336; border-radius: 5px; background: #1b1b1a; overflow-wrap: anywhere; }
+.directory-author h2 { margin: 0; font-size: 1.25rem; }
+.directory-author a { color: #e2c78f; text-underline-offset: 4px; }
+.directory-author h2 a { display: inline-block; padding-block: .4rem; }
+.directory-count { font-size: 1.5rem; margin: .7rem 0 .3rem; }
+.directory-pack-count { margin: .2rem 0; }
+.directory-author ul { list-style: none; padding: 0; margin: .6rem 0 1rem; }
+.directory-author li { display: flex; flex-direction: column; gap: .2rem; padding: .55rem 0; border-bottom: 1px solid #38352d; }
+.directory-author li a { display: block; padding-block: .35rem; line-height: 1.5; }
+.directory-author li span { color: #aaa69c; font-size: .8rem; }
+.directory-profile { display: flex; align-items: center; min-height: 44px; margin-top: auto; font-size: .9rem; }
+.directory-unattributed { margin-top: 1.5rem; padding: 1rem; background: #22211e; border-left: 3px solid #76613d; }
+.directory-unattributed h2 { font-size: 1rem; margin-top: 0; }
+.directory-unattributed p { margin-bottom: 0; line-height: 1.6; }
+@media (max-width: 800px) {
+    .directory-cards { grid-template-columns: 1fr; }
+    .directory-author { padding: 1rem; }
+}
