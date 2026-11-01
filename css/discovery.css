@@ -1,25 +1,12 @@
-:root { color-scheme: dark; }
-* { box-sizing: border-box; }
-body { margin: 0; background: #0d0d0d; color: #eee9df; font: 1rem/1.65 sans-serif; }
-a { color: #e2c78f; text-underline-offset: .2em; overflow-wrap: anywhere; }
-a:focus-visible, summary:focus-visible { outline: 2px solid #e2c78f; outline-offset: 4px; }
-header { background: #242321; padding: 1.3rem max(1rem, calc((100% - 68rem) / 2)); border-bottom: 1px solid #76613d; }
-.site-name { color: #fff; text-decoration: none; font-size: 1.2rem; font-weight: bold; }
-nav { display: flex; flex-wrap: wrap; gap: .5rem 1rem; margin-top: .75rem; }
-nav a { display: inline-flex; align-items: center; min-height: 44px; }
-main { max-width: 70rem; margin: auto; padding: 1.5rem 1rem; min-width: 0; }
-h1 { font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.25; }
-h2 { font-size: 1.3rem; color: #e2c78f; }
-.eyebrow { color: #bda371; font-size: .75rem; letter-spacing: .12em; }
-section { margin-bottom: 1.5rem; padding: 1.3rem; border: 1px solid #484336; background: #1b1b1a; border-radius: 5px; }
-.intro { padding: clamp(1.3rem, 4vw, 2.5rem); }
-.primary-link { display: inline-flex; align-items: center; padding: .8rem 1.2rem; min-height: 44px; border: 1px solid #b89a60; background: #3b3325; border-radius: 4px; }
-.overview-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
-li a { display: inline-block; padding-block: .45rem; }
-ul { padding-left: 1.2rem; }
-details { margin-bottom: 1rem; padding: 1rem; border: 1px solid #484336; border-radius: 4px; background: #1b1b1a; }
-summary { cursor: pointer; min-height: 44px; padding-block: .5rem; color: #e2c78f; font-weight: bold; overflow-wrap: anywhere; }
-footer { max-width: 70rem; margin: auto; padding: 1rem; color: #bcb7ac; font-size: .85rem; }
-.skip-link { position: absolute; top: -6rem; left: 1rem; }
-.skip-link:focus { top: 1rem; padding: 1rem; background: #242321; }
-@media (max-width: 800px) { .overview-grid { grid-template-columns: 1fr; gap: 0; } section { padding: 1rem; } }
+/* Discovery content only. The shared site styles own the page shell and menus. */
+.discovery-content { min-width: 0; line-height: 1.65; }
+.discovery-content a { color: #e2c78f; text-underline-offset: .2em; overflow-wrap: anywhere; }
+.discovery-content .navigation-action { color: white; margin-inline: 0; min-height: 44px; }
+.discovery-content .eyebrow { font-size: .75rem; letter-spacing: .1em; color: #c7b386; }
+.discovery-content .overview-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+.discovery-content li a { display: inline-block; padding-block: .45rem; }
+.discovery-content > details { margin-bottom: 1rem; }
+.discovery-content > details > summary { cursor: pointer; min-height: 44px; padding-block: .5rem; color: #e2c78f; font-weight: bold; overflow-wrap: anywhere; }
+@media (max-width: 800px) {
+    .discovery-content .overview-grid { grid-template-columns: 1fr; gap: 0; }
+}
