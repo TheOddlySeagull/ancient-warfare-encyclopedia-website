@@ -1,3 +1,4 @@
+import { createStructureImage, findIllustratedStructure } from './structure-images.js';
 import { loadCatalogue, structureUrl, sitePath, reportCatalogueError } from './catalogue.js';
 
 let catalogue;
@@ -315,8 +316,7 @@ function createRandomStructureMenu() {
     let randomStructureDiv = document.createElement("div");
     randomStructureDiv.classList.add("random-structure-div");
     // Create the structure image
-    let randomStructureImage = document.createElement("img");
-    randomStructureImage.src = randomStructure.icon;
+    let randomStructureImage = createStructureImage(randomStructure);
     // Create the structure name
     let randomStructureName = document.createElement("p");
     //Get the name, replace _ by space
@@ -354,36 +354,30 @@ function createRandomStructureMenuIllustrated() {
     menu.appendChild(title);
     pageSizeConfigurator.appendChild(menu);
 
-    // Use catalogue artwork rather than scraping a server directory listing.
-    // Keep the actual catalogue record so renamed templates link correctly.
-    const candidates = Object.values(structure_list).filter(structure =>
-        new URL(structure.icon, location.href).pathname.includes('/img/structures/'));
     const panel = document.createElement('div');
     panel.className = 'random-structure-div';
     menu.appendChild(panel);
-    function showNext() {
-        panel.replaceChildren();
-        if (!candidates.length) {
-            panel.textContent = 'No illustrated structures available.';
+    async function showNext() {
+        panel.textContent = 'Looking for an illustrated structure…';
+        const structure = await findIllustratedStructure(structure_list);
+        if (!structure) {
+            const message = document.createElement('p');
+            message.textContent = 'No illustration found in this sample.';
+            const retry = document.createElement('button');
+            retry.textContent = 'Try another sample';
+            retry.onclick = showNext;
+            panel.replaceChildren(message, retry);
             return;
         }
-        const index = Math.floor(Math.random() * candidates.length);
-        const structure = candidates.splice(index, 1)[0];
-        const image = document.createElement('img');
-        image.alt = structure.name;
-        // Stale/missing artwork must not leave a broken random recommendation.
-        image.onerror = showNext;
-        image.onload = () => {
-            const button = document.createElement('button');
-            button.textContent = 'View';
-            button.onclick = () => { window.location.href = structureUrl(structure); };
-            const name = document.createElement('p');
-            name.textContent = structure.name.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1').trim();
-            panel.replaceChildren(button, image, name);
-        };
-        image.src = structure.icon;
+        const button = document.createElement('button');
+        button.textContent = 'View';
+        button.onclick = () => { window.location.href = structureUrl(structure); };
+        const image = createStructureImage(structure, { lazy: false });
+        const name = document.createElement('p');
+        name.textContent = structure.name.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1').trim();
+        panel.replaceChildren(button, image, name);
     }
-    showNext();
+    void showNext();
 }
 
 // Function to create a mini menu to let the user choose how many structures to display per page
@@ -460,9 +454,7 @@ function createStructureDiv(structure) {
     mainInfoDiv.className = 'container-main-info';
 
     // In the main info div, add the icon (image)
-    const icon = document.createElement('img');
-    icon.src = structure.icon;
-    icon.alt = 'Structure Icon';
+    const icon = createStructureImage(structure);
 
     // In the main info div, add the info grid div
     const infoGridDiv = document.createElement('div');
