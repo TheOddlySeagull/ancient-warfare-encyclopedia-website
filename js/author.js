@@ -68,11 +68,9 @@ async function loadAuthorData() {
 function createStructureCard(structure)
 {
     // The card is simply the structure name, and the icon. Clicking on the card will take you to the structure page.
-    const card = document.createElement('div');
+    const card = document.createElement('a');
     card.className = 'structure-card';
-    card.onclick = function() {
-        window.location.href = structureUrl(structure);
-    }
+    card.href = structureUrl(structure);
 
     // Create the structure icon:
     const icon = createStructureImage(structure);
@@ -90,11 +88,9 @@ function createStructureCard(structure)
 function createPackageCard(pack, count)
 {
     // The card is simply the package name, and a text telling "package has count structures of this author". Clicking on the card will take you to the package page.
-    const card = document.createElement('div');
+    const card = document.createElement('a');
     card.className = 'package-card';
-    card.onclick = function() {
-        window.location.href = 'package.html?packName=' + pack;
-    }
+    card.href = 'package.html?packName=' + encodeURIComponent(pack);
 
     // Create the package name:
     const name = document.createElement('h4');
@@ -421,11 +417,10 @@ function createUnknownAuthorInfo() {
         }
 
         // Create the button:
-        const button = document.createElement('button');
-        button.innerHTML = buttonName;
-        button.onclick = function() {
-            window.location.href = 'author.html?author=' + authorName;
-        };
+        const button = document.createElement('a');
+        button.className = 'navigation-action';
+        button.textContent = buttonName;
+        button.href = 'author.html?author=' + encodeURIComponent(authorName);
 
         // Add the button to the authorPageMain:
         buttonPanel.appendChild(button);
