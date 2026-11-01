@@ -78,3 +78,24 @@ pack lists/details, author pagination/gallery, About and Contact. Verify no page
 horizontal overflow, while detail-tab strips remain horizontally scrollable. Also
 check keyboard focus and the skip-to-content link. Real-device Safari and Android
 touch/keyboard testing remains useful in addition to desktop browser viewport QA.
+
+## Adding structure images
+
+Upload `img/structures/<template filename>.png`, matching the `.aws` basename
+exactly (including capitalization). The filename comes from the template path,
+which may differ from the internal/displayed structure name. No catalogue JSON
+regeneration or version bump is required for adding an illustration to an already
+catalogued structure. Newly added structures still require catalogue regeneration.
+
+Cards, detail pages and author/pack structure images try the PNG directly, then
+fall back to the AW2 logo on failure. Cards use native lazy loading. Image success
+and failure results are shared within the current page, never persisted in the
+catalogue or IndexedDB. Normal HTTP caching still applies: a server/CDN that caches
+404 responses may need its negative cache purged after an upload.
+
+Illustrated random recommendations mix fresh discoveries with already loaded artwork and existing catalogue
+hints. Each sample checks at most 12 distinct image URLs, at most three concurrently,
+with a 2.5-second timeout per batch. It does not scan the whole catalogue. If a sample
+finds no illustration, visitors can request another; this is a bounded sample, not
+an assertion that no artwork exists. A newly added PNG is eligible even while the
+cached catalogue still contains the old logo path.

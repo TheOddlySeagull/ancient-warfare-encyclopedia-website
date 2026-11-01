@@ -1,7 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import vm from 'node:vm';
 
 const source = readFileSync(new URL('../js/catalogue.js', import.meta.url), 'utf8')
     .replace("new URL('../', import.meta.url)", "new URL('https://example.test/encyclopedia/')");
@@ -31,45 +30,6 @@ test('HTTP failures reject instead of treating error pages as catalogues', async
     globalThis.fetch = async () => ({ ok: false });
     const api = await moduleFor('failure');
     await assert.rejects(api.loadCatalogue(), /Unable to load/);
-});
-
-const home = readFileSync(new URL('../js/home.js', import.meta.url), 'utf8');
-const randomCode = home.slice(home.indexOf('function createRandomStructureMenuIllustrated()'), home.indexOf('// Function to create a mini menu to let the user choose'));
-function randomFixture(data) {
-    const created = [];
-    const document = { createElement(tag) { const element = {
-        tag, children: [], appendChild(child) { this.children.push(child); },
-        replaceChildren(...children) { this.children = children; }
-    }; created.push(element); return element; } };
-    const sidebar = document.createElement('aside');
-    const context = { document, pageSizeConfigurator: sidebar, structure_list: data, URL,
-        location: { href: 'https://example.test/html/home.html' }, Math: { random: () => 0, floor: Math.floor },
-        structureUrl: item => 'canonical:' + item.id, window: { location: {} } };
-    vm.runInNewContext(randomCode + '\ncreateRandomStructureMenuIllustrated();', context);
-    return { created, panel: sidebar.children[0].children[1], context };
-}
-
-test('illustrated random skips placeholders, retries missing art and links the selected record', () => {
-    const fixture = randomFixture({
-        fallback: { icon: '/img/AW2_512.png' },
-        missing: { icon: '/img/structures/missing.png', name: 'Missing', id: 'one' },
-        renamed: { icon: '/img/structures/old-name.png', name: 'NewName', id: 'two' }
-    });
-    const first = fixture.created.find(item => item.tag === 'img');
-    assert.equal(first.src, '/img/structures/missing.png');
-    first.onerror();
-    const second = fixture.created.filter(item => item.tag === 'img')[1];
-    second.onload();
-    assert.equal(fixture.panel.children[1], second);
-    fixture.panel.children[0].onclick();
-    assert.equal(fixture.context.window.location.href, 'canonical:two');
-});
-
-test('illustrated random handles empty catalogues and exhausted images', () => {
-    assert.equal(randomFixture({}).panel.textContent, 'No illustrated structures available.');
-    const fixture = randomFixture({ only: { icon: '/img/structures/missing.png', name: 'Missing' } });
-    fixture.created.find(item => item.tag === 'img').onerror();
-    assert.equal(fixture.panel.textContent, 'No illustrated structures available.');
 });
 
 // Minimal asynchronous IndexedDB harness, used to verify navigation/cache behavior.

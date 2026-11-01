@@ -1,3 +1,4 @@
+import { createStructureImage } from './structure-images.js';
 import { loadCatalogue, structureUrl, sitePath, reportCatalogueError } from './catalogue.js';
 
 let catalogue;
@@ -74,9 +75,7 @@ function createStructureCard(structure)
     }
 
     // Create the structure icon:
-    const icon = document.createElement('img');
-    icon.src = structure.icon;
-    icon.alt = structure.name;
+    const icon = createStructureImage(structure);
     card.appendChild(icon);
 
     // Create the structure name:

@@ -1,3 +1,4 @@
+import { createStructureImage } from './structure-images.js';
 import { loadCatalogue, sitePath, reportCatalogueError } from './catalogue.js';
 
 let catalogue;
@@ -315,8 +316,7 @@ function createPackageGallery(packageName, structureData) {
             galleryItem.className = 'gallery-item';
             let link = document.createElement("a");
             link.href = "structure.html?structureName=" + encodeURIComponent(structure);
-            let image = new Image();
-            image.src = "../img/structures/" + structure + ".png";
+            let image = createStructureImage(structureData[structure]);
             link.appendChild(image);
             galleryItem.appendChild(link);
             gallery.appendChild(galleryItem);
