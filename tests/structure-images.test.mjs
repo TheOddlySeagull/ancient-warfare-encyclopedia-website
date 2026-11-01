@@ -41,6 +41,8 @@ test('new artwork displays despite an old placeholder in the cached catalogue', 
     assert.equal(image.loading, 'lazy');
     assert.equal(image.decoding, 'async');
     assert.deepEqual(requests, [url('New')]);
+    const recommendation = api.createStructureImage(record('New'), { lazy: false });
+    assert.equal(recommendation.loading, 'eager');
 });
 test('missing artwork falls back once, even if the fallback is missing too', async () => {
     const { api, requests } = await images();
