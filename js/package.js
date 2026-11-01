@@ -251,11 +251,10 @@ function createPackageAuthors(packageName, structureData) {
         }
 
         // Create the button:
-        const authorButton = document.createElement('button');
-        authorButton.innerHTML = buttonName;
-        authorButton.onclick = function() {
-            window.location.href = 'author.html?author=' + authorName;
-        };
+        const authorButton = document.createElement('a');
+        authorButton.className = 'navigation-action';
+        authorButton.textContent = buttonName;
+        authorButton.href = 'author.html?author=' + encodeURIComponent(authorName);
 
         // Add the button to the panel:
         buttonPanel.appendChild(authorButton);
@@ -536,11 +535,10 @@ function createAllPackagesList() {
             }
 
             // Create the button:
-            const authorButton = document.createElement('button');
-            authorButton.innerHTML = buttonName;
-            authorButton.onclick = function() {
-                window.location.href = 'package.html?packName=' + packageName;
-            };
+            const authorButton = document.createElement('a');
+            authorButton.className = 'navigation-action';
+            authorButton.textContent = buttonName;
+            authorButton.href = 'package.html?packName=' + encodeURIComponent(packageName);
 
             // Add the button to the panel:
             buttonPanel.appendChild(authorButton);

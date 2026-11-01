@@ -213,22 +213,18 @@ function GenerateStructurePage(data) {
     const validationMiniNavBar = document.createElement("nav");
 
     // Create the "Author" button that links to the author's page
-    const authorButton = document.createElement("button");
+    const authorButton = document.createElement("a");
     authorButton.textContent = "Author";
-    authorButton.className = "structure-detail-nav-button";
+    authorButton.className = "structure-detail-nav-button navigation-action";
     authorButton.id = "authorButton";
-    authorButton.onclick = function () {
-        window.location.href = 'author.html?author=' + encodeURIComponent(structure['validation']['structureAuthor']);
-    };
+    authorButton.href = 'author.html?author=' + encodeURIComponent(structure['validation']['structureAuthor']);
 
     // Create the "Pack" button that links to the pack's page
-    const packButton = document.createElement("button");
+    const packButton = document.createElement("a");
     packButton.textContent = "Pack";
-    packButton.className = "structure-detail-nav-button";
+    packButton.className = "structure-detail-nav-button navigation-action";
     packButton.id = "packButton";
-    packButton.onclick = function () {
-        window.location.href = 'package.html?packName=' + encodeURIComponent(structure['pack']);
-    };
+    packButton.href = 'package.html?packName=' + encodeURIComponent(structure['pack']);
 
     // Add the buttons to the mini-nav bar
     validationMiniNavBar.appendChild(authorButton);
