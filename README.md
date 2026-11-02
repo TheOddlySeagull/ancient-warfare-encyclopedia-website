@@ -86,6 +86,8 @@ Illustrated random recommendations check a limited sample of candidates to avoid
 
 Edit `descriptions.json` for structure descriptions; its keys match the internal structure names. Descriptions are incorporated when regenerating catalogue data. Author and pack information is stored under `json/authors/` and `json/packages/`.
 
+Author icons use `img/authors/profiles/<author>.png` (case-sensitive). The directory and author profiles share these images and fall back to the AW2 logo when an icon is missing; no JSON update is needed.
+
 Author galleries use `json/author-galleries.json`. The converter refreshes this index from `img/authors/gallery/<author>/*.png` during conversion or archive generation, so run it where the gallery assets are present.
 
 ## Testing
