@@ -14,6 +14,9 @@
 .directory-author h2 { margin: 0; font-size: 1.25rem; }
 .directory-author a { color: var(--aw-link); text-underline-offset: 4px; }
 .directory-author h2 a { display: inline-block; padding-block: .4rem; }
+.directory-author h2 .directory-identity { display: flex; align-items: center; gap: .85rem; min-width: 0; }
+.directory-identity img { flex: 0 0 64px; width: 64px; height: 64px; object-fit: contain; box-sizing: border-box; padding: .2rem; border: 1px solid var(--aw-frame); border-radius: 4px; background: var(--aw-page-background); }
+.directory-identity span { min-width: 0; overflow-wrap: anywhere; }
 .directory-count { font-size: 1.5rem; margin: .7rem 0 .3rem; }
 .directory-pack-count { margin: .2rem 0; }
 .directory-author ul { list-style: none; padding: 0; margin: .6rem 0 1rem; }
