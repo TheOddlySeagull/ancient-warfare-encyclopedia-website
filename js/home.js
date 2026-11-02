@@ -330,12 +330,10 @@ function createRandomStructureMenu() {
     name = name.replace(" Col ", " Collection ");
     randomStructureName.innerHTML = name;
     // Add a view button
-    let viewButton = document.createElement("button");
-    viewButton.innerHTML = "View";
-    viewButton.addEventListener("click", function () {
-        window.location.href = structureUrl(randomStructure);
-    }
-    );
+    let viewButton = document.createElement("a");
+    viewButton.className = 'navigation-action';
+    viewButton.textContent = "View";
+    viewButton.href = structureUrl(randomStructure);
     randomStructureDiv.appendChild(viewButton);
     // Append the structure div to the random structure menu
     randomStructureDiv.appendChild(randomStructureImage);
@@ -369,9 +367,10 @@ function createRandomStructureMenuIllustrated() {
             panel.replaceChildren(message, retry);
             return;
         }
-        const button = document.createElement('button');
+        const button = document.createElement('a');
+        button.className = 'navigation-action';
         button.textContent = 'View';
-        button.onclick = () => { window.location.href = structureUrl(structure); };
+        button.href = structureUrl(structure);
         const image = createStructureImage(structure, { lazy: false });
         const name = document.createElement('p');
         name.textContent = structure.name.replace(/_/g, ' ').replace(/([A-Z])/g, ' $1').trim();
@@ -517,14 +516,10 @@ function createStructureDiv(structure) {
         link.click();
         document.body.removeChild(link);
     };
-    const openDetailButton = document.createElement('button');
+    const openDetailButton = document.createElement('a');
+    openDetailButton.className = 'navigation-action';
     openDetailButton.innerText = 'Open Detail Page';
-    openDetailButton.onclick = () => {
-        if (structure.path.endsWith('.aws')) {
-            // Handle opening detail page logic here
-            window.location.href = structureUrl(structure);
-        }
-    };
+    openDetailButton.href = structureUrl(structure);
 
     // Create the "Extra Info" div
     const extraInfoDiv = document.createElement('div');

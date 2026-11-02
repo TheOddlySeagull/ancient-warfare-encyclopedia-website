@@ -32,7 +32,7 @@ Structure templates, structure illustrations, author galleries, and downloadable
 
 | Path | Purpose |
 | --- | --- |
-| `index.html` | Entry point; redirects to the structure catalogue. |
+| `index.html` | Static introduction linking the mod, packs, authors, and catalogue. |
 | `html/` | Catalogue, structure, pack, author, and information pages. |
 | `css/` | Page styles and shared mobile layouts. |
 | `js/` | Search, page rendering, catalogue caching, and image loading. |
@@ -40,7 +40,7 @@ Structure templates, structure illustrations, author galleries, and downloadable
 | `descriptions.json` | Structure descriptions maintained separately from the generated catalogue. |
 | `img/` | Site artwork, structure illustrations, and author images. |
 | `structure_data_converter.py` | Converts structure templates into catalogue data and can generate pack archives. |
-| `tests/` | Automated tests for catalogue loading, author counts, and image discovery. |
+| `tests/` | Automated tests for catalogue loading, author counts, image discovery, and generated pages. |
 
 The converter also uses a local `structures/` directory for source templates and a `downloads/` directory for generated ZIP archives.
 
@@ -55,6 +55,14 @@ python3 structure_data_converter.py --help
 ```
 
 Run conversions against a complete local copy of the structure assets, and review generated changes before publishing. The converter currently derives pack names from the template's immediate parent directory, so nested folder layouts need particular attention.
+
+After updating catalogue data, regenerate the public introduction and complete text index, then commit both generated HTML files:
+
+```bash
+python3 scripts/generate_discovery.py
+```
+
+The text index links every catalogue record to its existing detail page. Detail pages still load their information with JavaScript.
 
 Keep the catalogue's `disclamer.version` and `json/structures_version.json`'s `version` consistent when updating the main catalogue; the browser uses these values to refresh its cache. The `disclamer` spelling is part of the existing data format.
 
@@ -82,6 +90,7 @@ Run the test suite from the repository root:
 
 ```bash
 node --test
+python3 -m unittest discover -s tests -p 'test_*.py'
 ```
 
 For layout changes, also check desktop and mobile views, navigation, search, pagination, and structure/author/pack pages. Useful viewport widths are 320, 390, 768, and 1280 CSS pixels.
