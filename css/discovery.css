@@ -10,3 +10,9 @@
 @media (max-width: 800px) {
     .discovery-content .overview-grid { grid-template-columns: 1fr; gap: 0; }
 }
+
+/* The sidebars use the same 20% widths and borders as the catalogue. */
+#asideGeneralMenu { min-width: 0; }
+#asideGeneralMenu .catalogue-logo { display: block; width: 100%; height: auto; }
+#asideGeneralMenu p { text-align: center; overflow-wrap: anywhere; }
+#asideGeneralMenu a.navigation-action { overflow-wrap: anywhere; }
