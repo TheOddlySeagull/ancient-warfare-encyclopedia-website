@@ -16,3 +16,13 @@
 #asideGeneralMenu .catalogue-logo { display: block; width: 100%; height: auto; }
 #asideGeneralMenu p { text-align: center; overflow-wrap: anywhere; }
 #asideGeneralMenu a.navigation-action { overflow-wrap: anywhere; }
+
+/* Keep the desktop frames visible against both the page and menu backgrounds. */
+@media (min-width: 801px) {
+    #main-content > .aside-container,
+    #main-content > .discovery-content,
+    #main-content > .aside-container h3,
+    #main-content .navigation-action {
+        border-color: #7a7164;
+    }
+}
