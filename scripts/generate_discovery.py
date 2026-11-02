@@ -17,18 +17,18 @@ NAVIGATION = (
     ('package.html', 'Packs', 'Packages', 2),
     ('author.html', 'Authors', 'Authors', 1),
     ('structure-index.html', 'Text index', 'Text index', 3),
-    ('about.html', 'About', 'About', 4),
+    ('index.html', 'About', 'About', 4),
     ('contact.html', 'Contact', 'Contact', 5),
 )
 
 
-def navigation(html_prefix, current_page, mobile=False):
+def navigation(html_prefix, current_page, mobile=False, asset_prefix=''):
     links = []
     # Preserve the familiar desktop menu order.
     items = NAVIGATION if mobile else sorted(NAVIGATION, key=lambda item: item[3])
     for filename, mobile_label, desktop_label, _ in items:
         current = ' aria-current="page"' if filename == current_page else ''
-        href = escape(html_prefix + filename, quote=True)
+        href = escape((asset_prefix if filename == 'index.html' else html_prefix) + filename, quote=True)
         label = mobile_label if mobile else desktop_label
         links.append(f'<li><a href="{href}"{current}>{label}</a></li>')
     if mobile:
@@ -38,13 +38,15 @@ def navigation(html_prefix, current_page, mobile=False):
 
 def page(title, description, content, nested=False, filename='', structure_count=0, pack_count=0):
     html_prefix = '' if nested else 'html/'
+    asset_prefix = '../' if nested else ''
+    current_page = Path(filename or 'index.html').name
     template = Template((ROOT / 'templates/page.html').read_text(encoding='utf-8'))
     return template.substitute(
         title=escape(title), description=escape(description, quote=True),
         canonical=escape(SITE + filename, quote=True),
-        asset_prefix='../' if nested else '', html_prefix=html_prefix,
-        mobile_links=navigation(html_prefix, Path(filename).name, mobile=True),
-        desktop_links=navigation(html_prefix, Path(filename).name),
+        asset_prefix=asset_prefix, html_prefix=html_prefix,
+        mobile_links=navigation(html_prefix, current_page, mobile=True, asset_prefix=asset_prefix),
+        desktop_links=navigation(html_prefix, current_page, asset_prefix=asset_prefix),
         content=content, structure_count=f'{structure_count:,}', pack_count=f'{pack_count:,}',
     )
 
