@@ -62,6 +62,10 @@ After updating catalogue data, regenerate the public introduction and complete t
 python3 scripts/generate_discovery.py
 ```
 
+Both generated pages use `templates/page.html` for the shared header, menus, footer, and three-column layout. Menu destinations and desktop/phone labels are defined once in `scripts/generate_discovery.py`. Edit the template or menu definition and rerun the command above to update both pages; do not edit the generated HTML directly.
+
+Shared colour tokens live in `css/theme.css`, loaded before each page's styles. The desktop frame token controls sidebar borders, content dividers, and navigation outlines without page-specific overrides. Layout rules remain in the existing page styles and `css/mobile.css`.
+
 The text index links every catalogue record to its existing detail page. Detail pages still load their information with JavaScript.
 
 Keep the catalogue's `disclamer.version` and `json/structures_version.json`'s `version` consistent when updating the main catalogue; the browser uses these values to refresh its cache. The `disclamer` spelling is part of the existing data format.
