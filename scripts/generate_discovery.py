@@ -11,17 +11,17 @@ ROOT = Path(__file__).resolve().parents[1]
 SITE = 'https://ancient-warfare.legends-of-gramdatis.com/'
 
 
-def page(title, description, content, nested=False, filename=''):
+def page(title, description, content, nested=False, filename='', structure_count=0, pack_count=0):
     prefix = '../' if nested else ''
     html_prefix = '' if nested else 'html/'
-    # Use the existing information-page shell rather than maintaining another menu.
-    template = (ROOT / 'html/about.html').read_text(encoding='utf-8')
+    # Reuse the catalogue shell and styles, including its three desktop columns.
+    template = (ROOT / 'html/home.html').read_text(encoding='utf-8')
     header = re.search(r'<header>.*?</header>', template, re.S).group()
-    sidebar = re.search(r'<div id="asideMenu".*?</div>', template, re.S).group()
+    sidebar = re.search(r'<div id="navAndFilter".*?<nav>.*?</nav>', template, re.S).group() + '</div>'
+    sidebar = sidebar.replace('id="navAndFilter",', 'id="asideMenu"')
     footer = re.search(r'<footer>.*?</footer>', template, re.S).group()
-    header = header.replace('About Ancient Warfare Structures Encyclopedia',
-                            'Ancient Warfare Structures Encyclopedia')
     header = header.replace(' aria-current="page"', '')
+    header = header.replace('<li><a href="#browse-options">Browse options</a></li>', '<li><a href="#asideGeneralMenu">Page information</a></li>')
     index_item = '<li><a href="structure-index.html"' + (' aria-current="page"' if nested else '') + '>Text index</a></li>'
     def navigation_paths(markup):
         markup = markup.replace('<li><a href="about.html"', index_item + '<li><a href="about.html"')
@@ -38,7 +38,7 @@ def page(title, description, content, nested=False, filename=''):
     <meta name="description" content="{escape(description, quote=True)}">
     <link rel="canonical" href="{SITE}{filename}">
     <link rel="icon" href="{prefix}img/AW2.png">
-    <link rel="stylesheet" href="{prefix}css/stylestest.css">
+    <link rel="stylesheet" href="{prefix}css/home.css">
     <link rel="stylesheet" href="{prefix}css/mobile.css">
     <link rel="stylesheet" href="{prefix}css/navigation.css">
     <link rel="stylesheet" href="{prefix}css/discovery.css">
@@ -49,6 +49,16 @@ def page(title, description, content, nested=False, filename=''):
     <main id="main-content">
         {sidebar}
         <div class="search-and-structure discovery-content">{content}</div>
+        <div id="asideGeneralMenu" class="aside-container">
+            <div>
+                <h3>Catalogue information</h3>
+                <img class="catalogue-logo" src="{prefix}img/AW2.png" alt="Ancient Warfare 2">
+                <p>{structure_count:,} structures<br>{pack_count:,} structure packs</p>
+                <a class="navigation-action" href="{html_prefix}home.html">Browse structures</a>
+                <a class="navigation-action" href="{html_prefix}author.html">Meet the authors</a>
+                <a class="navigation-action" href="{html_prefix}package.html">Explore packs</a>
+            </div>
+        </div>
     </main>
     {footer}
 </body>
@@ -82,14 +92,14 @@ def generate(root=ROOT):
 <section class="main-container-segment"><h2>Find a structure</h2><p>Use the <a href="html/home.html">searchable catalogue</a> to browse builds, illustrations, sizes and generation information. For a complete list of structure links without JavaScript, open the <a href="html/structure-index.html">text-only structure index</a>.</p><p>Check each structure's required mods and its source pack's instructions before installing. The catalogue does not guarantee compatibility with other Minecraft versions or AW2 ports.</p></section>
 <section class="main-container-segment"><h2>About the projects</h2><p>Learn about the mod on the <a href="https://www.curseforge.com/minecraft/mc-mods/ancient-warfare-2">Ancient Warfare 2 project page</a>. Website source and contributions are available in the <a href="https://github.com/TheOddlySeagull/ancient-warfare-encyclopedia-website">encyclopedia GitHub repository</a>.</p><p>Example pack source repositories: <a href="https://github.com/TheOddlySeagull/Seagull-Survival-Structure-Pack">Seagull's Survival Structure Pack</a> and <a href="https://github.com/TheOddlySeagull/Seagull-s-WorldG-Structure-Pack">Seagull's WorldG Structure Pack</a>.</p></section>
 '''
-    (root / 'index.html').write_text(page('Ancient Warfare 2 Structures & Packs | Ancient Warfare Structures Encyclopedia', 'A community catalogue of structures and structure packs for the Ancient Warfare 2 Minecraft mod. Browse builds, authors, illustrations and pack downloads.', content), encoding='utf-8')
+    (root / 'index.html').write_text(page('Ancient Warfare 2 Structures & Packs | Ancient Warfare Structures Encyclopedia', 'A community catalogue of structures and structure packs for the Ancient Warfare 2 Minecraft mod. Browse builds, authors, illustrations and pack downloads.', content, structure_count=len(records), pack_count=len(packs)), encoding='utf-8')
     sections = []
     for name in sorted(packs):
         links = ''.join(f'<li><a href="structure.html?{escape(urlencode({"structureName": key}), quote=True)}">{escape(record.get("name") or key)}</a></li>\n' for key, record in sorted(packs[name], key=lambda row: ((row[1].get('name') or row[0]).lower(), row[0])))
         pack_url = 'package.html?' + urlencode({'packName': name})
         sections.append(f'<details><summary>{escape(name)} — {len(packs[name]):,} {"structure" if len(packs[name]) == 1 else "structures"}</summary><p><a href="{escape(pack_url, quote=True)}">About this structure pack</a></p><ul>{links}</ul></details>')
     content = '<h2>Ancient Warfare 2 structure index</h2><p>A complete text index of the structures in this community catalogue. Expand a pack to browse its builds, or use the <a href="home.html">searchable catalogue</a> for illustrations and search tools.</p>' + '\n'.join(sections)
-    (root / 'html/structure-index.html').write_text(page('AW2 Structure Index | Ancient Warfare Structures Encyclopedia', 'Browse every catalogued Ancient Warfare 2 structure, grouped by pack, with links to structure details.', content, nested=True, filename='html/structure-index.html'), encoding='utf-8')
+    (root / 'html/structure-index.html').write_text(page('AW2 Structure Index | Ancient Warfare Structures Encyclopedia', 'Browse every catalogued Ancient Warfare 2 structure, grouped by pack, with links to structure details.', content, nested=True, filename='html/structure-index.html', structure_count=len(records), pack_count=len(packs)), encoding='utf-8')
 
 
 if __name__ == '__main__':
