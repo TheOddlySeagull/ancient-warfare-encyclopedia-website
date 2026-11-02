@@ -1,0 +1,13 @@
+/* Shared palette. Page styles own layout; these tokens keep colours consistent. */
+:root {
+    --aw-page-background: #0d0d0d;
+    --aw-panel-background: #333;
+    --aw-text: #fff;
+    --aw-dark-text: #333;
+    --aw-link: #e2c78f;
+    --aw-muted-border: #333;
+    --aw-frame: var(--aw-muted-border);
+}
+@media (min-width: 801px) {
+    :root { --aw-frame: #7a7164; }
+}
