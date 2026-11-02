@@ -2,15 +2,15 @@
 
 body {
     font-family: sans-serif;
-    background-color: #0D0D0D;
+    background-color: var(--aw-page-background);
     margin: 0;
     padding: 0;
     width: 100%;
 }
 
 header {
-    background-color: #333;
-    color: #fff;
+    background-color: var(--aw-panel-background);
+    color: var(--aw-text);
     padding: 10px;
     text-align: center;
 }
@@ -19,23 +19,23 @@ main {
     margin: 10px;
     display: flex;
     max-height: 100%;
-    color: #fff;
+    color: var(--aw-text);
 }
 
 footer {
-    background-color: #333;
-    color: #fff;
+    background-color: var(--aw-panel-background);
+    color: var(--aw-text);
     padding: 10px;
     text-align: center;
 }
 
 
 nav {
-    background-color: #333;
+    background-color: var(--aw-panel-background);
     ;
     padding: 10px;
     text-align: center;
-    color: #fff;
+    color: var(--aw-text);
 }
 
 nav ul {
@@ -49,15 +49,15 @@ nav li {
 
 nav a {
     text-decoration: none;
-    color: #fff;
+    color: var(--aw-text);
 }
 
 
 /* Main Container: central element of page. */
 
 .main-container {
-    border-bottom: 2px solid #333;
-    border-top: 2px solid #333;
+    border-bottom: 2px solid var(--aw-muted-border);
+    border-top: 2px solid var(--aw-muted-border);
     width: 100%;
     margin-inline: 1rem;
     padding: 1rem;
@@ -67,22 +67,22 @@ nav a {
 .main-container-segment {
     margin-inline: 0;
     padding: 0;
-    border-bottom: 2px solid #333;
+    border-bottom: 2px solid var(--aw-muted-border);
 }
 
 .main-container-segment nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #0D0D0D;
+    background-color: var(--aw-page-background);
 }
 
 .main-container-segment nav button {
     display: block;
     width: 100%;
-    background-color: #333;
-    color: #fff;
-    border: 2px solid #333;
+    background-color: var(--aw-panel-background);
+    color: var(--aw-text);
+    border: 2px solid var(--aw-muted-border);
     border-radius: 5px;
     padding: 5px;
     cursor: pointer;
@@ -102,7 +102,7 @@ nav a {
 /* Aside Container: The menus on each side of the main content. */
 
 .aside-container {
-    border: 2px solid #333;
+    border: 2px solid var(--aw-frame);
     width: 20%;
     padding: 0;
 }
@@ -117,20 +117,20 @@ nav a {
     margin: 10px 0;
     text-align: center;
     padding: 10px;
-    border-top: 2px solid #333;
-    border-bottom: 2px solid #333;
+    border-top: 2px solid var(--aw-frame);
+    border-bottom: 2px solid var(--aw-frame);
 }
 
 .aside-container button {
     display: block;
     width: 100%;
-    background-color: #333;
-    border: 2px solid #333;
+    background-color: var(--aw-panel-background);
+    border: 2px solid var(--aw-frame);
     border-radius: 5px;
     padding: 5px;
     cursor: pointer;
     margin: 10px 0;
-    color: #fff;
+    color: var(--aw-text);
 }
 
 .aside-container p {
@@ -151,9 +151,9 @@ nav a {
 .author-button-panel button {
     display: block;
     width: 40%;
-    background-color: #333;
-    color: #fff;
-    border: 2px solid #333;
+    background-color: var(--aw-panel-background);
+    color: var(--aw-text);
+    border: 2px solid var(--aw-muted-border);
     border-radius: 5px;
     padding: 5px;
     cursor: pointer;
@@ -166,7 +166,7 @@ nav a {
     margin: 10px;
     align-items: center;
     justify-content: left;
-    border-bottom: 2px solid #333;
+    border-bottom: 2px solid var(--aw-muted-border);
 }
 
 .main-container-header img {
@@ -181,10 +181,10 @@ nav a {
 }
 
 .social-media-list button {
-    background-color: #333;
+    background-color: var(--aw-panel-background);
     width: 10%;
-    color: #fff;
-    border: 2px solid #333;
+    color: var(--aw-text);
+    border: 2px solid var(--aw-muted-border);
     border-radius: 5px;
     padding: 5px;
     cursor: pointer;
@@ -193,7 +193,7 @@ nav a {
 }
 
 .structure-card {
-    border: 2px solid #333;
+    border: 2px solid var(--aw-muted-border);
     width: 300px;
     display: inline-block;
     margin: 10px;
@@ -206,7 +206,7 @@ nav a {
 .structure-card img {
     height: 100px;
     width: 100px;
-    border: 5px inset #333;
+    border: 5px inset var(--aw-muted-border);
     margin: 0 auto;
 }
 
@@ -244,9 +244,9 @@ nav a {
 }
 
 .page-buttons button {
-    background-color: #333;
-    color: #fff;
-    border: 2px solid #333;
+    background-color: var(--aw-panel-background);
+    color: var(--aw-text);
+    border: 2px solid var(--aw-muted-border);
     border-radius: 5px;
     padding: 5px;
     cursor: pointer;
@@ -294,8 +294,8 @@ img[alt] {
 .page-input-div {
     /*looks like a button*/
     display: inline-block;
-    border: 2px solid #333;
-    background-color: #333;
+    border: 2px solid var(--aw-muted-border);
+    background-color: var(--aw-panel-background);
     border-radius: 5px;
     cursor: pointer;
     height: 30px;
@@ -305,7 +305,7 @@ img[alt] {
 }
 
 .page-input-div button {
-    color: #fff;
+    color: var(--aw-text);
     padding: 0px;
     cursor: pointer;
     margin: 0px;
@@ -315,7 +315,7 @@ img[alt] {
 
 .page-input-div input {
     background-color: #3e3e3e;
-    color: #fff;
+    color: var(--aw-text);
     border: 0px;
     cursor: pointer;
     margin: 0px;
@@ -332,7 +332,7 @@ img[alt] {
 }
 
 .gallery-wrap img {
-    border: 5px inset #333;
+    border: 5px inset var(--aw-muted-border);
     margin: 0 auto;
     max-height: 300px;
     cursor: pointer;

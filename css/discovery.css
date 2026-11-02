@@ -1,12 +1,12 @@
 /* Discovery content only. The shared site styles own the page shell and menus. */
 .discovery-content { min-width: 0; line-height: 1.65; }
-.discovery-content a { color: #e2c78f; text-underline-offset: .2em; overflow-wrap: anywhere; }
-.discovery-content .navigation-action { color: white; margin-inline: 0; min-height: 44px; }
+.discovery-content a { color: var(--aw-link); text-underline-offset: .2em; overflow-wrap: anywhere; }
+.discovery-content .navigation-action { color: var(--aw-text); margin-inline: 0; min-height: 44px; }
 .discovery-content .eyebrow { font-size: .75rem; letter-spacing: .1em; color: #c7b386; }
 .discovery-content .overview-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
 .discovery-content li a { display: inline-block; padding-block: .45rem; }
 .discovery-content > details { margin-bottom: 1rem; }
-.discovery-content > details > summary { cursor: pointer; min-height: 44px; padding-block: .5rem; color: #e2c78f; font-weight: bold; overflow-wrap: anywhere; }
+.discovery-content > details > summary { cursor: pointer; min-height: 44px; padding-block: .5rem; color: var(--aw-link); font-weight: bold; overflow-wrap: anywhere; }
 @media (max-width: 800px) {
     .discovery-content .overview-grid { grid-template-columns: 1fr; gap: 0; }
 }
@@ -16,13 +16,3 @@
 #asideGeneralMenu .catalogue-logo { display: block; width: 100%; height: auto; }
 #asideGeneralMenu p { text-align: center; overflow-wrap: anywhere; }
 #asideGeneralMenu a.navigation-action { overflow-wrap: anywhere; }
-
-/* Keep the desktop frames visible against both the page and menu backgrounds. */
-@media (min-width: 801px) {
-    #main-content > .aside-container,
-    #main-content > .discovery-content,
-    #main-content > .aside-container h3,
-    #main-content .navigation-action {
-        border-color: #7a7164;
-    }
-}

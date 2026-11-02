@@ -1,16 +1,16 @@
 
 body {
     font-family: sans-serif;
-    background-color: #0D0D0D;
-    color: #fff;
+    background-color: var(--aw-page-background);
+    color: var(--aw-text);
     margin: 0;
     padding: 0;
     width: 100%;
 }
 
 header {
-    background-color: #333;
-    color: #fff;
+    background-color: var(--aw-panel-background);
+    color: var(--aw-text);
     padding: 10px;
     text-align: center;
 }
@@ -19,22 +19,22 @@ main {
     margin: 10px;
     display: flex;
     max-height: 100%;
-    color: #fff;
+    color: var(--aw-text);
 }
 
 footer {
-    background-color: #333;
-    color: #fff;
+    background-color: var(--aw-panel-background);
+    color: var(--aw-text);
     padding: 10px;
     text-align: center;
 }
 
 
 nav {
-    background-color: #333;;
+    background-color: var(--aw-panel-background);;
     padding: 10px;
     text-align: center;
-    color: #fff;
+    color: var(--aw-text);
 }
 
 nav ul {
@@ -48,15 +48,15 @@ nav li {
 
 nav a {
     text-decoration: none;
-    color: #fff;
+    color: var(--aw-text);
 }
 
 
 /* Structures and Search container: used on search and Structures menu */
 
 .search-and-structure {
-    border-bottom: 2px solid #333;
-    border-top: 2px solid #333;
+    border-bottom: 2px solid var(--aw-frame);
+    border-top: 2px solid var(--aw-frame);
     width: 100%;
     margin-inline: 1rem;
     padding: 1rem;
@@ -68,7 +68,7 @@ nav a {
 /* Filter Container: used on Nav And Filter, and used on Structures Per Page menus.*/
 
 .aside-container {
-    border: 2px solid #333;
+    border: 2px solid var(--aw-frame);
     width: 20%;
 }
 
@@ -81,20 +81,20 @@ nav a {
     margin: 10px 0;
     text-align: center;
     padding: 10px;
-    border-top: 2px solid #333;
-    border-bottom: 2px solid #333;
+    border-top: 2px solid var(--aw-frame);
+    border-bottom: 2px solid var(--aw-frame);
 }
 
 .aside-container button {
     display: block;
     width: 100%;
-    background-color: #333;
-    border: 2px solid #333;
+    background-color: var(--aw-panel-background);
+    border: 2px solid var(--aw-frame);
     border-radius: 5px;
     padding: 5px;
     cursor: pointer;
     margin: 10px 0;
-    color: #fff;
+    color: var(--aw-text);
 }
 
 .filter-menu {
@@ -121,9 +121,9 @@ nav a {
 
 .pagination-button {
     margin: 10px 0;
-    background-color: #333;
-    color: #fff;
-    border: 2px solid #333;
+    background-color: var(--aw-panel-background);
+    color: var(--aw-text);
+    border: 2px solid var(--aw-muted-border);
     border-radius: 5px;
     padding: 5px;
     cursor: pointer;
@@ -134,8 +134,8 @@ nav a {
 
 .pagination-page-button {
     margin: 10px 0;
-    color: #333;
-    border: 2px solid #333;
+    color: var(--aw-dark-text);
+    border: 2px solid var(--aw-muted-border);
 
     padding: 5px;
     cursor: pointer;
@@ -143,8 +143,8 @@ nav a {
 }
 
 .pagination-page-button:hover {
-    background-color: #333;
-    color: #fff;
+    background-color: var(--aw-panel-background);
+    color: var(--aw-text);
 }
 
 .structure-list {
@@ -158,7 +158,7 @@ nav a {
 
 .structure-container {
     margin: 10px;
-    border: 2px solid #333;
+    border: 2px solid var(--aw-muted-border);
     background-color: #1A1A1A;
     display: block;
     align-items: center;
@@ -195,15 +195,15 @@ nav a {
     padding: 10px;
     align-items: center;
     justify-content: center;
-    border-bottom: 2px solid #333;
+    border-bottom: 2px solid var(--aw-muted-border);
 }
 
 .container-button-panel button {
     display: block;
     width: 100%;
-    background-color: #333;
-    color: #fff;
-    border: 2px solid #333;
+    background-color: var(--aw-panel-background);
+    color: var(--aw-text);
+    border: 2px solid var(--aw-muted-border);
     border-radius: 5px;
     padding: 5px;
     cursor: pointer;
@@ -226,8 +226,8 @@ nav a {
 /* Structure Page */
 
 .structure-detail { /* base on search-and-structure */
-    border-bottom: 2px solid #333;
-    border-top: 2px solid #333;
+    border-bottom: 2px solid var(--aw-muted-border);
+    border-top: 2px solid var(--aw-muted-border);
     width: 100%;
     margin-inline: 1rem;
     padding: 1rem;
@@ -238,16 +238,16 @@ nav a {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #0D0D0D;
-    border-bottom:2px solid #333;
+    background-color: var(--aw-page-background);
+    border-bottom:2px solid var(--aw-muted-border);
 }
 
 .structure-detail nav button {
     display: block;
     width: 100%;
-    background-color: #333;
-    color: #fff;
-    border: 2px solid #333;
+    background-color: var(--aw-panel-background);
+    color: var(--aw-text);
+    border: 2px solid var(--aw-muted-border);
     border-radius: 5px;
     padding: 5px;
     cursor: pointer;
@@ -273,7 +273,7 @@ nav a {
     align-items: center;
     justify-content: left;
     grid-gap: 0px;
-    border-bottom: 2px solid #333;
+    border-bottom: 2px solid var(--aw-muted-border);
 }
 
 /*Search bar*/
@@ -281,9 +281,9 @@ nav a {
 .search-bar {
     justify-content: center;
     align-items: center;
-    background-color: #333;
-    color: #fff;
-    border: 2px solid #333;
+    background-color: var(--aw-panel-background);
+    color: var(--aw-text);
+    border: 2px solid var(--aw-muted-border);
     border-radius: 5px;
     padding: 5px;
     cursor: pointer;
@@ -293,9 +293,9 @@ nav a {
 }
 
 .search-button {
-    background-color: #333;
-    color: #fff;
-    border: 2px solid #333;
+    background-color: var(--aw-panel-background);
+    color: var(--aw-text);
+    border: 2px solid var(--aw-muted-border);
     border-radius: 5px;
     padding: 5px;
     cursor: pointer;
@@ -340,9 +340,9 @@ nav a {
 .author-button-panel button {
     display: block;
     width: 40%;
-    background-color: #333;
-    color: #fff;
-    border: 2px solid #333;
+    background-color: var(--aw-panel-background);
+    color: var(--aw-text);
+    border: 2px solid var(--aw-muted-border);
     border-radius: 5px;
     padding: 5px;
     cursor: pointer;

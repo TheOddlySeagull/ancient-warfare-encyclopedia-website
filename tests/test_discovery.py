@@ -62,6 +62,22 @@ class DiscoveryTests(unittest.TestCase):
             self.assertEqual(index, (root / 'html/structure-index.html').read_text())
             self.assertEqual(landing, (root / 'index.html').read_text())
 
+    def test_template_escapes_metadata_and_resolves_both_menu_paths(self):
+        for nested, filename, prefix in [(False, '', 'html/'), (True, 'html/structure-index.html', '')]:
+            source = discovery.page('A < B & C', '"quoted" & text', '<p>Body $5</p>',
+                                    nested=nested, filename=filename)
+            self.assertIn('<title>A &lt; B &amp; C</title>', source)
+            self.assertIn('&quot;quoted&quot; &amp; text', source)
+            self.assertIn('<p>Body $5</p>', source)
+            self.assertIn('class="mobile-navigation"', source)
+            self.assertIn('id="asideMenu"', source)
+            self.assertIn('id="asideGeneralMenu"', source)
+            for name, *_ in discovery.NAVIGATION:
+                self.assertEqual(Links(source).hrefs.count(prefix + name),
+                                 3 if name in ['home.html', 'author.html', 'package.html'] else 2)
+            current = '<a href="structure-index.html" aria-current="page">Text index</a>'
+            self.assertEqual(source.count(current), 2 if nested else 0)
+
     def test_committed_pages_are_current(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

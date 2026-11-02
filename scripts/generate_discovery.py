@@ -1,69 +1,52 @@
 #!/usr/bin/env python3
 """Generate the public landing page and crawlable text index from the catalogue."""
 import json
-import re
 from collections import Counter, defaultdict
 from html import escape
 from pathlib import Path
+from string import Template
 from urllib.parse import urlencode
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = 'https://ancient-warfare.legends-of-gramdatis.com/'
 
 
+# One menu definition for the desktop sidebar and unfolding phone menu.
+NAVIGATION = (
+    ('home.html', 'Structures', 'Home', 0),
+    ('package.html', 'Packs', 'Packages', 2),
+    ('author.html', 'Authors', 'Authors', 1),
+    ('structure-index.html', 'Text index', 'Text index', 3),
+    ('about.html', 'About', 'About', 4),
+    ('contact.html', 'Contact', 'Contact', 5),
+)
+
+
+def navigation(html_prefix, current_page, mobile=False):
+    links = []
+    # Preserve the familiar desktop menu order.
+    items = NAVIGATION if mobile else sorted(NAVIGATION, key=lambda item: item[3])
+    for filename, mobile_label, desktop_label, _ in items:
+        current = ' aria-current="page"' if filename == current_page else ''
+        href = escape(html_prefix + filename, quote=True)
+        label = mobile_label if mobile else desktop_label
+        links.append(f'<li><a href="{href}"{current}>{label}</a></li>')
+    if mobile:
+        links.append('<li><a href="#asideGeneralMenu">Page information</a></li>')
+    return ''.join(links)
+
+
 def page(title, description, content, nested=False, filename='', structure_count=0, pack_count=0):
-    prefix = '../' if nested else ''
     html_prefix = '' if nested else 'html/'
-    # Reuse the catalogue shell and styles, including its three desktop columns.
-    template = (ROOT / 'html/home.html').read_text(encoding='utf-8')
-    header = re.search(r'<header>.*?</header>', template, re.S).group()
-    sidebar = re.search(r'<div id="navAndFilter".*?<nav>.*?</nav>', template, re.S).group() + '</div>'
-    sidebar = sidebar.replace('id="navAndFilter",', 'id="asideMenu"')
-    footer = re.search(r'<footer>.*?</footer>', template, re.S).group()
-    header = header.replace(' aria-current="page"', '')
-    header = header.replace('<li><a href="#browse-options">Browse options</a></li>', '<li><a href="#asideGeneralMenu">Page information</a></li>')
-    index_item = '<li><a href="structure-index.html"' + (' aria-current="page"' if nested else '') + '>Text index</a></li>'
-    def navigation_paths(markup):
-        markup = markup.replace('<li><a href="about.html"', index_item + '<li><a href="about.html"')
-        return re.sub(r'href="((?:home|package|author|structure-index|about|contact)\.html)"',
-                      lambda match: f'href="{html_prefix}{match[1]}"', markup)
-    header = navigation_paths(header)
-    sidebar = navigation_paths(sidebar)
-    return f'''<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{escape(title)}</title>
-    <meta name="description" content="{escape(description, quote=True)}">
-    <link rel="canonical" href="{SITE}{filename}">
-    <link rel="icon" href="{prefix}img/AW2.png">
-    <link rel="stylesheet" href="{prefix}css/home.css">
-    <link rel="stylesheet" href="{prefix}css/mobile.css">
-    <link rel="stylesheet" href="{prefix}css/navigation.css">
-    <link rel="stylesheet" href="{prefix}css/discovery.css">
-</head>
-<body>
-    <a class="skip-link" href="#main-content">Skip to content</a>
-    {header}
-    <main id="main-content">
-        {sidebar}
-        <div class="search-and-structure discovery-content">{content}</div>
-        <div id="asideGeneralMenu" class="aside-container">
-            <div>
-                <h3>Catalogue information</h3>
-                <img class="catalogue-logo" src="{prefix}img/AW2.png" alt="Ancient Warfare 2">
-                <p>{structure_count:,} structures<br>{pack_count:,} structure packs</p>
-                <a class="navigation-action" href="{html_prefix}home.html">Browse structures</a>
-                <a class="navigation-action" href="{html_prefix}author.html">Meet the authors</a>
-                <a class="navigation-action" href="{html_prefix}package.html">Explore packs</a>
-            </div>
-        </div>
-    </main>
-    {footer}
-</body>
-</html>
-'''
+    template = Template((ROOT / 'templates/page.html').read_text(encoding='utf-8'))
+    return template.substitute(
+        title=escape(title), description=escape(description, quote=True),
+        canonical=escape(SITE + filename, quote=True),
+        asset_prefix='../' if nested else '', html_prefix=html_prefix,
+        mobile_links=navigation(html_prefix, Path(filename).name, mobile=True),
+        desktop_links=navigation(html_prefix, Path(filename).name),
+        content=content, structure_count=f'{structure_count:,}', pack_count=f'{pack_count:,}',
+    )
 
 
 def generate(root=ROOT):
