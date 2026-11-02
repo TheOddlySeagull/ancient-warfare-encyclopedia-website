@@ -1,3 +1,4 @@
+import { createAuthorImage } from './author-images.js';
 import { createStructureImage } from './structure-images.js';
 import { loadCatalogue, structureUrl, sitePath, reportCatalogueError } from './catalogue.js';
 
@@ -16,7 +17,7 @@ var authorPageMain = document.getElementById('authorHeader');
 const structureData = catalogue;
 
 var AuthorData = {};
-var AuthorProfileImage = new Image();
+var AuthorProfileImage;
 var AuthorGallery = [];
 
 // Function to load the data from the author JSON, and the author folders
@@ -37,11 +38,7 @@ async function loadAuthorData() {
     
 
     // Load the author profile image
-    AuthorProfileImage.src = sitePath('img/authors/profiles/' + author + '.png');
-    AuthorProfileImage.onerror = function() {
-        console.log('Author image not found');
-        AuthorProfileImage.src = '../img/AW2.png';
-    }
+    AuthorProfileImage = createAuthorImage(author, { lazy: false });
 
     // Load the author gallery as an array of images.
     // The authhor gallery images are found in the folder ../img/authors/gallery/authorName/
@@ -305,8 +302,7 @@ function createUnknownAuthorHeader() {
     AuthorProfile.className = 'author-banner';
 
     //Inside "AuthorProfile", we have the image of the author, and a h1 element with the author name
-    let AuthorProfileImage = new Image();
-    AuthorProfileImage.src = '../img/AW2.png';
+    let AuthorProfileImage = createAuthorImage(null, { lazy: false });
     AuthorProfile.appendChild(AuthorProfileImage);
     let authorName = document.createElement('h1');
     authorName.innerHTML = 'Unknown author';
