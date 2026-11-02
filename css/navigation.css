@@ -6,10 +6,10 @@ a.navigation-action {
     box-sizing: border-box;
     padding: 5px;
     margin: 10px;
-    border: 2px solid #333;
+    border: 2px solid var(--aw-frame);
     border-radius: 5px;
-    background: #333;
-    color: white;
+    background: var(--aw-panel-background);
+    color: var(--aw-text);
     font: inherit;
     text-align: center;
     text-decoration: none;
@@ -22,7 +22,7 @@ a.navigation-action:hover { background: #444; }
 .aside-container a.navigation-action { width: 100%; margin: 10px 0; }
 a.structure-card, a.package-card { color: inherit; text-decoration: none; }
 .catalogue-introduction { margin: 1rem; color: #ccc; }
-.catalogue-introduction a { color: #e2c78f; }
+.catalogue-introduction a { color: var(--aw-link); }
 @media (max-width: 800px) {
     .container-button-panel a.navigation-action { width: 100%; margin: 0; padding: .6rem .35rem; font-size: .85rem; }
     .random-structure-div a.navigation-action { grid-column: 2; grid-row: 2; margin: 0; min-height: 44px; }
