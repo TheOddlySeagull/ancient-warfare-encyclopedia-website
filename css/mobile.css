@@ -30,7 +30,7 @@
         background: #161615;
         border: 1px solid #76613d;
         border-radius: 4px;
-        color: #e2c78f;
+        color: var(--aw-link);
         cursor: pointer;
         font-size: 1rem;
     }
@@ -79,7 +79,7 @@
         margin: 0; border: 1px solid #494337; background: #111;
     }
     .container-info-grid { flex: 1 1 0; display: block; min-width: 0; width: auto; }
-    .container-info-grid h3 { font-size: .98rem; line-height: 1.45; margin: 0 0 .5rem; color: #e2c78f; }
+    .container-info-grid h3 { font-size: .98rem; line-height: 1.45; margin: 0 0 .5rem; color: var(--aw-link); }
     .container-main-info p { font-size: .83rem; margin: .15rem 0; color: #c4c1b9; line-height: 1.5; }
     .container-button-panel { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; margin: 0; padding: .75rem; border-bottom: 1px solid #38352d; }
     .container-button-panel button { width: 100%; margin: 0; padding: .6rem .35rem; font-size: .85rem; }
@@ -150,7 +150,7 @@
     #asideGeneralMenu button { padding: .75rem; }
     .package-card { display: block; width: 100%; max-width: 100%; margin-block: .5rem; }
     footer { padding: 1rem; font-size: .8rem; line-height: 1.6; overflow-wrap: anywhere; }
-    footer a { color: #e2c78f; }
+    footer a { color: var(--aw-link); }
     .catalogue-loading { margin: 0; width: 100%; }
 }
 @media (max-width: 359px) {
