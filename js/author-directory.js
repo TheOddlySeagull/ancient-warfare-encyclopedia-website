@@ -1,3 +1,4 @@
+import { createAuthorImage } from './author-images.js';
 import { summarizeAuthors } from './author-directory-data.js';
 
 function element(tag, text, className) {
@@ -48,7 +49,12 @@ export function renderAuthorDirectory(catalogue) {
         for (const author of matches) {
             const card = element('article', undefined, 'directory-author');
             const heading = element('h2');
-            heading.append(link('author.html', 'author', author.name, author.name));
+            const identity = link('author.html', 'author', author.name, '');
+            identity.className = 'directory-identity';
+            const icon = createAuthorImage(author.name, { decorative: true });
+            icon.width = icon.height = 64;
+            identity.append(icon, element('span', author.name));
+            heading.append(identity);
             const total = element('p', structures(author.count), 'directory-count');
             const description = element('p', 'Published in ' + count(author.packs.length) + (author.packs.length === 1 ? ' pack' : ' packs'), 'directory-pack-count');
             const list = element('ul');
