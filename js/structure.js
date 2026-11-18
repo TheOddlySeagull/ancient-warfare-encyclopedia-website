@@ -1,4 +1,5 @@
 import { createStructureImage } from './structure-images.js';
+import { downloadStructure, getStructureDownloadCount } from './structure-downloads.js';
 import { loadCatalogue, sitePath, reportCatalogueError } from './catalogue.js';
 
 let catalogue;
@@ -374,19 +375,17 @@ function GenerateAsideGeneralInfo(data) {
     downloadButton.textContent = "Download";
     downloadButton.className = "aside-button";
     downloadButton.id = "downloadButton";
-    downloadButton.onclick = () => {
-        // Build absolute URL preserving 'structures' root and encoding segments
-        const relativePath = data['path']; // e.g. structures/Pack/Structure.aws
-        const absoluteUrl = sitePath(relativePath);
-        const link = document.createElement('a');
-        link.href = absoluteUrl;
-        link.download = data['name'] + '.aws';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    };
+    const downloadCount = document.createElement("p");
+    downloadCount.className = "structure-download-count";
+    downloadCount.setAttribute("role", "status");
+    let latestCount = -1;
+    function showDownloadCount(count) {
+        if (count === null || count <= latestCount) return;
+        latestCount = count;
+        downloadCount.textContent = count.toLocaleString() + (count === 1 ? " download" : " downloads");
+    }
 
-    // Add the button to asideGeneralMenu
-    asideGeneralMenu.appendChild(downloadButton);
-
+    downloadButton.onclick = () => { void downloadStructure(structure).then(showDownloadCount); };
+    asideGeneralMenu.append(downloadButton, downloadCount);
+    void getStructureDownloadCount(structure).then(showDownloadCount);
 }

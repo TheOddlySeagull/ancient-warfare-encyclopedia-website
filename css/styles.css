@@ -349,3 +349,13 @@ nav a {
     margin: 10px;
     font-size: 1rem;
 }
+.structure-download-count {
+    margin: .35rem .6rem .75rem;
+    color: var(--aw-link);
+    font-size: .875rem;
+    text-align: center;
+}
+
+.structure-download-count:empty {
+    margin: 0;
+}
