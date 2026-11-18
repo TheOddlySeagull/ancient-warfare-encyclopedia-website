@@ -103,7 +103,58 @@ For layout changes, also check desktop and mobile views, navigation, search, pag
 
 ## Deployment
 
-Serve the repository root with a static HTTP(S) server, such as Nginx, configured to serve JavaScript modules with the correct MIME type. Include the required catalogue and asset files. No Node.js or Python process is needed to serve the deployed site.
+Serve the repository root with a static HTTP(S) server, such as Nginx, configured to serve JavaScript modules with the correct MIME type. Include the required catalogue and asset files. The site can run without an application server. To enable structure download counts, run the optional Python service described below.
+
+### Enable structure download counts
+
+The service records clicks on both structure Download buttons in SQLite. The structure page displays the total in **General Information**, below Download. Files are still served directly by Nginx. Pack ZIP downloads and direct file links are outside the live counter. Store the database outside the web root.
+
+On Ubuntu, install Gunicorn (`sudo apt install gunicorn`). Use Python 3.9 or newer. Run the following from the checkout as the Linux user that will run the service. Set the cutoff when switching the public site to live counting and keep it fixed for future imports.
+
+```bash
+sudo install -d -o "$(id -un)" -g "$(id -gn)" -m 0750 /var/lib/aw-downloads
+python3 scripts/download_counts.py init --cutover "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+```
+
+Save this service as `/etc/systemd/system/aw-downloads.service`. Set `User` to your Linux username and `WorkingDirectory` to the checkout path.
+
+```ini
+[Unit]
+Description=Ancient Warfare structure download counts
+
+[Service]
+User=your-site-user
+WorkingDirectory=/srv/ancient-warfare
+ExecStart=/usr/bin/gunicorn --bind 127.0.0.1:8765 --workers 2 scripts.download_counts:create_app()
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Run `sudo systemctl daemon-reload` and `sudo systemctl enable --now aw-downloads`. Add this location to the Ancient Warfare HTTPS server block and run `sudo nginx -t && sudo systemctl reload nginx`.
+
+```nginx
+location = /api/structure-downloads {
+    client_max_body_size 8k;
+    proxy_cache off;
+    proxy_pass http://127.0.0.1:8765;
+}
+```
+
+To import the available history, run this from the checkout. This example uses the `adm` group to read the site logs while keeping SQLite writes under the service account.
+
+```bash
+sudo -u "$(id -un)" -g adm bash -c '
+    shopt -s nullglob
+    log=/var/log/nginx/ancient-warfare.access.log
+    python3 scripts/download_counts.py import-history "$log" "$log".[0-9]*
+'
+```
+
+The importer reads plain and gzip-compressed Nginx combined logs. It counts HTTP 200 GETs for catalogue `.aws` paths logged before the cutoff. Run it with the same complete set of logs on a reimport. It replaces the historical subtotal, preserves live clicks, ignores identical log copies, and refuses a smaller historical subtotal for any current structure. Preserve any rotated logs you plan to reimport, and archive them outside the web root. The total combines historical requests and current button clicks, and represents download activity recorded by the site.
+
+To verify the deployment, open a structure detail page, note its total, and click Download. The file should download and the count should increase by one. Refresh to confirm the count persists.
 
 ## Contributing
 

@@ -1,5 +1,6 @@
 import { createStructureImage, findIllustratedStructure } from './structure-images.js';
-import { loadCatalogue, structureUrl, sitePath, reportCatalogueError } from './catalogue.js';
+import { downloadStructure } from './structure-downloads.js';
+import { loadCatalogue, structureUrl, reportCatalogueError } from './catalogue.js';
 
 let catalogue;
 try { catalogue = await loadCatalogue(); }
@@ -506,16 +507,7 @@ function createStructureDiv(structure) {
     buttonsDiv.className = 'container-button-panel';
     const downloadButton = document.createElement('button');
     downloadButton.innerText = 'Download';
-    downloadButton.onclick = () => {
-        // Build absolute URL preserving full path and encoding segments
-        const absoluteUrl = sitePath(structure.path);
-        const link = document.createElement('a');
-        link.href = absoluteUrl;
-        link.download = structure.name + '.aws';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    };
+    downloadButton.onclick = () => { void downloadStructure(structure); };
     const openDetailButton = document.createElement('a');
     openDetailButton.className = 'navigation-action';
     openDetailButton.innerText = 'Open Detail Page';
